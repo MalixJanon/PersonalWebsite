@@ -59,7 +59,6 @@ function Footer() {
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const [activeSection, setActiveSection] = useState("");
-  const [coords, setCoords] = useState("45.912");
 
   const navItems = [
     { href: "#hero", label: "HOME" },
@@ -70,19 +69,22 @@ export default function Layout({ children }: LayoutProps) {
   ];
 
   useEffect(() => {
+    const coordsRef = document.getElementById('coords-display');
+    
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const sections = navItems.map(item => item.href.substring(1));
       const scrollPosition = scrollY + window.innerHeight / 3; // Trigger point
 
-      // Calculate dynamic coordinate
+      // Calculate dynamic coordinate directly
       const scrollPercentage = Math.min(1, scrollY / (document.body.scrollHeight - window.innerHeight));
       const baseCoord = 45.912;
       const dynamicCoord = (baseCoord + (scrollPercentage * 10)).toFixed(3);
       
-      // Update coords state or directly manipulate DOM/state if we want smoother updates per frame
-      // For React state, let's add a new state for coords
-      setCoords(dynamicCoord);
+      // Direct DOM update for performance (bypass React render cycle)
+      if (coordsRef) {
+        coordsRef.innerText = `${dynamicCoord}, -12.004`;
+      }
 
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -171,7 +173,7 @@ export default function Layout({ children }: LayoutProps) {
              transition={{ duration: 4, repeat: Infinity }}
            >
               <span className="text-primary/70 tracking-widest">COORDS</span>
-              <span>{coords}, -12.004</span>
+              <span id="coords-display">45.912, -12.004</span>
            </motion.div>
 
            <div className="h-8" />
