@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 
 interface LayoutProps {
@@ -139,10 +139,16 @@ export default function Layout({ children }: LayoutProps) {
       {/* Removed Dark Overlays (Scanlines/Noise) for Clean Look */}
       
       {/* Fixed HUD Elements */}
-      <header className="fixed top-0 left-0 w-full z-[60] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center bg-background/20 backdrop-blur-md border-b border-white/5 shadow-sm overflow-hidden">
+      <header className="fixed top-0 left-0 w-full z-[60] px-4 sm:px-6 py-3 sm:py-4 grid grid-cols-3 items-center bg-background/20 backdrop-blur-md border-b border-white/5 shadow-sm overflow-hidden">
         
-        {/* Logo Section */}
-        <div className="flex items-center gap-4">
+        {/* Left: SYS.ONLINE */}
+        <div className="flex items-center gap-2 justify-start">
+            <div className="w-2 h-2 bg-green-500 animate-pulse rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+            <span className="font-mono text-[10px] sm:text-xs tracking-widest text-foreground font-bold">SYS.ONLINE</span>
+        </div>
+        
+        {/* Center: Logo Section */}
+        <div className="flex items-center justify-center">
           <div className="w-44 sm:w-60 h-11 sm:h-14 opacity-90 hover:opacity-100 transition-opacity duration-300">
              <div 
                className="w-full h-full bg-foreground"
@@ -150,65 +156,77 @@ export default function Layout({ children }: LayoutProps) {
                  maskImage: `url(${janonLogo})`,
                  maskSize: 'contain',
                  maskRepeat: 'no-repeat',
-                 maskPosition: 'left center',
+                 maskPosition: 'center',
                  WebkitMaskImage: `url(${janonLogo})`,
                  WebkitMaskSize: 'contain',
                  WebkitMaskRepeat: 'no-repeat',
-                 WebkitMaskPosition: 'left center',
+                 WebkitMaskPosition: 'center',
                }}
              />
           </div>
         </div>
         
-        {/* Hamburger Menu */}
-        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetTrigger asChild>
-                <button className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10">
-                    <Menu className="w-6 h-6 text-foreground group-hover:text-primary transition-colors" />
-                </button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10">
-                <SheetHeader className="mb-8 text-left">
-                    <SheetTitle className="font-display text-2xl font-bold tracking-tighter">NAVIGATION</SheetTitle>
-                    <SheetDescription className="font-mono text-xs tracking-widest text-primary font-bold">
-                        // SYSTEM_ACCESS
-                    </SheetDescription>
-                </SheetHeader>
-                
-                <nav className="flex flex-col gap-6">
-                    {navItems.map((item) => (
-                        <a 
-                            key={item.label} 
-                            href={item.href}
-                            onClick={(e) => {
-                                scrollToSection(e, item.href);
-                                setIsSheetOpen(false);
-                            }}
-                            className={cn(
-                                "text-xl font-display font-bold tracking-tight transition-all duration-300 flex items-center gap-4 group",
-                                activeSection === item.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
-                            )}
+        {/* Right: Hamburger Menu */}
+        <div className="flex justify-end">
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+                <SheetTrigger asChild>
+                    <button className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10 relative z-[70]">
+                        <motion.div
+                            initial={false}
+                            animate={{ rotate: isSheetOpen ? 90 : 0 }}
+                            transition={{ duration: 0.2 }}
                         >
-                            <span className={cn(
-                                "w-2 h-2 bg-primary rotate-45 opacity-0 group-hover:opacity-100 transition-opacity",
-                                activeSection === item.href ? "opacity-100" : ""
-                            )} />
-                            {item.label}
-                        </a>
-                    ))}
-                </nav>
-
-                <div className="absolute bottom-8 left-6 right-6">
-                    <div className="flex items-center gap-2 mb-4">
-                        <div className="w-2 h-2 bg-green-500 animate-pulse rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
-                        <span className="font-mono text-[10px] tracking-widest text-foreground font-bold">SYS.ONLINE</span>
+                            {isSheetOpen ? (
+                                <X className="w-10 h-10 text-foreground group-hover:text-primary transition-colors" />
+                            ) : (
+                                <Menu className="w-10 h-10 text-foreground group-hover:text-primary transition-colors" />
+                            )}
+                        </motion.div>
+                    </button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10 z-[65] pt-20">
+                    <SheetHeader className="mb-8 text-left">
+                        <SheetTitle className="font-display text-2xl font-bold tracking-tighter">NAVIGATION</SheetTitle>
+                        <SheetDescription className="font-mono text-xs tracking-widest text-primary font-bold">
+                            // SYSTEM_ACCESS
+                        </SheetDescription>
+                    </SheetHeader>
+                    
+                    <nav className="flex flex-col gap-6">
+                        {navItems.map((item) => (
+                            <a 
+                                key={item.label} 
+                                href={item.href}
+                                onClick={(e) => {
+                                    scrollToSection(e, item.href);
+                                    setIsSheetOpen(false);
+                                }}
+                                className={cn(
+                                    "text-xl font-display font-bold tracking-tight transition-all duration-300 flex items-center gap-4 group",
+                                    activeSection === item.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                                )}
+                            >
+                                <span className={cn(
+                                    "w-2 h-2 bg-primary rotate-45 opacity-0 group-hover:opacity-100 transition-opacity",
+                                    activeSection === item.href ? "opacity-100" : ""
+                                )} />
+                                {item.label}
+                            </a>
+                        ))}
+                    </nav>
+    
+                    <div className="absolute bottom-8 left-6 right-6">
+                        <div className="flex items-center gap-2 mb-4">
+                            <div className="w-2 h-2 bg-green-500 animate-pulse rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                            <span className="font-mono text-[10px] tracking-widest text-foreground font-bold">SYS.ONLINE</span>
+                        </div>
+                        <div className="font-mono text-[10px] text-muted-foreground">
+                            v3.0.0 // MOCKUP_MODE
+                        </div>
                     </div>
-                    <div className="font-mono text-[10px] text-muted-foreground">
-                        v3.0.0 // MOCKUP_MODE
-                    </div>
-                </div>
-            </SheetContent>
-        </Sheet>
+                </SheetContent>
+            </Sheet>
+        </div>
       </header>
 
       {/* Consolidated Side HUD - Navigation Dots + Coordinates */}
