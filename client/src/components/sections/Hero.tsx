@@ -228,7 +228,7 @@ export default function Hero() {
             style={{
                 bottom: "-20%",
                 left: "10%",
-                scaleX: useTransform(rotateY, ["-15deg", "15deg"], [1.1, 0.9]),
+                scaleX: useTransform(mouseX, [-0.5, 0.5], [1.1, 0.9]),
                 opacity: useTransform(mouseY, [-0.5, 0.5], [0.6, 0.3])
             }}
         />
