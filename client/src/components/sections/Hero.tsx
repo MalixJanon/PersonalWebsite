@@ -54,9 +54,9 @@ export default function Hero() {
   
   // Scroll-based parallax
   const { scrollY } = useScroll();
-  // Card parallax - same speed on both axes
-  const scrollYCard = useTransform(scrollY, [0, 1400], [0, -100]);
-  const scrollXCard = useTransform(scrollY, [0, 1400], [0, -100]);
+  // Card parallax - same speed on both axes (inverted direction)
+  const scrollYCard = useTransform(scrollY, [0, 1400], [0, 100]);
+  const scrollXCard = useTransform(scrollY, [0, 1400], [0, 100]);
   // Name parallax - same speed on both axes
   const scrollYName = useTransform(scrollY, [0, 1400], [0, -60]);
   const scrollXName = useTransform(scrollY, [0, 1400], [0, -60]);
