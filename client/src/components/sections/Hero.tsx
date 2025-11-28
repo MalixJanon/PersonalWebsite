@@ -180,7 +180,7 @@ export default function Hero() {
         className="absolute left-1/2 md:left-[55%] lg:left-[60%] top-2/5 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none antialiased"
         style={{ 
           perspective: 1000,
-          x: parallaxXCard,
+          x: useTransform(() => (parallaxXCard.get?.() || 0) + (scrollXCard.get?.() || 0)),
           y: useTransform(() => (parallaxYCard.get?.() || 0) + (scrollYCard.get?.() || 0))
         }}
       >
