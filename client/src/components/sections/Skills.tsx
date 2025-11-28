@@ -10,12 +10,12 @@ const skills = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-20 md:py-32 relative min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
-      <div className="flex items-end justify-between mb-12 md:mb-16 border-b border-white/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/80 backdrop-blur-sm py-4">
-        <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold">
+    <section id="skills" className="py-20 md:py-32 relative min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
+      <div className="flex items-end justify-between mb-12 md:mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4">
+        <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-foreground">
           SKILLS
         </h2>
-        <span className="font-mono text-[10px] sm:text-xs text-primary tracking-widest hidden sm:block">
+        <span className="font-mono text-[10px] sm:text-xs text-primary tracking-widest hidden sm:block font-bold">
           // SYSTEM_DIAGNOSTICS
         </span>
       </div>
@@ -31,23 +31,23 @@ export default function Skills() {
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
             {/* Tech markers */}
-            <div className="absolute -left-2 md:-left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 md:w-2 md:h-2 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rotate-45 shadow-[0_0_10px_rgba(255,69,0,0.8)]" />
+            <div className="absolute -left-2 md:-left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 md:w-2 md:h-2 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rotate-45 shadow-sm" />
             
             <div className="flex flex-col sm:flex-row justify-between sm:items-end mb-2 font-mono text-sm pl-2 gap-1 sm:gap-0">
-              <span className="group-hover:text-primary transition-colors text-base sm:text-lg font-bold tracking-wider duration-300">{skill.name}</span>
+              <span className="group-hover:text-primary transition-colors text-base sm:text-lg font-bold tracking-wider duration-300 text-foreground">{skill.name}</span>
               <motion.span 
-                className="text-muted-foreground text-[9px] sm:text-[10px] border border-white/10 px-2 py-1 bg-black/30 w-fit"
-                whileHover={{ scale: 1.1, borderColor: "rgba(255,69,0,0.5)" }}
+                className="text-muted-foreground text-[9px] sm:text-[10px] border border-black/10 px-2 py-1 bg-white/50 w-fit font-bold"
+                whileHover={{ scale: 1.1, borderColor: "hsl(var(--primary))", color: "hsl(var(--primary))" }}
               >
                 {skill.code} :: {skill.level}%
               </motion.span>
             </div>
             
-            <div className="h-4 bg-white/5 w-full relative overflow-hidden skew-x-[-10deg] tech-border">
+            <div className="h-4 bg-black/5 w-full relative overflow-hidden skew-x-[-10deg] border border-black/5">
               {/* Background Grid in bar */}
               <div className="absolute inset-0 w-full h-full opacity-20" 
                 style={{ 
-                  backgroundImage: 'linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.1) 50%)', 
+                  backgroundImage: 'linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.1) 50%)', 
                   backgroundSize: '4px 100%' 
                 }} 
               />
@@ -59,34 +59,25 @@ export default function Skills() {
                 viewport={{ once: true }}
                 transition={{ duration: 1.5, delay: index * 0.1, ease: "circOut" }}
               >
-                {/* Fluid Grain Effect */}
-                <div className="absolute inset-0 opacity-40 mix-blend-overlay"
-                  style={{
-                    backgroundImage: `url('/noise.png')`,
-                    backgroundSize: '100px 100px',
-                    animation: 'grain 2s steps(5) infinite'
-                  }}
-                />
-                
                 {/* Seamless Flowing Glow */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[fluid_3s_linear_infinite] w-[200%]" />
                 
-                <div className="absolute right-0 top-0 h-full w-1 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
+                <div className="absolute right-0 top-0 h-full w-1 bg-white shadow-[0_0_5px_rgba(255,255,255,0.8)]" />
               </motion.div>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Decorative Logic Gate SVG or similar */}
-      <div className="absolute right-0 top-1/3 opacity-10 pointer-events-none hidden lg:block">
-        <svg width="400" height="400" viewBox="0 0 100 100" className="stroke-white fill-none stroke-[0.2]">
+      {/* Decorative Logic Gate SVG - Light Mode Version */}
+      <div className="absolute right-0 top-1/3 opacity-5 pointer-events-none hidden lg:block mix-blend-multiply">
+        <svg width="400" height="400" viewBox="0 0 100 100" className="stroke-black fill-none stroke-[0.5]">
           <circle cx="50" cy="50" r="40" className="animate-[spin_20s_linear_infinite]" />
           <circle cx="50" cy="50" r="30" className="animate-[spin_15s_linear_infinite_reverse]" />
           <circle cx="50" cy="50" r="20" />
           <path d="M50 10 L50 90" />
           <path d="M10 50 L90 50" />
-          <rect x="30" y="30" width="40" height="40" className="animate-pulse" />
+          <rect x="30" y="30" width="40" height="40" className="animate-pulse stroke-primary" />
         </svg>
       </div>
     </section>

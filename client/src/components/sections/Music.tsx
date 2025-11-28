@@ -24,9 +24,9 @@ export default function Music() {
   };
 
   return (
-    <section id="audio" className="py-20 md:py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
-      <div className="flex items-end justify-between mb-12 md:mb-16 border-b border-white/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/80 backdrop-blur-sm py-4">
-        <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-right w-full">
+    <section id="audio" className="py-20 md:py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
+      <div className="flex items-end justify-between mb-12 md:mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4">
+        <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-right w-full text-foreground">
           MUSIC
         </h2>
       </div>
@@ -40,18 +40,18 @@ export default function Music() {
             viewport={{ once: true }}
             transition={{ delay: index * 0.2 }}
             className={cn(
-              "tech-border p-4 sm:p-6 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:bg-card hover:border-primary/50",
-              activeTrack === track.id ? "border-primary shadow-[0_0_20px_rgba(255,69,0,0.2)]" : ""
+              "tech-border p-4 sm:p-6 bg-white/60 backdrop-blur-sm transition-all duration-300 hover:bg-white hover:border-primary/50 shadow-sm",
+              activeTrack === track.id ? "border-primary shadow-lg" : ""
             )}
           >
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-              <div className="relative w-full sm:w-32 aspect-square sm:h-32 shrink-0 overflow-hidden tech-border group/art cursor-pointer">
+              <div className="relative w-full sm:w-32 aspect-square sm:h-32 shrink-0 overflow-hidden tech-border group/art cursor-pointer shadow-inner">
                 <img 
                   src={track.cover} 
                   alt={track.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover/art:scale-110 grayscale group-hover/art:grayscale-0" 
                 />
-                <div className="absolute inset-0 bg-black/20" />
+                <div className="absolute inset-0 bg-white/10 mix-blend-overlay" />
                 <button 
                   onClick={() => togglePlay(track.id)}
                   className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover/art:opacity-100 transition-opacity backdrop-blur-[2px]"
@@ -67,12 +67,12 @@ export default function Music() {
               <div className="flex flex-col justify-between flex-1 py-1">
                 <div>
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-display text-xl sm:text-2xl font-bold group-hover:text-primary transition-colors line-clamp-1">{track.title}</h3>
-                    <span className="font-mono text-[10px] sm:text-xs text-muted-foreground border border-white/10 px-2 py-0.5 rounded-sm bg-black/40 shrink-0 ml-2">
+                    <h3 className="font-display text-xl sm:text-2xl font-bold group-hover:text-primary transition-colors line-clamp-1 text-foreground">{track.title}</h3>
+                    <span className="font-mono text-[10px] sm:text-xs text-muted-foreground border border-black/10 px-2 py-0.5 bg-black/5 shrink-0 ml-2 font-bold">
                       {track.bpm} BPM
                     </span>
                   </div>
-                  <p className="text-primary font-mono text-[10px] sm:text-xs tracking-widest">ORIGINAL MIX</p>
+                  <p className="text-primary font-mono text-[10px] sm:text-xs tracking-widest font-bold">ORIGINAL MIX</p>
                 </div>
 
                 {/* Visualizer Bar */}
@@ -81,7 +81,7 @@ export default function Music() {
                     <div 
                       key={i}
                       className={cn(
-                        "w-full bg-white/10 transition-all duration-300 rounded-t-sm",
+                        "w-full bg-black/10 transition-all duration-300 rounded-t-sm",
                         activeTrack === track.id && isPlaying ? "animate-pulse bg-primary" : ""
                       )}
                       style={{ 
@@ -92,7 +92,7 @@ export default function Music() {
                   ))}
                 </div>
 
-                <div className="flex justify-between items-center mt-2 font-mono text-[10px] sm:text-xs text-muted-foreground">
+                <div className="flex justify-between items-center mt-2 font-mono text-[10px] sm:text-xs text-muted-foreground font-bold">
                   <span>{activeTrack === track.id ? "0:45" : "0:00"}</span>
                   <span>{track.duration}</span>
                 </div>

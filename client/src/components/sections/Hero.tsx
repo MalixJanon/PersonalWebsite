@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import planetTexture from "@assets/generated_images/planet_with_flight_trajectory.png";
+import isometricStructure from "@assets/generated_images/red_isometric_industrial_structure_on_light_grey_background.png";
 import Particles from "@/components/ui/particles";
 
 interface TypewriterRevealProps {
@@ -36,14 +36,11 @@ const TypewriterReveal = ({ text, className, delay = 0, speed = 100 }: Typewrite
 
   return (
     <span className={`relative inline-block ${className}`}>
-      {/* Invisible full text to reserve layout space */}
       <span className="opacity-0 select-none pointer-events-none">{text}</span>
-      
-      {/* Visible typing text overlay */}
       <span className="absolute top-0 left-0">
         {displayedText}
         {!isComplete && (
-          <span className="animate-pulse text-primary inline-block ml-1 w-2 h-[1em] align-middle bg-primary/0 border-b-4 border-primary"></span>
+          <span className="animate-pulse text-primary inline-block ml-1 w-3 h-[1em] align-middle bg-primary"></span>
         )}
       </span>
     </span>
@@ -54,31 +51,9 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   
-  // Unified Parallax Direction (Text Moves UP - Negative Y)
-  // Varying speeds for depth perception
-  const yIdentity = useTransform(scrollY, [0, 1000], [0, -100]); 
-  const yTitle = useTransform(scrollY, [0, 1000], [0, -300]); 
-  const yDesc = useTransform(scrollY, [0, 1000], [0, -150]);
-  const yStatus = useTransform(scrollY, [0, 1000], [0, -80]);
-
-  // Opposing Parallax (Background Moves DOWN - Positive Y)
-  const yBg = useTransform(scrollY, [0, 1000], [0, 200]); 
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      const { clientX, clientY } = e;
-      // Calculate localized mouse position (-1 to 1)
-      const x = (clientX / window.innerWidth) * 2 - 1;
-      const y = (clientY / window.innerHeight) * 2 - 1;
-      
-      containerRef.current.style.setProperty("--mouse-x", `${x}`);
-      containerRef.current.style.setProperty("--mouse-y", `${y}`);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  // Standard Parallax
+  const yContent = useTransform(scrollY, [0, 1000], [0, -100]); 
+  const yBg = useTransform(scrollY, [0, 1000], [0, 100]); 
 
   const handleScrollDown = () => {
     const element = document.getElementById('skills');
@@ -89,137 +64,94 @@ export default function Hero() {
     <section 
       id="hero" 
       ref={containerRef} 
-      className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden pt-20 perspective-1000"
+      className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden pt-20 perspective-1000 bg-background"
     >
-      {/* Background Layers */}
-      <motion.div className="absolute inset-0 z-0" style={{ y: yBg }}>
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-60 scale-110"
-          style={{
-            backgroundImage: `url(${planetTexture})`,
-            transform: 'translate(calc(var(--mouse-x, 0) * -15px), calc(var(--mouse-y, 0) * -15px))',
-            transition: 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/60 to-background" />
-        <Particles className="absolute inset-0 opacity-50" />
-      </motion.div>
-
-      {/* Technical Grid Overlay */}
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-10">
-         <div className="absolute top-[33%] left-0 w-full h-px bg-white" />
-         <div className="absolute top-[66%] left-0 w-full h-px bg-white" />
-         <div className="absolute left-[33%] top-0 h-full w-px bg-white" />
-         <div className="absolute left-[66%] top-0 h-full w-px bg-white" />
+      {/* Technical Background Grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:40px_40px]" />
+         {/* Crosshairs */}
+         <div className="absolute top-1/4 left-1/4 w-4 h-4 border-l border-t border-foreground" />
+         <div className="absolute top-1/4 right-1/4 w-4 h-4 border-r border-t border-foreground" />
+         <div className="absolute bottom-1/4 left-1/4 w-4 h-4 border-l border-b border-foreground" />
+         <div className="absolute bottom-1/4 right-1/4 w-4 h-4 border-r border-b border-foreground" />
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 flex flex-col justify-center h-full">
-        
-        {/* Vertical Guide Line */}
-        <motion.div 
-          className="absolute left-4 sm:left-6 md:left-12 top-0 bottom-0 w-px bg-primary/20" 
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          transition={{ duration: 1.5, ease: "circOut" }}
-        />
+      {/* Main 3D Asset */}
+      <motion.div className="absolute right-0 md:right-[-10%] top-1/2 -translate-y-1/2 z-0 w-full md:w-[60%] opacity-90 mix-blend-multiply" style={{ y: yBg }}>
+        <img src={isometricStructure} alt="Industrial Structure" className="w-full h-auto object-contain scale-125 md:scale-150" />
+      </motion.div>
 
-        <div className="pl-6 sm:pl-8 md:pl-16 flex flex-col gap-4 md:gap-6">
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center">
+        <motion.div style={{ y: yContent }} className="flex flex-col gap-8">
           
-          {/* Identity Tag */}
-          <motion.div 
-            style={{ y: yIdentity }}
-            className="flex items-center gap-3"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <div className="w-6 md:w-8 h-px bg-primary" />
-            <span className="font-mono text-primary text-[9px] sm:text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.4em] uppercase font-bold drop-shadow-[0_0_8px_rgba(255,69,0,0.8)]">
-              Identity: Multidisciplinary_Creative
-            </span>
-          </motion.div>
+          {/* Top Technical Text */}
+          <div className="flex items-center gap-4 font-mono text-[10px] md:text-xs tracking-widest text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-primary" />
+              <span>FIG. 01 // SYSTEM_OVERRIDE</span>
+            </div>
+            <div className="h-px w-12 bg-black/20" />
+            <span>EPSILON_CLASS</span>
+          </div>
 
-          {/* Main Title Block */}
-          <motion.div 
-            style={{ y: yTitle }}
-            className="relative z-10 flex flex-col items-start"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
-          >
-            {/* Line 1: ALEXANDER VAN */}
-            <div className="relative leading-[0.85] z-20 mix-blend-overlay">
-               <h1 className="text-[clamp(1.8rem,6vw,6rem)] font-display font-black tracking-tight text-white/90 drop-shadow-2xl whitespace-nowrap">
-                 <TypewriterReveal text="ALEXANDER VAN" delay={500} speed={60} />
+          {/* Main Typography */}
+          <div className="relative z-10">
+            <div className="relative">
+               <h1 className="text-[clamp(2.5rem,9vw,10rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground">
+                 <TypewriterReveal text="ALEXANDER" delay={200} speed={50} />
                </h1>
             </div>
-
-            {/* Line 2: STRALENDORFF */}
-            {/* Manually adjusted font size to align widths */}
-            <div className="relative leading-[0.85] mt-2 z-10">
-               <div className="bg-primary/90 px-2 md:px-4 py-1 transform -skew-x-12 origin-left shadow-[10px_10px_0px_rgba(0,0,0,0.3)] backdrop-blur-sm hover:bg-primary transition-colors duration-500">
-                 <h1 className="text-[clamp(2rem,6.5vw,6.5rem)] font-display font-black tracking-normal text-black transform skew-x-12 whitespace-nowrap">
-                    <TypewriterReveal text="STRALENDORFF" delay={1500} speed={60} />
-                 </h1>
-               </div>
+            <div className="relative ml-2 md:ml-4 mt-[-0.1em]">
+               <h1 className="text-[clamp(2.5rem,9vw,10rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm">
+                 STRALENDORFF
+               </h1>
+               <h1 className="text-[clamp(2.5rem,9vw,10rem)] font-display font-black leading-[0.85] tracking-tighter text-primary mix-blend-multiply">
+                  <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
+               </h1>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Description Box */}
-          <motion.div 
-            style={{ y: yDesc }}
-            className="mt-6 md:mt-8 max-w-2xl relative group"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-          >
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary/50 group-hover:bg-primary transition-colors duration-300" />
-              <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -skew-x-6" />
-              
-              <p className="pl-4 md:pl-6 py-2 text-sm sm:text-base md:text-xl text-muted-foreground font-mono leading-relaxed relative z-10">
-                  Forging immersive experiences at the intersection of <span className="text-white font-bold">design</span>, <span className="text-white font-bold">code</span>, and <span className="text-white font-bold">sound</span>. 
-                  Specializing in high-fidelity interfaces and interactive systems.
+          {/* Description & Specimen Data */}
+          <div className="flex flex-col md:flex-row gap-12 mt-8 max-w-3xl">
+            <div className="flex-1 border-l-2 border-primary pl-6 py-2 bg-white/30 backdrop-blur-sm">
+              <p className="font-mono text-sm md:text-base leading-relaxed text-foreground/80 font-bold">
+                Forging immersive interfaces at the intersection of design and machine logic.
+                Specializing in high-fidelity industrial systems.
               </p>
-          </motion.div>
+            </div>
+            
+            <div className="flex-1 hidden md:block font-mono text-[10px] text-muted-foreground opacity-70">
+              <div className="grid grid-cols-2 gap-4">
+                 <div>
+                   <span className="block mb-1 font-bold text-primary">SPEED</span>
+                   <div className="w-full h-1 bg-black/10"><div className="w-[80%] h-full bg-black" /></div>
+                 </div>
+                 <div>
+                   <span className="block mb-1 font-bold text-primary">PRECISION</span>
+                   <div className="w-full h-1 bg-black/10"><div className="w-[95%] h-full bg-black" /></div>
+                 </div>
+                 <div className="col-span-2">
+                   <span className="block mb-1 font-bold text-primary">SYSTEM_STATUS</span>
+                   <span className="text-foreground font-bold tracking-widest">OPTIMAL // 98.4%</span>
+                 </div>
+              </div>
+            </div>
+          </div>
 
-          {/* Status Indicators */}
-          <motion.div
-            style={{ y: yStatus }}
-            className="mt-6 md:mt-8 flex flex-wrap gap-2 md:gap-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-          >
-            <div className="px-3 md:px-4 py-1.5 md:py-2 border border-white/10 bg-black/40 backdrop-blur-md font-mono text-[9px] md:text-[10px] lg:text-xs text-muted-foreground flex items-center gap-2">
-               <span className="w-1.5 md:w-2 h-1.5 md:h-2 bg-green-500 rounded-full animate-pulse" />
-               STATUS: ONLINE
-            </div>
-            <div className="px-3 md:px-4 py-1.5 md:py-2 border border-white/10 bg-black/40 backdrop-blur-md font-mono text-[9px] md:text-[10px] lg:text-xs text-muted-foreground">
-               LATENCY: <span className="text-primary">12ms</span>
-            </div>
-            <div className="px-3 md:px-4 py-1.5 md:py-2 border border-white/10 bg-black/40 backdrop-blur-md font-mono text-[9px] md:text-[10px] lg:text-xs text-muted-foreground">
-               LOC: <span className="text-white">AUSTIN, TX</span>
-            </div>
-          </motion.div>
-
-        </div>
+        </motion.div>
       </div>
 
       {/* Scroll Indicator */}
       <motion.div 
-        className="absolute bottom-12 left-0 w-full flex justify-center z-30 pointer-events-auto"
+        className="absolute bottom-8 left-8 z-30"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >
-        <button 
-          onClick={handleScrollDown}
-          className="group flex flex-col items-center gap-2 cursor-pointer hover:opacity-100 transition-opacity opacity-50"
-        >
-          <span className="font-mono text-[10px] tracking-[0.2em] text-primary uppercase group-hover:tracking-[0.3em] transition-all duration-300">
-            Scroll_Down
-          </span>
-          <ArrowDown className="text-primary w-5 h-5" />
+        <button onClick={handleScrollDown} className="group flex items-center gap-4">
+          <div className="w-8 h-8 flex items-center justify-center border border-foreground/20 group-hover:border-primary transition-colors bg-white">
+            <ArrowDown className="w-4 h-4 text-foreground" />
+          </div>
+          <span className="font-mono text-[10px] tracking-widest font-bold group-hover:text-primary transition-colors">SCROLL_TO_INITIATE</span>
         </button>
       </motion.div>
     </section>

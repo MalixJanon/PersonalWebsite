@@ -72,58 +72,61 @@
   }
 }
 
-/* DARK MODE DEFAULT (Retro-Futurist Industrial) */
+/* LIGHT MODE INDUSTRIAL THEME (Epsilon Style) */
 :root {
-  /* Base Colors - Dark Industrial */
-  --background: 0 0% 4%; /* Very dark grey/black */
-  --foreground: 0 0% 90%; /* Off-white */
-
-  /* Card / Surfaces */
-  --card: 0 0% 7%;
-  --card-foreground: 0 0% 90%;
-
-  /* Popover */
-  --popover: 0 0% 7%;
-  --popover-foreground: 0 0% 90%;
-
-  /* Primary - Safety Orange / Alert Red */
-  --primary: 16 100% 50%; /* #FF4500 */
-  --primary-foreground: 0 0% 100%;
-
-  /* Secondary - Metallic Grey */
-  --secondary: 210 10% 20%;
-  --secondary-foreground: 210 10% 90%;
-
-  /* Muted - Darker Grey */
-  --muted: 0 0% 15%;
-  --muted-foreground: 0 0% 60%;
-
-  /* Accent - Electric Cyan or just darker shades of orange */
-  --accent: 16 100% 50%; 
-  --accent-foreground: 0 0% 100%;
-
-  /* Destructive */
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 98%;
-
-  /* Borders - Thin technical lines */
-  --border: 0 0% 20%;
-  --input: 0 0% 20%;
-  --ring: 16 100% 50%;
-
-  --radius: 0px; /* Sharp corners for industrial feel */
+  /* Base Colors - Light Grey/Blue Technical */
+  --background: 210 20% 92%; /* Light Grey-Blue #E6E8EB */
+  --foreground: 220 20% 10%; /* Dark Navy/Black #14161A */
   
-  cursor: crosshair; /* Fallback */
+  /* Card / Surfaces */
+  --card: 210 20% 96%;
+  --card-foreground: 220 20% 10%;
+  
+  /* Popover */
+  --popover: 210 20% 96%;
+  --popover-foreground: 220 20% 10%;
+  
+  /* Primary - Vibrant Red */
+  --primary: 0 80% 60%; /* #FF3333 */
+  --primary-foreground: 0 0% 100%;
+  
+  /* Secondary - Darker Grey */
+  --secondary: 220 10% 85%;
+  --secondary-foreground: 220 20% 10%;
+  
+  /* Muted - Technical Grey */
+  --muted: 210 10% 85%;
+  --muted-foreground: 215 15% 40%;
+  
+  /* Accent */
+  --accent: 0 80% 96%;
+  --accent-foreground: 0 80% 60%;
+  
+  /* Destructive */
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  /* Borders */
+  --border: 215 15% 80%;
+  --input: 215 15% 80%;
+  --ring: 0 80% 60%;
+  
+  --radius: 0px; /* Sharp edges */
+  
+  cursor: crosshair;
 }
 
 @layer base {
   * {
     @apply border-border;
-    cursor: none; /* Hide default cursor for custom one */
+    cursor: none;
   }
   body {
-    @apply font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground;
-    background-image: radial-gradient(circle at 50% 50%, rgba(255, 69, 0, 0.03) 0%, transparent 50%);
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary selection:text-primary-foreground;
+    background-image: 
+      linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 4rem 4rem;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -133,17 +136,18 @@
 
 @layer utilities {
   .text-stroke {
-    -webkit-text-stroke: 1px currentColor;
+    -webkit-text-stroke: 1px var(--foreground);
     color: transparent;
   }
   
   .glass-panel {
-    @apply bg-black/40 backdrop-blur-md border border-white/10;
+    @apply bg-white/60 backdrop-blur-md border border-black/5;
   }
   
+  /* Technical Border - Light Mode Version */
   .tech-border {
     position: relative;
-    @apply border border-white/10;
+    @apply border border-black/10 bg-white/20;
   }
   
   .tech-border::before {
@@ -151,8 +155,8 @@
     position: absolute;
     top: -1px;
     left: -1px;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-top: 2px solid hsl(var(--primary));
     border-left: 2px solid hsl(var(--primary));
   }
@@ -162,22 +166,10 @@
     position: absolute;
     bottom: -1px;
     right: -1px;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-bottom: 2px solid hsl(var(--primary));
     border-right: 2px solid hsl(var(--primary));
-  }
-
-  .scanlines {
-    background: linear-gradient(
-      to bottom,
-      rgba(255,255,255,0),
-      rgba(255,255,255,0) 50%,
-      rgba(0,0,0,0.2) 50%,
-      rgba(0,0,0,0.2)
-    );
-    background-size: 100% 4px;
-    pointer-events: none;
   }
   
   .perspective-1000 {
