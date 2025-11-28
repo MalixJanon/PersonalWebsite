@@ -151,24 +151,27 @@ export default function Hero() {
                 }}
               >
                  <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
-                 {/* Lighting overlay */}
+                 {/* Lighting overlay - Sharper gloss */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 pointer-events-none mix-blend-overlay"
+                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0 pointer-events-none mix-blend-overlay"
                    style={{
-                     backgroundPosition: `${gradientX}% ${gradientY}%`
+                     backgroundPosition: `${gradientX}% ${gradientY}%`,
+                     backgroundSize: "200% 200%"
                    }}
                  />
-                 {/* Dynamic Shine for Rotation */}
+                 {/* Dynamic Shine for Rotation - More subtle and premium */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
+                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12"
                    animate={{ x: ["-100%", "200%"] }}
-                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
+                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.5 }}
                  />
+                 {/* Edge Highlight */}
+                 <div className="absolute inset-0 rounded-[20px] border border-white/20 pointer-events-none opacity-50" />
               </div>
 
               {/* Back Face */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden bg-[#111]"
+                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden bg-[#0a0a0a]"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
@@ -178,18 +181,20 @@ export default function Hero() {
                  <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
                  {/* Lighting overlay */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 pointer-events-none mix-blend-overlay"
+                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none mix-blend-overlay"
                  />
-                 {/* Back Face Reflection */}
+                 {/* Back Face Reflection - Subtle textured finish */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/40 pointer-events-none"
+                   className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/60 pointer-events-none"
                  />
+                 {/* Edge Highlight */}
+                 <div className="absolute inset-0 rounded-[20px] border border-white/10 pointer-events-none opacity-30" />
               </div>
               
-              {/* True 3D Thickness/Sides */}
+              {/* True 3D Thickness/Sides - Darker Industrial Look */}
               {/* Top Side */}
               <div 
-                className="absolute w-full h-[2px] bg-gray-300 origin-bottom"
+                className="absolute w-full h-[2px] bg-[#1a1a1a] origin-bottom"
                 style={{ 
                     top: 0,
                     transform: "rotateX(90deg) translateY(-1px) translateZ(1px)" 
@@ -197,7 +202,7 @@ export default function Hero() {
               />
               {/* Bottom Side */}
               <div 
-                className="absolute w-full h-[2px] bg-gray-400 origin-top"
+                className="absolute w-full h-[2px] bg-[#0f0f0f] origin-top"
                 style={{ 
                     bottom: 0,
                     transform: "rotateX(-90deg) translateY(1px) translateZ(1px)" 
@@ -205,7 +210,7 @@ export default function Hero() {
               />
               {/* Right Side */}
               <div 
-                className="absolute w-[2px] h-full bg-gray-300 origin-left"
+                className="absolute w-[2px] h-full bg-[#222] origin-left"
                 style={{ 
                     right: 0,
                     transform: "rotateY(90deg) translateX(1px) translateZ(1px)" 
@@ -213,7 +218,7 @@ export default function Hero() {
               />
               {/* Left Side */}
               <div 
-                className="absolute w-[2px] h-full bg-gray-400 origin-right"
+                className="absolute w-[2px] h-full bg-[#0a0a0a] origin-right"
                 style={{ 
                     left: 0,
                     transform: "rotateY(-90deg) translateX(-1px) translateZ(1px)" 
