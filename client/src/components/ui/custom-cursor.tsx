@@ -29,7 +29,7 @@ export default function CustomCursor() {
          !target.closest('h4') && !target.closest('h5') && !target.closest('h6') &&
          !target.classList.contains('font-display'));
       
-      setIsText(isTextInput);
+      setIsText(!!isTextInput);
 
       // Check for clickable elements (if not text input/area)
       const isClickable = !target.matches('input, textarea') && (

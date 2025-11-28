@@ -273,15 +273,16 @@ export default function Hero() {
           {/* Top Technical Text */}
           <div className="flex items-center gap-4 font-mono text-[10px] md:text-xs tracking-widest text-muted-foreground">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-primary" />
+              <div className="w-2 h-2 bg-primary shadow-[0_0_10px_rgba(255,51,51,0.5)]" />
               <span>FIG. 01 // SYSTEM_OVERRIDE</span>
             </div>
             <div className="h-px w-12 bg-black/20" />
             <span>EPSILON_CLASS</span>
+            <div className="ml-auto hidden sm:block text-[8px] opacity-50">REF: 8849-X</div>
           </div>
 
           {/* Main Typography - Aligned to Left */}
-          <div className="relative z-10 w-full mt-12 md:mt-0">
+          <div className="relative z-10 w-full mt-12 md:mt-0 border-l-2 border-primary/20 pl-0 md:pl-0 md:border-none">
             <div className="relative w-full">
                <h1 className="text-[clamp(1.8rem,4vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
@@ -295,6 +296,9 @@ export default function Hero() {
                   <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
                </h1>
             </div>
+            
+            {/* Decorative Corner Bracket */}
+            <div className="absolute -top-4 -left-4 w-8 h-8 border-t border-l border-foreground/10 hidden md:block" />
           </div>
 
           {/* Description & Specimen Data */}
