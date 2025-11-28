@@ -118,10 +118,12 @@ export default function Hero() {
 
       {/* 3D Business Card Asset */}
       <motion.div 
-        className="absolute right-0 md:right-[10%] top-1/3 -translate-y-1/2 z-10 w-full md:w-[45%] h-[300px] md:h-[400px] flex items-center justify-center perspective-1000"
+        className="absolute right-0 md:right-[10%] top-1/3 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000"
         style={{ 
           y: yBg,
-          perspective: 1000 
+          perspective: 1000,
+          width: "auto",
+          height: "auto"
         }}
       >
         {/* Container for Mouse Tilt */}
