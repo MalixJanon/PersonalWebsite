@@ -1,16 +1,22 @@
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const skills = [
-  { name: "ILLUSTRATION", level: 95, code: "UI.SYS" },
-  { name: "GRAPHIC DESIGN", level: 88, code: "UX.FLOW" },
-  { name: "MUSIC PRODUCTION", level: 92, code: "REACT.JS" },
-  { name: "UI/UX", level: 75, code: "AUDIO.WAV" },
-  { name: "GAME DEVELOPMENT", level: 60, code: "GDSCRIPT.GODOT" },
+  { name: "ILLUSTRATION", level: 95, code: "UI.SYS", status: "OPTIMAL" },
+  { name: "GRAPHIC DESIGN", level: 88, code: "UX.FLOW", status: "STABLE" },
+  { name: "MUSIC PRODUCTION", level: 92, code: "REACT.JS", status: "ACTIVE" },
+  { name: "UI/UX", level: 75, code: "AUDIO.WAV", status: "SYNCED" },
+  { name: "GAME DEVELOPMENT", level: 60, code: "GODOT.ENG", status: "LOADING" },
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-20 md:py-32 relative min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
+    <section id="skills" className="py-20 md:py-32 relative min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background overflow-hidden">
+      {/* Background Grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-10">
+         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+      </div>
+
       <div className="flex items-end justify-between mb-12 md:mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4">
         <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-foreground">
           SKILLS
@@ -20,65 +26,72 @@ export default function Skills() {
         </span>
       </div>
 
-      <div className="grid gap-8 md:gap-12 max-w-4xl mx-auto w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full relative z-10">
         {skills.map((skill, index) => (
           <motion.div 
             key={skill.code} 
-            className="group relative"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            className="group relative bg-white/40 backdrop-blur-sm border border-black/10 hover:border-primary/50 transition-colors p-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
+            transition={{ duration: 0.4, delay: index * 0.1 }}
           >
-            {/* Tech markers */}
-            <div className="absolute -left-2 md:-left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 md:w-2 md:h-2 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rotate-45 shadow-sm" />
-            
-            <div className="flex flex-col sm:flex-row justify-between sm:items-end mb-2 font-mono text-sm pl-2 gap-1 sm:gap-0">
-              <span className="group-hover:text-primary transition-colors text-base sm:text-lg font-bold tracking-wider duration-300 text-foreground">{skill.name}</span>
-              <motion.span 
-                className="text-muted-foreground text-[9px] sm:text-[10px] border border-black/10 px-2 py-1 bg-white/50 w-fit font-bold"
-                whileHover={{ scale: 1.1, borderColor: "hsl(var(--primary))", color: "hsl(var(--primary))" }}
-              >
-                {skill.code} :: {skill.level}%
-              </motion.span>
+            {/* Corner Accents */}
+            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-black/20 group-hover:border-primary transition-colors" />
+            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-black/20 group-hover:border-primary transition-colors" />
+            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-black/20 group-hover:border-primary transition-colors" />
+            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-black/20 group-hover:border-primary transition-colors" />
+
+            {/* Header */}
+            <div className="flex justify-between items-start mb-4">
+              <span className="font-mono text-[10px] text-muted-foreground tracking-widest group-hover:text-primary transition-colors">
+                [{skill.code}]
+              </span>
+              <div className="flex items-center gap-2">
+                <div className={cn(
+                  "w-1.5 h-1.5 rounded-full animate-pulse", 
+                  skill.status === "OPTIMAL" ? "bg-green-500" : "bg-primary"
+                )} />
+                <span className="font-mono text-[9px] text-muted-foreground font-bold">{skill.status}</span>
+              </div>
             </div>
-            
-            <div className="h-4 bg-black/5 w-full relative overflow-hidden skew-x-[-10deg] border border-black/5">
-              {/* Background Grid in bar */}
-              <div className="absolute inset-0 w-full h-full opacity-20" 
-                style={{ 
-                  backgroundImage: 'linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.1) 50%)', 
-                  backgroundSize: '4px 100%' 
-                }} 
-              />
-              
-              <motion.div 
-                className="h-full bg-primary relative overflow-hidden"
-                initial={{ width: 0 }}
-                whileInView={{ width: `${skill.level}%` }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5, delay: index * 0.1, ease: "circOut" }}
-              >
-                {/* Seamless Flowing Glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[fluid_3s_linear_infinite] w-[200%]" />
-                
-                <div className="absolute right-0 top-0 h-full w-1 bg-white shadow-[0_0_5px_rgba(255,255,255,0.8)]" />
-              </motion.div>
+
+            {/* Title */}
+            <h3 className="font-display text-xl md:text-2xl font-bold mb-6 text-foreground group-hover:translate-x-1 transition-transform duration-300">
+              {skill.name}
+            </h3>
+
+            {/* Technical Progress Bar */}
+            <div className="space-y-2">
+              <div className="flex justify-between text-[10px] font-mono font-bold text-muted-foreground">
+                <span>CAPACITY</span>
+                <span>{skill.level}%</span>
+              </div>
+              <div className="h-2 bg-black/5 w-full flex gap-0.5">
+                {Array.from({ length: 20 }).map((_, i) => (
+                  <motion.div 
+                    key={i}
+                    className={cn(
+                      "h-full flex-1 transition-colors duration-300",
+                      (i / 20) * 100 < skill.level 
+                        ? "bg-primary opacity-80 group-hover:opacity-100" 
+                        : "bg-transparent"
+                    )}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: (i / 20) * 100 < skill.level ? 0.8 : 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 + i * 0.02 }}
+                  />
+                ))}
+              </div>
             </div>
           </motion.div>
         ))}
-      </div>
-
-      {/* Decorative Logic Gate SVG - Light Mode Version */}
-      <div className="absolute right-0 top-1/3 opacity-5 pointer-events-none hidden lg:block mix-blend-multiply">
-        <svg width="400" height="400" viewBox="0 0 100 100" className="stroke-black fill-none stroke-[0.5]">
-          <circle cx="50" cy="50" r="40" className="animate-[spin_20s_linear_infinite]" />
-          <circle cx="50" cy="50" r="30" className="animate-[spin_15s_linear_infinite_reverse]" />
-          <circle cx="50" cy="50" r="20" />
-          <path d="M50 10 L50 90" />
-          <path d="M10 50 L90 50" />
-          <rect x="30" y="30" width="40" height="40" className="animate-pulse stroke-primary" />
-        </svg>
+        
+        {/* Empty Grid Filler for aesthetic */}
+        <div className="hidden lg:block p-6 border border-black/5 border-dashed flex items-center justify-center opacity-30">
+           <span className="font-mono text-xs text-muted-foreground">AWAITING_INPUT...</span>
+        </div>
       </div>
     </section>
   );
