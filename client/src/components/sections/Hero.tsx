@@ -188,53 +188,74 @@ export default function Hero() {
           >
               {/* --- FRONT FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden"
+                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden shadow-2xl"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
-                  transform: "translateZ(1px)"
+                  transform: "translateZ(1px)",
+                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3)"
                 }}
               >
                  <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover rounded-[16px]" />
                  
-                 {/* Dynamic Lighting Overlay */}
+                 {/* Enhanced Dynamic Lighting Overlay */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent mix-blend-overlay"
+                   className="absolute inset-0 mix-blend-overlay pointer-events-none"
                    style={{
                      opacity: frontLight,
-                     background: useMotionTemplate`linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.6) ${gradientX}%, transparent 80%)`
+                     background: useMotionTemplate`linear-gradient(105deg, transparent 15%, rgba(255,255,255,0.7) ${gradientX}%, transparent 85%)`
                    }}
                  />
                  
-                 {/* Specular Reflection */}
+                 {/* Premium Specular Reflection */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent mix-blend-soft-light"
-                   style={{ opacity: brightness }}
+                   className="absolute inset-0 mix-blend-screen pointer-events-none"
+                   style={{ 
+                     opacity: brightness,
+                     background: "linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%, rgba(0,0,0,0.1) 100%)"
+                   }}
                  />
+                 
+                 {/* Edge Highlight */}
+                 <div className="absolute inset-0 rounded-[16px] pointer-events-none" style={{
+                   background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.2) 100%)"
+                 }} />
               </div>
 
               {/* --- BACK FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden"
+                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden shadow-2xl"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
-                  transform: "rotateY(180deg) translateZ(1px)"
+                  transform: "rotateY(180deg) translateZ(1px)",
+                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)"
                 }}
               >
                  <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover rounded-[16px]" />
                  
-                 {/* Dark Metallic Lighting */}
+                 {/* Enhanced Dark Metallic Lighting */}
                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/50"
-                    style={{ opacity: backLight }}
+                    className="absolute inset-0 mix-blend-multiply pointer-events-none"
+                    style={{ 
+                      opacity: backLight,
+                      background: "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 40%, rgba(0,0,0,0.4) 100%)"
+                    }}
                  />
                  
-                 {/* Moving glint on back */}
+                 {/* Premium Moving glint on back */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
-                   style={{ x: shimmerPos }}
+                   className="absolute inset-0 mix-blend-screen pointer-events-none"
+                   style={{ 
+                     x: shimmerPos,
+                     background: "linear-gradient(90deg, transparent 20%, rgba(255,255,255,0.15) 50%, transparent 80%)"
+                   }}
                  />
+                 
+                 {/* Edge Highlight */}
+                 <div className="absolute inset-0 rounded-[16px] pointer-events-none" style={{
+                   background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.25) 100%)"
+                 }} />
               </div>
 
           </motion.div>
