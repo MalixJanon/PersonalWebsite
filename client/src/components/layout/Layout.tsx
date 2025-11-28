@@ -125,16 +125,17 @@ export default function Layout({ children }: LayoutProps) {
       <div className="fixed inset-0 z-40 pointer-events-none bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
       
       {/* Fixed HUD Elements */}
-      <header className="fixed top-0 left-0 w-full z-[60] px-6 py-4 flex justify-between items-center bg-background/90 backdrop-blur-md border-b border-white/10 shadow-2xl shadow-black/50 overflow-hidden">
+      <header className="fixed top-0 left-0 w-full z-[60] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center bg-background/90 backdrop-blur-md border-b border-white/10 shadow-2xl shadow-black/50 overflow-hidden">
         {/* Glass Refraction Effect */}
         <div className="absolute inset-0 bg-white/5 opacity-0 hover:opacity-100 transition-opacity pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 bg-primary animate-pulse" />
-          <span className="font-mono text-xs tracking-widest text-primary font-bold">SYS.ONLINE</span>
+          <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary animate-pulse" />
+          <span className="font-mono text-[10px] sm:text-xs tracking-widest text-primary font-bold">SYS.ONLINE</span>
         </div>
         
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-8">
           {navItems.map((item) => (
             <a 
@@ -155,7 +156,27 @@ export default function Layout({ children }: LayoutProps) {
           ))}
         </nav>
 
-        <div className="font-mono text-xs text-muted-foreground flex items-center gap-2">
+        {/* Mobile Navigation (Compact) */}
+        <nav className="flex md:hidden gap-4">
+           {navItems.slice(0, 3).map((item) => ( // Show first 3 items only on mobile to save space, or use icons
+            <a 
+              key={item.label}
+              href={item.href}
+              onClick={(e) => scrollToSection(e, item.href)}
+              className={cn(
+                "text-[9px] font-mono tracking-widest transition-colors",
+                activeSection === item.href ? "text-primary" : "text-muted-foreground"
+              )}
+            >
+              {item.label === "PROJECTS" ? "WORK" : item.label}
+            </a>
+           ))}
+           <a href="#contact" onClick={(e) => scrollToSection(e, "#contact")} className="text-[9px] font-mono tracking-widest text-primary">
+             CONTACT
+           </a>
+        </nav>
+
+        <div className="font-mono text-[9px] sm:text-xs text-muted-foreground hidden sm:flex items-center gap-2">
           <span className="w-2 h-2 border border-muted-foreground/50 rounded-full block" />
           v2.0.45
         </div>

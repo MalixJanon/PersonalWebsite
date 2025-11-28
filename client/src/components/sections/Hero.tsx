@@ -89,7 +89,7 @@ export default function Hero() {
     <section 
       id="hero" 
       ref={containerRef} 
-      className="min-h-screen flex flex-col justify-center relative overflow-hidden pt-20 perspective-1000"
+      className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden pt-20 perspective-1000"
     >
       {/* Background Layers */}
       <motion.div className="absolute inset-0 z-0" style={{ y: yBg }}>
@@ -114,17 +114,17 @@ export default function Hero() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center h-full">
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 flex flex-col justify-center h-full">
         
         {/* Vertical Guide Line */}
         <motion.div 
-          className="absolute left-6 md:left-12 top-0 bottom-0 w-px bg-primary/20" 
+          className="absolute left-4 sm:left-6 md:left-12 top-0 bottom-0 w-px bg-primary/20" 
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 1.5, ease: "circOut" }}
         />
 
-        <div className="pl-8 md:pl-16 flex flex-col gap-6">
+        <div className="pl-6 sm:pl-8 md:pl-16 flex flex-col gap-4 md:gap-6">
           
           {/* Identity Tag */}
           <motion.div 
@@ -134,8 +134,8 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="w-8 h-px bg-primary" />
-            <span className="font-mono text-primary text-[10px] md:text-xs tracking-[0.4em] uppercase font-bold drop-shadow-[0_0_8px_rgba(255,69,0,0.8)]">
+            <div className="w-6 md:w-8 h-px bg-primary" />
+            <span className="font-mono text-primary text-[9px] sm:text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.4em] uppercase font-bold drop-shadow-[0_0_8px_rgba(255,69,0,0.8)]">
               Identity: Multidisciplinary_Creative
             </span>
           </motion.div>
@@ -150,19 +150,16 @@ export default function Hero() {
           >
             {/* Line 1: ALEXANDER VAN */}
             <div className="relative leading-[0.85] z-20 mix-blend-overlay">
-               <h1 className="text-[clamp(2.5rem,7vw,8rem)] font-display font-black tracking-tight text-white/90 drop-shadow-2xl whitespace-nowrap">
+               <h1 className="text-[clamp(2rem,8vw,8rem)] font-display font-black tracking-tight text-white/90 drop-shadow-2xl whitespace-nowrap">
                  <TypewriterReveal text="ALEXANDER VAN" delay={500} speed={60} />
                </h1>
             </div>
 
             {/* Line 2: STRALENDORFF */}
-            {/* Manually adjusted font size to align widths: 
-                ALEXANDER VAN (13 chars) vs STRALENDORFF (12 chars).
-                STRALENDORFF needs to be approx 13/12 = 1.08x larger
-            */}
+            {/* Manually adjusted font size to align widths */}
             <div className="relative leading-[0.85] mt-2 z-10">
                <div className="bg-primary/90 px-2 md:px-4 py-1 transform -skew-x-12 origin-left shadow-[10px_10px_0px_rgba(0,0,0,0.3)] backdrop-blur-sm hover:bg-primary transition-colors duration-500">
-                 <h1 className="text-[clamp(2.7rem,7.56vw,8.64rem)] font-display font-black tracking-normal text-black transform skew-x-12 whitespace-nowrap">
+                 <h1 className="text-[clamp(2.16rem,8.64vw,8.64rem)] font-display font-black tracking-normal text-black transform skew-x-12 whitespace-nowrap">
                     <TypewriterReveal text="STRALENDORFF" delay={1500} speed={60} />
                  </h1>
                </div>
@@ -172,7 +169,7 @@ export default function Hero() {
           {/* Description Box */}
           <motion.div 
             style={{ y: yDesc }}
-            className="mt-8 max-w-2xl relative group"
+            className="mt-6 md:mt-8 max-w-2xl relative group"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.2 }}
@@ -180,7 +177,7 @@ export default function Hero() {
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary/50 group-hover:bg-primary transition-colors duration-300" />
               <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -skew-x-6" />
               
-              <p className="pl-6 py-2 text-base md:text-xl text-muted-foreground font-mono leading-relaxed relative z-10">
+              <p className="pl-4 md:pl-6 py-2 text-sm sm:text-base md:text-xl text-muted-foreground font-mono leading-relaxed relative z-10">
                   Forging immersive experiences at the intersection of <span className="text-white font-bold">design</span>, <span className="text-white font-bold">code</span>, and <span className="text-white font-bold">sound</span>. 
                   Specializing in high-fidelity interfaces and interactive systems.
               </p>
@@ -189,19 +186,19 @@ export default function Hero() {
           {/* Status Indicators */}
           <motion.div
             style={{ y: yStatus }}
-            className="mt-8 flex flex-wrap gap-4"
+            className="mt-6 md:mt-8 flex flex-wrap gap-2 md:gap-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
           >
-            <div className="px-4 py-2 border border-white/10 bg-black/40 backdrop-blur-md font-mono text-[10px] md:text-xs text-muted-foreground flex items-center gap-2">
-               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <div className="px-3 md:px-4 py-1.5 md:py-2 border border-white/10 bg-black/40 backdrop-blur-md font-mono text-[9px] md:text-[10px] lg:text-xs text-muted-foreground flex items-center gap-2">
+               <span className="w-1.5 md:w-2 h-1.5 md:h-2 bg-green-500 rounded-full animate-pulse" />
                STATUS: ONLINE
             </div>
-            <div className="px-4 py-2 border border-white/10 bg-black/40 backdrop-blur-md font-mono text-[10px] md:text-xs text-muted-foreground">
+            <div className="px-3 md:px-4 py-1.5 md:py-2 border border-white/10 bg-black/40 backdrop-blur-md font-mono text-[9px] md:text-[10px] lg:text-xs text-muted-foreground">
                LATENCY: <span className="text-primary">12ms</span>
             </div>
-            <div className="px-4 py-2 border border-white/10 bg-black/40 backdrop-blur-md font-mono text-[10px] md:text-xs text-muted-foreground">
+            <div className="px-3 md:px-4 py-1.5 md:py-2 border border-white/10 bg-black/40 backdrop-blur-md font-mono text-[9px] md:text-[10px] lg:text-xs text-muted-foreground">
                LOC: <span className="text-white">AUSTIN, TX</span>
             </div>
           </motion.div>

@@ -59,17 +59,17 @@ export default function Contact() {
           <div className="tech-border p-8 bg-card/30 backdrop-blur-sm">
             <h3 className="font-display text-xl mb-4 text-primary">CONTACT_INFO</h3>
             <div className="space-y-4 font-mono text-sm text-muted-foreground">
-              <div className="flex justify-between border-b border-white/5 pb-2 hover:text-foreground transition-colors">
-                <span>EMAIL</span>
-                <span className="text-foreground">janon@quadratasoft.com</span>
+              <div className="flex justify-between items-start border-b border-white/5 pb-2 hover:text-foreground transition-colors gap-4">
+                <span className="shrink-0">EMAIL</span>
+                <span className="text-foreground text-right break-all">janon@quadratasoft.com</span>
               </div>
-              <div className="flex justify-between border-b border-white/5 pb-2 hover:text-foreground transition-colors">
-                <span>LOCATION</span>
-                <span className="text-foreground">Austin, TX</span>
+              <div className="flex justify-between items-start border-b border-white/5 pb-2 hover:text-foreground transition-colors gap-4">
+                <span className="shrink-0">LOCATION</span>
+                <span className="text-foreground text-right">Austin, TX</span>
               </div>
-              <div className="flex justify-between border-b border-white/5 pb-2 hover:text-foreground transition-colors">
-                <span>AVAILABILITY</span>
-                <span className="text-primary animate-pulse">OPEN FOR FREELANCE WORK</span>
+              <div className="flex justify-between items-start border-b border-white/5 pb-2 hover:text-foreground transition-colors gap-4">
+                <span className="shrink-0">AVAILABILITY</span>
+                <span className="text-primary animate-pulse text-right">OPEN FOR FREELANCE WORK</span>
               </div>
             </div>
             
