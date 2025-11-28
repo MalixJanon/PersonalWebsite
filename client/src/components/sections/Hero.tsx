@@ -124,6 +124,9 @@ export default function Hero() {
           perspective: 1000 
         }}
       >
+        {/* Shadow */}
+        <div className="absolute inset-0 w-[300px] md:w-[500px] aspect-[1.75/1] rounded-[20px] bg-gradient-to-b from-black/40 to-black/60 blur-3xl transform -translate-y-4" style={{ transform: "translateY(2rem) scaleY(0.6)" }} />
+        
         {/* Container for Mouse Tilt */}
         <motion.div
           initial={{ rotateZ: 28 }}
@@ -132,7 +135,7 @@ export default function Hero() {
             rotateY: rotateY, // Use mouse tilt for Y
             transformStyle: "preserve-3d",
           }}
-          className="relative w-[300px] md:w-[500px] aspect-[1.75/1] transition-all duration-200 ease-out"
+          className="relative w-[300px] md:w-[500px] aspect-[1.75/1] transition-all duration-200 ease-out drop-shadow-2xl"
         >
           {/* Inner Container for Infinite Spin */}
           <motion.div
@@ -143,14 +146,17 @@ export default function Hero() {
           >
               {/* Front Face */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden shadow-2xl"
+                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
-                  transform: "translateZ(1px)"
+                  transform: "translateZ(1px)",
+                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.4), inset -1px -1px 3px rgba(0, 0, 0, 0.2), inset 1px 1px 3px rgba(255, 255, 255, 0.1)"
                 }}
               >
                  <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
+                 {/* Specular lighting */}
+                 <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 via-white/5 to-transparent pointer-events-none" />
                  {/* Lighting overlay */}
                  <motion.div 
                    className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 pointer-events-none mix-blend-overlay"
@@ -162,22 +168,25 @@ export default function Hero() {
 
               {/* Back Face */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden shadow-2xl bg-[#111]"
+                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden bg-[#111]"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
-                  transform: "rotateY(180deg) translateZ(1px)"
+                  transform: "rotateY(180deg) translateZ(1px)",
+                  boxShadow: "inset 0 20px 40px rgba(0, 0, 0, 0.8), inset -1px -1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 8px rgba(255, 255, 255, 0.15)"
                 }}
               >
                  <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
+                 {/* Specular highlight on back */}
+                 <div className="absolute top-0 right-0 w-1/2 h-1/3 bg-gradient-to-bl from-white/25 via-white/10 to-transparent pointer-events-none rounded-bl-[20px]" />
                  {/* Lighting overlay */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none mix-blend-overlay"
+                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/15 to-white/0 pointer-events-none mix-blend-overlay"
                  />
               </div>
               
-              {/* Side/Thickness (Simulated) */}
-              <div className="absolute inset-0 rounded-[20px] border border-white/10 pointer-events-none" style={{ transform: "translateZ(2px)" }} />
+              {/* Edge glow */}
+              <div className="absolute inset-0 rounded-[20px] pointer-events-none" style={{ transform: "translateZ(2px)", boxShadow: "inset 0 0 30px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05)" }} />
           </motion.div>
         </motion.div>
       </motion.div>
