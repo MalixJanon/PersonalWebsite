@@ -188,16 +188,15 @@ export default function Hero() {
           >
               {/* --- FRONT FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full rounded-[16px] backface-hidden overflow-hidden"
+                className="absolute inset-0 w-full h-full backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "translateZ(1px)",
-                  willChange: "transform",
-                  WebkitMaskImage: "radial-gradient(circle at 50% 50%, black, black)"
+                  willChange: "transform"
                 }}
               >
-                 <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
+                 <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover rounded-[16px]" />
                  
                  {/* Enhanced Dynamic Lighting Overlay */}
                  <motion.div 
@@ -220,16 +219,15 @@ export default function Hero() {
 
               {/* --- BACK FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full rounded-[16px] backface-hidden overflow-hidden"
+                className="absolute inset-0 w-full h-full backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "rotateY(180deg) translateZ(1px)",
-                  willChange: "transform",
-                  WebkitMaskImage: "radial-gradient(circle at 50% 50%, black, black)"
+                  willChange: "transform"
                 }}
               >
-                 <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
+                 <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover rounded-[16px]" />
                  
                  {/* Enhanced Dark Metallic Lighting */}
                  <motion.div 
