@@ -54,10 +54,10 @@ export default function Hero() {
   
   // Scroll-based parallax
   const { scrollY } = useScroll();
-  const scrollYCard = useTransform(scrollY, [0, 800], [0, -100]);  // Card moves up with scroll
-  const scrollYName = useTransform(scrollY, [0, 800], [0, -60]);   // Name moves up less
-  const scrollYText = useTransform(scrollY, [0, 800], [0, -40]);   // Text moves up even less
-  const scrollYGrid = useTransform(scrollY, [0, 800], [0, 50]);    // Grid moves down (inverted)
+  const scrollYCard = useTransform(scrollY, [0, 1400], [0, -100]);  // Card moves up with scroll - slower exit
+  const scrollYName = useTransform(scrollY, [0, 1400], [0, -60]);   // Name moves up less
+  const scrollYText = useTransform(scrollY, [0, 1400], [0, -40]);   // Text moves up even less
+  const scrollYGrid = useTransform(scrollY, [0, 1400], [0, 50]);    // Grid moves down (inverted)
   
   // Mouse-based Parallax Depth Layers
   const parallaxMouseX = useMotionValue(0);
