@@ -150,7 +150,7 @@ export default function Hero() {
           >
             {/* Line 1: ALEXANDER VAN */}
             <div className="relative leading-[0.85] z-20 mix-blend-overlay">
-               <h1 className="text-[clamp(2rem,8vw,8rem)] font-display font-black tracking-tight text-white/90 drop-shadow-2xl whitespace-nowrap">
+               <h1 className="text-[clamp(1.8rem,6vw,6rem)] font-display font-black tracking-tight text-white/90 drop-shadow-2xl whitespace-nowrap">
                  <TypewriterReveal text="ALEXANDER VAN" delay={500} speed={60} />
                </h1>
             </div>
@@ -159,7 +159,7 @@ export default function Hero() {
             {/* Manually adjusted font size to align widths */}
             <div className="relative leading-[0.85] mt-2 z-10">
                <div className="bg-primary/90 px-2 md:px-4 py-1 transform -skew-x-12 origin-left shadow-[10px_10px_0px_rgba(0,0,0,0.3)] backdrop-blur-sm hover:bg-primary transition-colors duration-500">
-                 <h1 className="text-[clamp(2.16rem,8.64vw,8.64rem)] font-display font-black tracking-normal text-black transform skew-x-12 whitespace-nowrap">
+                 <h1 className="text-[clamp(2rem,6.5vw,6.5rem)] font-display font-black tracking-normal text-black transform skew-x-12 whitespace-nowrap">
                     <TypewriterReveal text="STRALENDORFF" delay={1500} speed={60} />
                  </h1>
                </div>
