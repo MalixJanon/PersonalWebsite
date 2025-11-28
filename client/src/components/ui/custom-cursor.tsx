@@ -37,15 +37,30 @@ export default function CustomCursor() {
       {/* Crosshair center */}
       <div className={cn(
         "relative w-8 h-8 transition-all duration-300 ease-out",
-        isHovering ? "scale-150 rotate-45" : "scale-100"
+        isHovering ? "scale-75 rotate-45" : "scale-100"
       )}>
-        {/* Horizontal line */}
-        <div className="absolute top-1/2 left-0 w-full h-[1px] bg-primary" />
-        {/* Vertical line */}
-        <div className="absolute left-1/2 top-0 h-full w-[1px] bg-primary" />
+        {/* Horizontal line - fades out on hover */}
+        <div className={cn(
+          "absolute top-1/2 left-0 w-full h-[1px] bg-primary transition-opacity",
+          isHovering ? "opacity-0" : "opacity-100"
+        )} />
+        {/* Vertical line - fades out on hover */}
+        <div className={cn(
+          "absolute left-1/2 top-0 h-full w-[1px] bg-primary transition-opacity",
+          isHovering ? "opacity-0" : "opacity-100"
+        )} />
         
+        {/* Diamond Shape (Box rotated 45deg) */}
+        <div className={cn(
+          "absolute top-1/2 left-1/2 w-3 h-3 border border-primary -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
+          isHovering ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-0 rotate-45"
+        )} />
+
         {/* Center dot */}
-        <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-primary -translate-x-1/2 -translate-y-1/2 rounded-full" />
+        <div className={cn(
+            "absolute top-1/2 left-1/2 w-1 h-1 bg-primary -translate-x-1/2 -translate-y-1/2 rounded-full",
+            isHovering ? "opacity-0" : "opacity-100"
+        )} />
       </div>
       
       {/* Outer ring on hover */}

@@ -6,60 +6,51 @@ import Particles from "@/components/ui/particles";
 
 const CYCLES_PER_LETTER = 10;
 const SHUFFLE_TIME = 50;
-const CHARS = "!@#$%^&*()_+-=[]{}|;':,./<>?";
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
 
 interface DecryptTextProps {
   text: string;
   className?: string;
-  revealDelay?: number; // Delay before starting the effect for the whole word
+  delay?: number;
 }
 
-const DecryptText = ({ text, className, revealDelay = 0 }: DecryptTextProps) => {
+const DecryptText = ({ text, className, delay = 0 }: DecryptTextProps) => {
   const [displayText, setDisplayText] = useState(text.split('').map(() => ''));
-  const [isVisible, setIsVisible] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    // Start the effect after the reveal delay
+    let iteration = 0;
+    const totalIterations = 20; // Faster cycle for 1s total feel
+    const intervalDuration = 50; // 50ms * 20 = 1000ms (1s) roughly
+    
     const startTimeout = setTimeout(() => {
-      setIsVisible(true);
-    }, revealDelay);
+        const interval = setInterval(() => {
+            setDisplayText(prev => 
+                text.split('').map((char, index) => {
+                    if (index < iteration) {
+                        return text[index];
+                    }
+                    return CHARS[Math.floor(Math.random() * CHARS.length)];
+                })
+            );
+
+            if (iteration >= text.length) {
+                clearInterval(interval);
+                setIsComplete(true);
+                setDisplayText(text.split(''));
+            }
+            
+            // Reveal a new character every few ticks to fit within ~1s
+            // or simply increment iteration based on progress
+            iteration += 1/2; // Slow down the reveal slightly relative to the scramble
+            
+        }, intervalDuration);
+
+        return () => clearInterval(interval);
+    }, delay);
 
     return () => clearTimeout(startTimeout);
-  }, [revealDelay]);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    let interval: NodeJS.Timeout;
-    let currentIteration = 0;
-    
-    // The text reveals one character at a time, but prior to revealing,
-    // the remaining characters are scrambling.
-    // Actually, the request is: "Show each character cycle through before landing on the correct letter one at a time"
-    
-    interval = setInterval(() => {
-      setDisplayText(prev => {
-        return text.split('').map((char, index) => {
-          // If we have passed the iteration for this character, show the real character
-          if (index < Math.floor(currentIteration / CYCLES_PER_LETTER)) {
-            return char;
-          }
-          // Otherwise show a random character
-          return CHARS[Math.floor(Math.random() * CHARS.length)];
-        });
-      });
-
-      currentIteration++;
-      
-      // Stop when all characters are revealed
-      if (currentIteration >= text.length * CYCLES_PER_LETTER) {
-        clearInterval(interval);
-        setDisplayText(text.split('')); // Ensure final state is correct
-      }
-    }, SHUFFLE_TIME);
-
-    return () => clearInterval(interval);
-  }, [text, isVisible]);
+  }, [text, delay]);
 
   return (
     <span className={className}>
@@ -141,26 +132,34 @@ export default function Hero() {
           style={{ y: y1 }}
         >
           <div className="text-6xl md:text-8xl lg:text-9xl font-display font-black leading-[0.85] tracking-tighter text-white">
-            <DecryptText text="DIGITAL" revealDelay={200} />
+            <DecryptText text="DIGITAL" delay={0} />
           </div>
           
           <div className="bg-primary inline-block px-4 py-2 mt-2 transform -skew-x-6 origin-left">
              <span className="text-6xl md:text-8xl lg:text-9xl font-display font-black leading-[0.85] tracking-tighter text-black block transform skew-x-6">
-                ALCHEMY
+                <DecryptText text="ALCHEMY" delay={1000} />
              </span>
           </div>
         </motion.div>
 
-        <motion.p 
-          className="text-lg md:text-xl text-muted-foreground max-w-xl font-mono leading-relaxed border-l-2 border-primary pl-6 bg-black/40 backdrop-blur-md py-4 pr-4 rounded-r-sm"
+        <motion.div 
+          className="relative max-w-xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           style={{ y: y2 }}
         >
-          Forging immersive experiences at the intersection of design, code, and sound. 
-          Specializing in high-fidelity interfaces and interactive systems.
-        </motion.p>
+            {/* Refraction Box Effect */}
+            <div className="absolute inset-0 border border-white/10 bg-white/5 backdrop-blur-md -skew-x-6" />
+            <div className="absolute inset-0 border-t border-l border-white/20 -skew-x-6 mix-blend-overlay" />
+            
+            <p className="relative z-10 text-lg md:text-xl text-muted-foreground font-mono leading-relaxed pl-8 py-6 pr-6">
+                Forging immersive experiences at the intersection of design, code, and sound. 
+                Specializing in high-fidelity interfaces and interactive systems.
+            </p>
+            
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary -skew-x-6" />
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}

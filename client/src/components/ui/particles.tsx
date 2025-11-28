@@ -20,6 +20,7 @@ export default function Particles({ className }: ParticlesProps) {
       vy: number; 
       size: number;
       alpha: number;
+      targetAlpha: number;
       life: number;
       maxLife: number;
       depth: number; // For parallax
@@ -41,22 +42,26 @@ export default function Particles({ className }: ParticlesProps) {
       const depth = Math.random() * 2 + 0.5; // 0.5 to 2.5
       return {
         x: x ?? Math.random() * canvas.width,
-        y: y ?? canvas.height + Math.random() * 100,
+        y: y ?? canvas.height + 10, // Start just below screen if creating new
         vx: (Math.random() - 0.5) * 0.5,
-        vy: -Math.random() * 1 - 0.2, // Upward movement
-        size: Math.random() * 2 + 0.5,
-        alpha: Math.random() * 0.5 + 0.2,
+        vy: -Math.random() * 1.5 - 0.5, // Faster upward movement
+        size: Math.random() * 3 + 1, // Slightly larger
+        alpha: 0, // Start invisible and fade in
+        targetAlpha: Math.random() * 0.6 + 0.4,
         life: 0,
-        maxLife: Math.random() * 200 + 100,
+        maxLife: Math.random() * 300 + 200,
         depth,
       };
     };
 
     const initParticles = () => {
-      const particleCount = Math.floor(window.innerWidth / 15);
+      const particleCount = Math.floor(window.innerWidth / 10);
       particles = [];
       for (let i = 0; i < particleCount; i++) {
-        particles.push(createParticle(Math.random() * canvas.width, Math.random() * canvas.height));
+        // Initial random spread
+        const p = createParticle(Math.random() * canvas.width, Math.random() * canvas.height);
+        p.alpha = p.targetAlpha; // Start visible for initial set
+        particles.push(p);
       }
     };
 
@@ -71,16 +76,30 @@ export default function Particles({ className }: ParticlesProps) {
       const offsetX = (targetMouseX - canvas.width / 2) * 0.05;
       const offsetY = (targetMouseY - canvas.height / 2) * 0.05;
 
-      particles.forEach((p, index) => {
-        // Update position with parallax
-        // We don't actually change p.x/p.y based on mouse, we render with offset
-        // But to keep them moving, we update p.x/p.y based on velocity
+      // Spawning new particles to maintain density
+      if (particles.length < Math.floor(window.innerWidth / 10)) {
+         if (Math.random() > 0.8) {
+             particles.push(createParticle());
+         }
+      }
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
         
+        // Update position
         p.x += p.vx;
         p.y += p.vy;
         p.life++;
 
-        // Mouse repulsion (add turbulence)
+        // Fade in/out
+        if (p.life < 20) {
+            p.alpha += (p.targetAlpha - p.alpha) * 0.1;
+        }
+        if (p.life > p.maxLife - 50) {
+            p.alpha *= 0.95;
+        }
+
+        // Mouse interaction (turbulence)
         const dx = mouseX - p.x;
         const dy = mouseY - p.y;
         const dist = Math.sqrt(dx*dx + dy*dy);
@@ -89,28 +108,36 @@ export default function Particles({ className }: ParticlesProps) {
             p.y -= (dy / dist) * 0.5;
         }
 
-        // Reset if dead or out of bounds
-        if (p.life > p.maxLife || p.y < -50) {
-          particles[index] = createParticle();
+        // Remove if dead or out of bounds
+        if (p.life > p.maxLife || p.y < -50 || p.x < -50 || p.x > canvas.width + 50) {
+          particles.splice(i, 1);
+          continue;
         }
 
         // Draw
-        // Parallax shift: closer particles (higher depth) move more
         const drawX = p.x + (offsetX * p.depth);
         const drawY = p.y + (offsetY * p.depth);
 
-        ctx.beginPath();
-        ctx.arc(drawX, drawY, p.size, 0, Math.PI * 2);
+        // Intense Glow Effect
+        const gradient = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.size * 4);
+        gradient.addColorStop(0, `rgba(255, 100, 0, ${p.alpha})`); 
+        gradient.addColorStop(0.2, `rgba(255, 69, 0, ${p.alpha * 0.8})`);
+        gradient.addColorStop(0.5, `rgba(255, 69, 0, ${p.alpha * 0.2})`);
+        gradient.addColorStop(1, `rgba(0, 0, 0, 0)`);
         
-        // Ember glow
-        const gradient = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.size * 2);
-        gradient.addColorStop(0, `rgba(255, 160, 50, ${p.alpha})`); // Bright orange center
-        gradient.addColorStop(0.4, `rgba(255, 69, 0, ${p.alpha * 0.5})`); // Red-orange mid
-        gradient.addColorStop(1, `rgba(255, 69, 0, 0)`); // Fade out
-        
+        ctx.globalCompositeOperation = 'screen'; // Additive blending for glow
         ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(drawX, drawY, p.size * 4, 0, Math.PI * 2);
         ctx.fill();
-      });
+        
+        // Core
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = `rgba(255, 200, 150, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(drawX, drawY, p.size * 0.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
       animationFrameId = requestAnimationFrame(animate);
     };
