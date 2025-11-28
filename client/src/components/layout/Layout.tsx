@@ -173,7 +173,11 @@ export default function Layout({ children }: LayoutProps) {
       {isSheetOpen && (
         <button
           onClick={() => setIsSheetOpen(false)}
-          className="fixed top-3 right-4 sm:top-4 sm:right-6 z-[101] w-14 h-14 p-2 rounded-sm"
+          className="fixed z-[101] w-16 h-16 rounded-sm hover:bg-white/10 transition-colors"
+          style={{
+            top: 'calc(0.75rem - 8px)',
+            right: 'calc(1rem - 8px)',
+          }}
           aria-label="Close menu"
         />
       )}
