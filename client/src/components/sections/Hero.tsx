@@ -143,7 +143,7 @@ export default function Hero() {
           >
               {/* Front Face */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden shadow-2xl"
+                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden bg-white"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
@@ -153,16 +153,22 @@ export default function Hero() {
                  <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
                  {/* Lighting overlay */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 pointer-events-none mix-blend-overlay"
+                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 pointer-events-none mix-blend-overlay"
                    style={{
                      backgroundPosition: `${gradientX}% ${gradientY}%`
                    }}
+                 />
+                 {/* Dynamic Shine for Rotation */}
+                 <motion.div 
+                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
+                   animate={{ x: ["-100%", "200%"] }}
+                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
                  />
               </div>
 
               {/* Back Face */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden shadow-2xl bg-[#111]"
+                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden bg-[#111]"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
@@ -172,14 +178,60 @@ export default function Hero() {
                  <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
                  {/* Lighting overlay */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none mix-blend-overlay"
+                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 pointer-events-none mix-blend-overlay"
+                 />
+                 {/* Back Face Reflection */}
+                 <motion.div 
+                   className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/40 pointer-events-none"
                  />
               </div>
               
-              {/* Side/Thickness (Simulated) */}
-              <div className="absolute inset-0 rounded-[20px] border border-white/10 pointer-events-none" style={{ transform: "translateZ(2px)" }} />
+              {/* True 3D Thickness/Sides */}
+              {/* Top Side */}
+              <div 
+                className="absolute w-full h-[2px] bg-gray-300 origin-bottom"
+                style={{ 
+                    top: 0,
+                    transform: "rotateX(90deg) translateY(-1px) translateZ(1px)" 
+                }} 
+              />
+              {/* Bottom Side */}
+              <div 
+                className="absolute w-full h-[2px] bg-gray-400 origin-top"
+                style={{ 
+                    bottom: 0,
+                    transform: "rotateX(-90deg) translateY(1px) translateZ(1px)" 
+                }} 
+              />
+              {/* Right Side */}
+              <div 
+                className="absolute w-[2px] h-full bg-gray-300 origin-left"
+                style={{ 
+                    right: 0,
+                    transform: "rotateY(90deg) translateX(1px) translateZ(1px)" 
+                }} 
+              />
+              {/* Left Side */}
+              <div 
+                className="absolute w-[2px] h-full bg-gray-400 origin-right"
+                style={{ 
+                    left: 0,
+                    transform: "rotateY(-90deg) translateX(-1px) translateZ(1px)" 
+                }} 
+              />
           </motion.div>
         </motion.div>
+        
+        {/* Realistic Shadow (Separated from Rotating Element) */}
+        <motion.div
+            className="absolute w-[80%] h-[10%] bg-black/40 blur-xl rounded-full z-[-1]"
+            style={{
+                bottom: "-20%",
+                left: "10%",
+                scaleX: useTransform(rotateY, ["-15deg", "15deg"], [1.1, 0.9]),
+                opacity: useTransform(mouseY, [-0.5, 0.5], [0.6, 0.3])
+            }}
+        />
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
