@@ -165,8 +165,6 @@ export default function Hero() {
                    animate={{ x: ["-100%", "200%"] }}
                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.5 }}
                  />
-                 {/* Edge Highlight */}
-                 <div className="absolute inset-0 rounded-[20px] border border-white/20 pointer-events-none opacity-50" />
               </div>
 
               {/* Back Face */}
@@ -187,8 +185,6 @@ export default function Hero() {
                  <motion.div 
                    className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/60 pointer-events-none"
                  />
-                 {/* Edge Highlight */}
-                 <div className="absolute inset-0 rounded-[20px] border border-white/10 pointer-events-none opacity-30" />
               </div>
               
               {/* True 3D Thickness/Sides - Darker Industrial Look */}
@@ -226,17 +222,6 @@ export default function Hero() {
               />
           </motion.div>
         </motion.div>
-        
-        {/* Realistic Shadow (Separated from Rotating Element) */}
-        <motion.div
-            className="absolute w-[80%] h-[10%] bg-black/40 blur-xl rounded-full z-[-1]"
-            style={{
-                bottom: "-20%",
-                left: "10%",
-                scaleX: useTransform(mouseX, [-0.5, 0.5], [1.1, 0.9]),
-                opacity: useTransform(mouseY, [-0.5, 0.5], [0.6, 0.3])
-            }}
-        />
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
