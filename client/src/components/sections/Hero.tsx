@@ -62,8 +62,15 @@ const DecryptText = ({ text, className, delay = 0 }: DecryptTextProps) => {
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -100]);
+  
+  // Parallax for text elements (moving up as we scroll down)
+  const y1 = useTransform(scrollY, [0, 1000], [0, -300]); // Identity
+  const y2 = useTransform(scrollY, [0, 1000], [0, -400]); // Name (Fastest)
+  const y3 = useTransform(scrollY, [0, 1000], [0, -200]); // Description (Slower)
+  const y4 = useTransform(scrollY, [0, 1000], [0, -150]); // Status (Slowest)
+
+  // Parallax for background and particles (moving down as we scroll down - opposite direction)
+  const yBg = useTransform(scrollY, [0, 1000], [0, 200]); 
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -83,24 +90,30 @@ export default function Hero() {
   return (
     <section id="hero" ref={containerRef} className="min-h-[100vh] flex flex-col justify-center relative overflow-hidden -mt-20 pt-20">
       {/* Dynamic Background Layer */}
-      <div 
+      <motion.div 
         className="absolute inset-0 z-0 opacity-80"
         style={{
+          y: yBg, // Scroll Parallax (Opposite to text)
           backgroundImage: `url(${planetTexture})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          width: '120vw', // Enlarged for parallax
-          height: '120vh', // Enlarged for parallax
+          width: '120vw', 
+          height: '120vh', 
           position: 'absolute',
           left: '50%',
           top: '50%',
-          transform: 'translate(calc(-50% + var(--mouse-x, 0.5) * -40px), calc(-50% + var(--mouse-y, 0.5) * -40px))', // Parallax
+          transform: 'translate(calc(-50% + var(--mouse-x, 0.5) * -20px), calc(-50% + var(--mouse-y, 0.5) * -20px))', // Mouse Parallax
           transition: 'transform 0.1s ease-out'
         }}
       />
 
       {/* Particles Layer - Behind content but in front of background */}
-      <Particles className="absolute inset-0 z-10 pointer-events-none" />
+      <motion.div 
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{ y: yBg }} // Scroll Parallax (Opposite to text)
+      >
+        <Particles />
+      </motion.div>
       
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background z-0" />
       
@@ -112,7 +125,7 @@ export default function Hero() {
          <div className="absolute left-2/3 top-0 h-full w-[1px] bg-white/5" />
       </div>
 
-      <div className="relative z-20 max-w-6xl px-4 w-full pl-12 md:pl-24"> {/* Added padding to clear HUD */}
+      <div className="relative z-20 max-w-6xl px-4 w-full pl-12 md:pl-24"> 
         <motion.div 
           className="flex flex-col relative"
           initial={{ opacity: 0 }}
@@ -131,47 +144,48 @@ export default function Hero() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="flex items-center gap-4 mb-4 pl-6 relative"
+              className="flex items-center gap-4 mb-4 pl-6 relative z-30"
               style={{
+                y: y1,
                 translateX: `calc(var(--mouse-x, 0.5) * 30px)`, 
                 translateY: `calc(var(--mouse-y, 0.5) * 30px)`
               }}
             >
               <div className="absolute left-0 top-1/2 w-4 h-[1px] bg-primary/50" />
               <div className="font-mono text-primary text-xs tracking-[0.5em] uppercase drop-shadow-[0_0_5px_rgba(255,69,0,0.5)]">
-                Identity: Creative_Director
+                IDENTITY: MULTIDISCIPLINARY_CREATIVE
               </div>
             </motion.div>
             
             <motion.div 
-              className="relative mb-8 mix-blend-normal pl-2"
+              className="relative mb-8 mix-blend-normal pl-2 z-50" // High Z-Index
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.2 }}
               style={{ 
-                y: y1,
+                y: y2,
                 translateX: `calc(var(--mouse-x, 0.5) * -50px)`, 
                 translateY: `calc(var(--mouse-y, 0.5) * -50px)`
               }}
             >
-              <div className="text-7xl md:text-9xl lg:text-[10rem] font-display font-black leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
-                <DecryptText text="DIGITAL" delay={0} />
+              <div className="text-5xl md:text-7xl lg:text-8xl font-display font-black leading-[0.9] tracking-tighter text-white drop-shadow-2xl relative z-50">
+                <DecryptText text="ALEXANDER" delay={0} />
               </div>
               
-              <div className="bg-primary inline-block px-6 py-2 mt-2 transform -skew-x-6 origin-left shadow-lg shadow-primary/20">
-                 <span className="text-7xl md:text-9xl lg:text-[10rem] font-display font-black leading-[0.85] tracking-tighter text-black block transform skew-x-6">
-                    <DecryptText text="ALCHEMY" delay={1000} />
+              <div className="bg-primary inline-block px-6 py-2 mt-2 transform -skew-x-6 origin-left shadow-lg shadow-primary/20 relative z-50">
+                 <span className="text-5xl md:text-7xl lg:text-8xl font-display font-black leading-[0.9] tracking-tighter text-black block transform skew-x-6">
+                    <DecryptText text="VAN STRALENDORFF" delay={1000} />
                  </span>
               </div>
             </motion.div>
 
             <motion.div 
-              className="relative max-w-2xl pl-8"
+              className="relative max-w-2xl pl-8 z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               style={{ 
-                y: y2,
+                y: y3,
                 translateX: `calc(var(--mouse-x, 0.5) * -20px)`, 
                 translateY: `calc(var(--mouse-y, 0.5) * -20px)`
               }}
@@ -195,8 +209,9 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="mt-12 flex gap-6 pl-8"
+              className="mt-12 flex gap-6 pl-8 z-30"
               style={{
+                y: y4,
                 translateX: `calc(var(--mouse-x, 0.5) * 15px)`,
                 translateY: `calc(var(--mouse-y, 0.5) * 15px)`
               }}

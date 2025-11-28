@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 
 const skills = [
-  { name: "INTERFACE DESIGN", level: 95, code: "UI.SYS" },
-  { name: "USER EXPERIENCE", level: 88, code: "UX.FLOW" },
-  { name: "FRONTEND DEV", level: 92, code: "REACT.JS" },
-  { name: "SOUND DESIGN", level: 75, code: "AUDIO.WAV" },
-  { name: "GAME LOGIC", level: 60, code: "CSHARP.UNITY" },
+  { name: "ILLUSTRATION", level: 95, code: "UI.SYS" },
+  { name: "GRAPHIC DESIGN", level: 88, code: "UX.FLOW" },
+  { name: "MUSIC PRODUCTION", level: 92, code: "REACT.JS" },
+  { name: "UI/UX", level: 75, code: "AUDIO.WAV" },
+  { name: "GAME DEVELOPMENT", level: 60, code: "GDSCRIPT.GODOT" },
 ];
 
 export default function Skills() {

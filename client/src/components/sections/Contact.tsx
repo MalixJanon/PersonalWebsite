@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Send } from "lucide-react";
+import { Send, Linkedin, Instagram, Github } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -61,16 +61,29 @@ export default function Contact() {
             <div className="space-y-4 font-mono text-sm text-muted-foreground">
               <div className="flex justify-between border-b border-white/5 pb-2 hover:text-foreground transition-colors">
                 <span>EMAIL</span>
-                <span className="text-foreground">hello@nexus.dev</span>
+                <span className="text-foreground">janon@quadratasoft.com</span>
               </div>
               <div className="flex justify-between border-b border-white/5 pb-2 hover:text-foreground transition-colors">
                 <span>LOCATION</span>
-                <span className="text-foreground">San Francisco, CA</span>
+                <span className="text-foreground">Austin, TX</span>
               </div>
               <div className="flex justify-between border-b border-white/5 pb-2 hover:text-foreground transition-colors">
                 <span>AVAILABILITY</span>
-                <span className="text-primary animate-pulse">OPEN FOR COMMISSIONS</span>
+                <span className="text-primary animate-pulse">OPEN FOR FREELANCE WORK</span>
               </div>
+            </div>
+            
+            {/* Social Icons */}
+            <div className="flex gap-4 mt-8">
+              <a href="#" className="p-3 border border-white/10 hover:border-primary hover:text-primary transition-all duration-300 group">
+                <Linkedin className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              </a>
+              <a href="#" className="p-3 border border-white/10 hover:border-primary hover:text-primary transition-all duration-300 group">
+                <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              </a>
+              <a href="#" className="p-3 border border-white/10 hover:border-primary hover:text-primary transition-all duration-300 group">
+                <Github className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              </a>
             </div>
           </div>
         </div>
@@ -91,7 +104,7 @@ export default function Contact() {
                   <FormItem>
                     <FormLabel className="font-mono text-xs uppercase tracking-widest text-primary">Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="ENTER_NAME" {...field} className="bg-black/20 border-white/10 font-mono focus:border-primary/50 transition-colors text-foreground" />
+                      <Input placeholder="ENTER_NAME" {...field} className="bg-black/20 border-white/10 font-mono focus:border-primary/50 transition-colors text-foreground cursor-none" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -104,7 +117,7 @@ export default function Contact() {
                   <FormItem>
                     <FormLabel className="font-mono text-xs uppercase tracking-widest text-primary">Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="ENTER_EMAIL" {...field} className="bg-black/20 border-white/10 font-mono focus:border-primary/50 transition-colors text-foreground" />
+                      <Input placeholder="ENTER_EMAIL" {...field} className="bg-black/20 border-white/10 font-mono focus:border-primary/50 transition-colors text-foreground cursor-none" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -117,13 +130,13 @@ export default function Contact() {
                   <FormItem>
                     <FormLabel className="font-mono text-xs uppercase tracking-widest text-primary">Message</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="ENTER_TRANSMISSION..." {...field} className="bg-black/20 border-white/10 font-mono min-h-[120px] focus:border-primary/50 transition-colors text-foreground" />
+                      <Textarea placeholder="ENTER_TRANSMISSION..." {...field} className="bg-black/20 border-white/10 font-mono min-h-[120px] focus:border-primary/50 transition-colors text-foreground cursor-none" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white font-mono tracking-widest rounded-none group relative overflow-hidden">
+              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white font-mono tracking-widest rounded-none group relative overflow-hidden cursor-none">
                 <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
                 <span className="mr-2">SEND_TRANSMISSION</span>
                 <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

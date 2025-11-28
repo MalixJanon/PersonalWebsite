@@ -160,9 +160,9 @@ export default function Layout({ children }: LayoutProps) {
       </header>
 
       {/* Consolidated Side HUD - Navigation Dots + Coordinates */}
-      <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-6 z-40">
+      <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-4 z-40">
         {/* Coordinates Section (Moved from Left) */}
-        <div className="flex flex-col items-end gap-2 font-mono text-[10px] text-muted-foreground/50 pointer-events-none select-none text-right border-r border-white/10 pr-6 mr-4 relative h-40 justify-center">
+        <div className="flex flex-col items-end gap-2 font-mono text-[10px] text-muted-foreground/50 pointer-events-none select-none text-right border-r border-white/10 pr-4 mr-2 relative h-40 justify-center">
            <div className="absolute right-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
            
            <motion.div 
