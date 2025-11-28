@@ -66,20 +66,33 @@ export default function CustomCursor() {
       const { clientX, clientY } = e;
       setPosition({ x: clientX, y: clientY });
       
-      // Add dots based on distance
+      // Add dots based on distance with interpolation for equal spacing
       const dx = clientX - lastPosRef.current.x;
       const dy = clientY - lastPosRef.current.y;
       const distance = Math.sqrt(dx*dx + dy*dy);
+      const spacing = 8; // Fixed spacing between dots
       
-      if (distance > 5) { // Add dot every 5 pixels
-        particlesRef.current.push({
-          x: clientX,
-          y: clientY,
-          vx: 0,
-          vy: 0,
-          life: 1.0,
-          size: 1.5
-        });
+      if (distance >= spacing) {
+        const steps = Math.floor(distance / spacing);
+        
+        for (let i = 1; i <= steps; i++) {
+          const ratio = i / steps;
+          const x = lastPosRef.current.x + dx * ratio;
+          const y = lastPosRef.current.y + dy * ratio;
+          
+          particlesRef.current.push({
+            x: x, // Center of cursor roughly
+            y: y, 
+            vx: 0,
+            vy: 0,
+            life: 1.0,
+            size: 1.5
+          });
+        }
+        
+        // Update last pos to the last added dot's theoretical position
+        // or just current position to keep it simple, though exact spacing requires tracking remainder
+        // For visual smoothness, resetting to current is usually fine enough unless moving extremely fast
         lastPosRef.current = { x: clientX, y: clientY };
       }
       
