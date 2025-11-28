@@ -4,21 +4,30 @@ import { cn } from '@/lib/utils';
 export default function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isText, setIsText] = useState(false);
 
   useEffect(() => {
     const updatePosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
       
-      // Check if hovering over clickable element
       const target = e.target as HTMLElement;
-      const isClickable = 
-        target.tagName === 'A' || 
-        target.tagName === 'BUTTON' || 
+      
+      // Check for text inputs
+      const isTextInput = 
         target.tagName === 'INPUT' || 
         target.tagName === 'TEXTAREA' || 
+        target.isContentEditable;
+      
+      setIsText(isTextInput);
+
+      // Check for clickable elements (if not text)
+      const isClickable = !isTextInput && (
+        target.tagName === 'A' || 
+        target.tagName === 'BUTTON' || 
         target.closest('a') || 
         target.closest('button') ||
-        target.classList.contains('cursor-pointer');
+        target.classList.contains('cursor-pointer')
+      );
       
       setIsHovering(!!isClickable);
     };
@@ -36,57 +45,47 @@ export default function CustomCursor() {
         transform: 'translate(-50%, -50%)'
       }}
     >
-      {/* Crosshair center */}
+      {/* Text Cursor Variant (I-Beam) */}
       <div className={cn(
-        "relative w-8 h-8 transition-all duration-300 ease-out",
-        isHovering ? "scale-100 rotate-45" : "scale-100"
+        "absolute top-1/2 left-1/2 w-[2px] h-6 bg-primary -translate-x-1/2 -translate-y-1/2 transition-all duration-200",
+        isText ? "opacity-100 scale-100" : "opacity-0 scale-0"
       )}>
-        {/* Horizontal line - fades out on hover */}
-        <div className={cn(
-          "absolute top-1/2 left-0 w-full h-[1px] bg-primary transition-opacity",
-          isHovering ? "opacity-0" : "opacity-100"
-        )} />
-        {/* Vertical line - fades out on hover */}
-        <div className={cn(
-          "absolute left-1/2 top-0 h-full w-[1px] bg-primary transition-opacity",
-          isHovering ? "opacity-0" : "opacity-100"
-        )} />
-        
-        {/* Diamond Shape (Box rotated 45deg) - Polished design */}
-        <div className={cn(
-          "absolute top-1/2 left-1/2 w-4 h-4 border border-primary -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
-          isHovering ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-0 rotate-45"
-        )}>
-             {/* Inner cross */}
-             <div className={cn("absolute top-1/2 left-1/2 w-full h-[1px] bg-primary/30 -translate-x-1/2 -translate-y-1/2", isHovering ? "opacity-100" : "opacity-0")} />
-             <div className={cn("absolute top-1/2 left-1/2 w-[1px] h-full bg-primary/30 -translate-x-1/2 -translate-y-1/2", isHovering ? "opacity-100" : "opacity-0")} />
-
-             {/* Corner extensions (Only visible on hover) */}
-             <div className={cn("absolute -top-1 -left-1 w-2 h-[1px] bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
-             <div className={cn("absolute -top-1 -left-1 w-[1px] h-2 bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
-             
-             <div className={cn("absolute -top-1 -right-1 w-2 h-[1px] bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
-             <div className={cn("absolute -top-1 -right-1 w-[1px] h-2 bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
-             
-             <div className={cn("absolute -bottom-1 -left-1 w-2 h-[1px] bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
-             <div className={cn("absolute -bottom-1 -left-1 w-[1px] h-2 bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
-             
-             <div className={cn("absolute -bottom-1 -right-1 w-2 h-[1px] bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
-             <div className={cn("absolute -bottom-1 -right-1 w-[1px] h-2 bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
-        </div>
-
-        {/* Center dot */}
-        <div className={cn(
-            "absolute top-1/2 left-1/2 w-1 h-1 bg-primary -translate-x-1/2 -translate-y-1/2 rounded-full",
-            isHovering ? "opacity-0" : "opacity-100"
-        )} />
+        {/* Top and bottom bars of I-beam */}
+        <div className="absolute top-0 left-1/2 w-2 h-[2px] bg-primary -translate-x-1/2" />
+        <div className="absolute bottom-0 left-1/2 w-2 h-[2px] bg-primary -translate-x-1/2" />
       </div>
-      
-      {/* Outer ring on hover */}
+
+      {/* Standard & Hover Cursor */}
       <div className={cn(
-        "absolute top-1/2 left-1/2 w-12 h-12 border border-primary/50 rounded-full -translate-x-1/2 -translate-y-1/2 transition-all duration-500",
-        isHovering ? "scale-100 opacity-100" : "scale-50 opacity-0"
-      )} />
+        "relative transition-all duration-300 ease-out",
+        isText ? "opacity-0" : "opacity-100",
+        isHovering ? "scale-100" : "scale-100"
+      )}>
+        
+        {/* Polished Crosshair Center */}
+        <div className={cn(
+          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
+          isHovering ? "w-12 h-12" : "w-8 h-8"
+        )}>
+            {/* Center Dot */}
+            <div className={cn(
+                "absolute top-1/2 left-1/2 w-1 h-1 bg-primary rounded-full -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
+                isHovering ? "bg-transparent border border-primary w-4 h-4" : ""
+            )} />
+
+            {/* Crosshair Lines (Disconnected) */}
+            <div className={cn("absolute top-0 left-1/2 w-[1px] h-2 bg-primary -translate-x-1/2 transition-all duration-300", isHovering ? "h-3 top-0" : "h-2")} />
+            <div className={cn("absolute bottom-0 left-1/2 w-[1px] h-2 bg-primary -translate-x-1/2 transition-all duration-300", isHovering ? "h-3 bottom-0" : "h-2")} />
+            <div className={cn("absolute left-0 top-1/2 h-[1px] w-2 bg-primary -translate-y-1/2 transition-all duration-300", isHovering ? "w-3 left-0" : "w-2")} />
+            <div className={cn("absolute right-0 top-1/2 h-[1px] w-2 bg-primary -translate-y-1/2 transition-all duration-300", isHovering ? "w-3 right-0" : "w-2")} />
+
+            {/* Outer Corners (Visible on Hover) */}
+            <div className={cn(
+                "absolute inset-0 border border-primary/30 scale-0 transition-all duration-300 rotate-45",
+                isHovering ? "scale-100 rotate-0" : ""
+            )} />
+        </div>
+      </div>
     </div>
   );
 }

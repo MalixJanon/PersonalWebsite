@@ -4,57 +4,45 @@ import { ArrowDown } from "lucide-react";
 import planetTexture from "@assets/generated_images/planet_with_flight_trajectory.png";
 import Particles from "@/components/ui/particles";
 
-const CYCLES_PER_LETTER = 10;
-const SHUFFLE_TIME = 50;
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
-
-interface DecryptTextProps {
+interface TypewriterRevealProps {
   text: string;
   className?: string;
   delay?: number;
 }
 
-const DecryptText = ({ text, className, delay = 0 }: DecryptTextProps) => {
-  const [displayText, setDisplayText] = useState(text.split('').map(() => ''));
-  const [isComplete, setIsComplete] = useState(false);
+const TypewriterReveal = ({ text, className, delay = 0 }: TypewriterRevealProps) => {
+  const [displayedText, setDisplayedText] = useState("");
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    let iteration = 0;
-    const totalIterations = 20; // Faster cycle for 1s total feel
-    const intervalDuration = 50; // 50ms * 20 = 1000ms (1s) roughly
-    
     const startTimeout = setTimeout(() => {
-        const interval = setInterval(() => {
-            setDisplayText(prev => 
-                text.split('').map((char, index) => {
-                    if (index < iteration) {
-                        return text[index];
-                    }
-                    return CHARS[Math.floor(Math.random() * CHARS.length)];
-                })
-            );
+      setStarted(true);
+      let currentIndex = 0;
+      const interval = setInterval(() => {
+        if (currentIndex < text.length) {
+          setDisplayedText(text.slice(0, currentIndex + 1));
+          currentIndex++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 100); // Adjust typing speed here
 
-            if (iteration >= text.length) {
-                clearInterval(interval);
-                setIsComplete(true);
-                setDisplayText(text.split(''));
-            }
-            
-            // Reveal a new character every few ticks to fit within ~1s
-            // or simply increment iteration based on progress
-            iteration += 1/2; // Slow down the reveal slightly relative to the scramble
-            
-        }, intervalDuration);
-
-        return () => clearInterval(interval);
+      return () => clearInterval(interval);
     }, delay);
 
     return () => clearTimeout(startTimeout);
   }, [text, delay]);
 
   return (
-    <span className={className}>
-      {displayText.join('')}
+    <span className={`relative inline-block ${className}`}>
+      {/* Invisible full text to reserve layout space */}
+      <span className="opacity-0">{text}</span>
+      
+      {/* Visible typing text overlay */}
+      <span className="absolute top-0 left-0">
+        {displayedText}
+        <span className="animate-pulse text-primary inline-block ml-1">_</span>
+      </span>
     </span>
   );
 };
@@ -63,13 +51,25 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   
-  // Parallax for text elements (moving up as we scroll down)
-  const y1 = useTransform(scrollY, [0, 1000], [0, -300]); // Identity
-  const y2 = useTransform(scrollY, [0, 1000], [0, -400]); // Name (Fastest)
-  const y3 = useTransform(scrollY, [0, 1000], [0, -200]); // Description (Slower)
-  const y4 = useTransform(scrollY, [0, 1000], [0, -150]); // Status (Slowest)
+  // Parallax for text elements (Reversed & Slowed as requested)
+  // Previously moving UP (-y), now moving DOWN (+y) and slower
+  const y1 = useTransform(scrollY, [0, 1000], [0, 50]); // Identity (Slowest)
+  const y2 = useTransform(scrollY, [0, 1000], [0, -400]); // Name (Still fast Upward for contrast? Or user wanted ALL text reversed?)
+  // User said: "reverse direction and slow speed of parallax on the "IDENTITY", "STATUS", and "LATENCY" assets"
+  // IMPLICATION: Keep main title parallax as is (upward/fast)? User didn't explicitly say change main title, but said "All text boxes should have parallax" in prev turn.
+  // In THIS turn: "reverse direction and slow speed of parallax on the "IDENTITY", "STATUS", and "LATENCY" assets."
+  // So IDENTITY/STATUS/LATENCY go DOWN. Main Title (y2) and Description (y3) can stay UP or whatever.
+  // Let's move IDENTITY/STATUS/LATENCY DOWN (positive Y).
+  
+  const yIdentity = useTransform(scrollY, [0, 1000], [0, 40]); 
+  const yStatus = useTransform(scrollY, [0, 1000], [0, 30]); 
+  
+  // Main Title & Desc - Keep them moving UP for contrast/depth (or user might want them all same direction? "ALL text boxes should have parallax, not just the header" from prev turn.
+  // I will keep Main Title moving UP to separate layers.
+  const yTitle = useTransform(scrollY, [0, 1000], [0, -300]); 
+  const yDesc = useTransform(scrollY, [0, 1000], [0, -150]);
 
-  // Parallax for background and particles (moving down as we scroll down - opposite direction)
+  // Parallax for background and particles (moving down as we scroll down - opposite direction to Title)
   const yBg = useTransform(scrollY, [0, 1000], [0, 200]); 
 
   useEffect(() => {
@@ -87,30 +87,37 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const handleScrollDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const element = document.getElementById('skills');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="hero" ref={containerRef} className="min-h-[100vh] flex flex-col justify-center relative overflow-hidden -mt-20 pt-20">
-      {/* Dynamic Background Layer */}
+      {/* Dynamic Background Layer - Wrapped to fix conflict between Framer Motion y and CSS transform */}
       <motion.div 
         className="absolute inset-0 z-0 opacity-80"
-        style={{
-          y: yBg, // Scroll Parallax (Opposite to text)
-          backgroundImage: `url(${planetTexture})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          width: '120vw', 
-          height: '120vh', 
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(calc(-50% + var(--mouse-x, 0.5) * -20px), calc(-50% + var(--mouse-y, 0.5) * -20px))', // Mouse Parallax
-          transition: 'transform 0.1s ease-out'
-        }}
-      />
+        style={{ y: yBg }} // Scroll Parallax
+      >
+        <div 
+          className="absolute inset-0 w-[120vw] h-[120vh] left-[-10vw] top-[-10vh]"
+          style={{
+            backgroundImage: `url(${planetTexture})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            transform: 'translate(calc(var(--mouse-x, 0.5) * -20px), calc(var(--mouse-y, 0.5) * -20px))', // Mouse Parallax
+            transition: 'transform 0.1s ease-out'
+          }}
+        />
+      </motion.div>
 
       {/* Particles Layer - Behind content but in front of background */}
       <motion.div 
         className="absolute inset-0 z-10 pointer-events-none"
-        style={{ y: yBg }} // Scroll Parallax (Opposite to text)
+        style={{ y: yBg }} 
       >
         <Particles />
       </motion.div>
@@ -146,7 +153,7 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="flex items-center gap-4 mb-4 pl-6 relative z-30"
               style={{
-                y: y1,
+                y: yIdentity,
                 translateX: `calc(var(--mouse-x, 0.5) * 30px)`, 
                 translateY: `calc(var(--mouse-y, 0.5) * 30px)`
               }}
@@ -158,23 +165,23 @@ export default function Hero() {
             </motion.div>
             
             <motion.div 
-              className="relative mb-8 mix-blend-normal pl-2 z-50" // High Z-Index
+              className="relative mb-8 mix-blend-normal pl-2 z-50" 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.2 }}
               style={{ 
-                y: y2,
+                y: yTitle,
                 translateX: `calc(var(--mouse-x, 0.5) * -50px)`, 
                 translateY: `calc(var(--mouse-y, 0.5) * -50px)`
               }}
             >
               <div className="text-5xl md:text-7xl lg:text-8xl font-display font-black leading-[0.9] tracking-tighter text-white drop-shadow-2xl relative z-50">
-                <DecryptText text="ALEXANDER" delay={0} />
+                <TypewriterReveal text="ALEXANDER" delay={500} />
               </div>
               
               <div className="bg-primary inline-block px-6 py-2 mt-2 transform -skew-x-6 origin-left shadow-lg shadow-primary/20 relative z-50">
                  <span className="text-5xl md:text-7xl lg:text-8xl font-display font-black leading-[0.9] tracking-tighter text-black block transform skew-x-6">
-                    <DecryptText text="VAN STRALENDORFF" delay={1000} />
+                    <TypewriterReveal text="VAN STRALENDORFF" delay={1500} />
                  </span>
               </div>
             </motion.div>
@@ -185,24 +192,21 @@ export default function Hero() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               style={{ 
-                y: y3,
+                y: yDesc,
                 translateX: `calc(var(--mouse-x, 0.5) * -20px)`, 
                 translateY: `calc(var(--mouse-y, 0.5) * -20px)`
               }}
             >
                 <div className="absolute left-0 top-8 w-4 h-[1px] bg-primary/50" />
                 
-                {/* Refraction Box Effect - Liquid Glass */}
-                <div className="absolute inset-0 border border-white/20 bg-white/5 backdrop-blur-xl -skew-x-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]" />
-                <div className="absolute inset-0 border-t border-l border-white/30 -skew-x-6 mix-blend-overlay" />
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50 -skew-x-6 pointer-events-none" />
-                
-                <p className="relative z-10 text-xl md:text-2xl text-muted-foreground font-mono leading-relaxed pl-10 py-8 pr-8 drop-shadow-md">
-                    Forging immersive experiences at the intersection of design, code, and sound. 
-                    Specializing in high-fidelity interfaces and interactive systems.
-                </p>
-                
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary -skew-x-6 shadow-[0_0_10px_rgba(255,69,0,0.5)]" />
+                {/* Sleek Subtext Design - Simplified */}
+                <div className="relative pl-8 py-6 border-l border-white/20 backdrop-blur-sm bg-black/20">
+                    <p className="relative z-10 text-xl md:text-2xl text-muted-foreground font-mono leading-relaxed drop-shadow-md">
+                        Forging immersive experiences at the intersection of design, code, and sound. 
+                        Specializing in high-fidelity interfaces and interactive systems.
+                    </p>
+                    <div className="absolute top-0 left-0 w-1 h-8 bg-primary shadow-[0_0_10px_rgba(255,69,0,0.5)]" />
+                </div>
             </motion.div>
 
             <motion.div
@@ -211,7 +215,7 @@ export default function Hero() {
               transition={{ delay: 0.8 }}
               className="mt-12 flex gap-6 pl-8 z-30"
               style={{
-                y: y4,
+                y: yStatus,
                 translateX: `calc(var(--mouse-x, 0.5) * 15px)`,
                 translateY: `calc(var(--mouse-y, 0.5) * 15px)`
               }}
@@ -231,10 +235,10 @@ export default function Hero() {
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <a href="#skills" className="group flex flex-col items-center gap-2 cursor-pointer">
+        <div onClick={handleScrollDown} className="group flex flex-col items-center gap-2 cursor-pointer">
           <span className="font-mono text-[10px] tracking-widest text-muted-foreground group-hover:text-primary transition-colors">SCROLL_DOWN</span>
           <ArrowDown className="text-primary w-6 h-6" />
-        </a>
+        </div>
       </motion.div>
     </section>
   );
