@@ -76,6 +76,7 @@ export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const [activeSection, setActiveSection] = useState("");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isCloseHovering, setIsCloseHovering] = useState(false);
 
   const navItems = [
     { href: "#hero", label: "HOME" },
@@ -173,7 +174,9 @@ export default function Layout({ children }: LayoutProps) {
       {isSheetOpen && (
         <button
           onClick={() => setIsSheetOpen(false)}
-          className="fixed w-16 h-16 rounded-sm pointer-events-auto z-[101] hover:bg-primary/20 transition-colors"
+          onMouseEnter={() => setIsCloseHovering(true)}
+          onMouseLeave={() => setIsCloseHovering(false)}
+          className="fixed w-16 h-16 rounded-sm pointer-events-auto z-[101] transition-colors"
           style={{
             top: 'calc(0.75rem - 8px)',
             right: 'calc(1rem - 8px)',
@@ -197,7 +200,7 @@ export default function Layout({ children }: LayoutProps) {
                         transition={{ duration: 0.2 }}
                     >
                         {isSheetOpen ? (
-                            <X className="w-10 h-10 text-foreground group-hover:text-primary transition-colors" />
+                            <X className={`w-10 h-10 transition-colors ${isCloseHovering ? 'text-primary' : 'text-foreground group-hover:text-primary'}`} />
                         ) : (
                             <Menu className="w-10 h-10 text-foreground group-hover:text-primary transition-colors" />
                         )}
