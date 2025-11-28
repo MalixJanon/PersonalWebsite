@@ -1,104 +1,49 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring, animate, useMotionTemplate } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, animate } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import isometricStructure from "@assets/generated_images/red_isometric_industrial_structure_on_light_grey_background.png";
 import cardFront from "@assets/cardfront_1764303990780.png";
 import cardBack from "@assets/cardback_1764303990780.png";
-import Particles from "@/components/ui/particles";
-
-interface TypewriterRevealProps {
-  text: string;
-  className?: string;
-  delay?: number;
-  speed?: number;
-}
-
-const TypewriterReveal = ({ text, className, delay = 0, speed = 100 }: TypewriterRevealProps) => {
-  const [displayedText, setDisplayedText] = useState("");
-  const [isComplete, setIsComplete] = useState(false);
-
-  useEffect(() => {
-    const startTimeout = setTimeout(() => {
-      let currentIndex = 0;
-      const interval = setInterval(() => {
-        if (currentIndex < text.length) {
-          setDisplayedText(text.slice(0, currentIndex + 1));
-          currentIndex++;
-        } else {
-          clearInterval(interval);
-          setIsComplete(true);
-        }
-      }, speed);
-
-      return () => clearInterval(interval);
-    }, delay);
-
-    return () => clearTimeout(startTimeout);
-  }, [text, delay, speed]);
-
-  return (
-    <span className={`relative inline-block ${className}`}>
-      <span className="opacity-0 select-none pointer-events-none">{text}</span>
-      <span className="absolute top-0 left-0">
-        {displayedText}
-        {!isComplete && (
-          <span className="animate-pulse text-primary inline-block ml-1 w-3 h-[1em] align-middle bg-primary"></span>
-        )}
-      </span>
-    </span>
-  );
-};
+import { TypewriterReveal } from "@/components/ui/typewriter-reveal";
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   
   // Scroll-based parallax
   const { scrollY } = useScroll();
-  // Card parallax - same speed on both axes (inverted direction)
-  const scrollYCard = useTransform(scrollY, [0, 1400], [0, 100]);
-  const scrollXCard = useTransform(scrollY, [0, 1400], [0, 100]);
-  // Name parallax - same speed on both axes
-  const scrollYName = useTransform(scrollY, [0, 1400], [0, -60]);
-  const scrollXName = useTransform(scrollY, [0, 1400], [0, -60]);
-  // Text parallax - same speed on both axes
-  const scrollYText = useTransform(scrollY, [0, 1400], [0, -40]);
-  const scrollXText = useTransform(scrollY, [0, 1400], [0, -40]);
-  // Grid parallax - same speed on both axes (inverted)
-  const scrollYGrid = useTransform(scrollY, [0, 1400], [0, 50]);
-  const scrollXGrid = useTransform(scrollY, [0, 1400], [0, 50]);
+  // Normalized scroll progress for parallax (0 to 1 over 1400px)
+  const scrollProgress = useTransform(scrollY, [0, 1400], [0, 1]);
   
   // Mouse-based Parallax Depth Layers
-  const parallaxMouseX = useMotionValue(0);
-  const parallaxMouseY = useMotionValue(0);
-  
-  const parallaxSpringX = useSpring(parallaxMouseX, { stiffness: 300, damping: 40 });
-  const parallaxSpringY = useSpring(parallaxMouseY, { stiffness: 300, damping: 40 });
-  
-  // Parallax transforms based on mouse position - different depths
-  const parallaxXName = useTransform(parallaxSpringX, [-0.5, 0.5], [8, -8]);           // Name: closest, minimal
-  const parallaxYName = useTransform(parallaxSpringY, [-0.5, 0.5], [8, -8]);
-  
-  const parallaxXText = useTransform(parallaxSpringX, [-0.5, 0.5], [20, -20]);         // Text: middle depth
-  const parallaxYText = useTransform(parallaxSpringY, [-0.5, 0.5], [20, -20]);
-  
-  const parallaxXCard = useTransform(parallaxSpringX, [-0.5, 0.5], [-40, 40]);         // Card: furthest depth
-  const parallaxYCard = useTransform(parallaxSpringY, [-0.5, 0.5], [-40, 40]);
-
-  // Business Card Tilt Logic
+  // We reuse the tilt values (x, y) for parallax source to avoid redundant updates
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
+  const parallaxSpringX = useSpring(x, { stiffness: 300, damping: 40 });
+  const parallaxSpringY = useSpring(y, { stiffness: 300, damping: 40 });
+
+  // Combined Transforms
+  // Card: Mouse(±40px) + Scroll(100px)
+  const cardX = useTransform([parallaxSpringX, scrollProgress], ([x, s]: number[]) => (x * -40) + (s * 100));
+  const cardY = useTransform([parallaxSpringY, scrollProgress], ([y, s]: number[]) => (y * -40) + (s * 100));
+
+  // Name: Mouse(±8px) + Scroll(-60px)
+  const nameX = useTransform([parallaxSpringX, scrollProgress], ([x, s]: number[]) => (x * 8) + (s * -60));
+  const nameY = useTransform([parallaxSpringY, scrollProgress], ([y, s]: number[]) => (y * 8) + (s * -60));
+
+  // Text: Mouse(±20px) + Scroll(-40px)
+  const textX = useTransform([parallaxSpringX, scrollProgress], ([x, s]: number[]) => (x * 20) + (s * -40));
+  const textY = useTransform([parallaxSpringY, scrollProgress], ([y, s]: number[]) => (y * 20) + (s * -40));
+
+  // Grid: Scroll(50px) - Inverted
+  const gridOffset = useTransform(scrollProgress, (s) => s * 50);
+
+  // Business Card Tilt Logic - Stiff spring for quick response
   const mouseX = useSpring(x, { stiffness: 500, damping: 50 });
   const mouseY = useSpring(y, { stiffness: 500, damping: 50 });
 
   const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
   const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
   
-  // Dynamic lighting gradient based on tilt
-  const brightness = useTransform(mouseY, [-0.5, 0.5], [1.1, 0.9]);
-  const gradientX = useTransform(mouseX, [-0.5, 0.5], [0, 100]);
-  const gradientY = useTransform(mouseY, [-0.5, 0.5], [0, 100]);
-
   // Continuous rotation for the card
   const spinY = useMotionValue(0);
   
@@ -110,20 +55,6 @@ export default function Hero() {
     });
     return () => animation.stop();
   }, [spinY]);
-
-  // Derived lighting values based on spin
-  const frontLight = useTransform(spinY, (v) => {
-    const angle = v % 360;
-    return Math.max(0, Math.sin((angle + 45) * (Math.PI / 180))); 
-  });
-  
-  const backLight = useTransform(spinY, (v) => {
-    const angle = (v + 180) % 360;
-    return Math.max(0, Math.sin((angle + 45) * (Math.PI / 180)));
-  });
-
-  // Dynamic gradient position moving with the face
-  const shimmerPos = useTransform(spinY, [0, 360], ["100%", "-100%"]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -138,18 +69,12 @@ export default function Hero() {
       
       x.set(xPct);
       y.set(yPct);
-      
-      // Also set parallax based on mouse position
-      parallaxMouseX.set(xPct);
-      parallaxMouseY.set(yPct);
     }
   };
 
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
-    parallaxMouseX.set(0);
-    parallaxMouseY.set(0);
   };
 
   const handleScrollDown = () => {
@@ -166,7 +91,7 @@ export default function Hero() {
       className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden py-20 md:py-32 perspective-1000 bg-background"
     >
       {/* Technical Background Grid */}
-      <motion.div className="absolute inset-0 pointer-events-none opacity-20" style={{ x: scrollXGrid, y: scrollYGrid }}>
+      <motion.div className="absolute inset-0 pointer-events-none opacity-20" style={{ x: gridOffset, y: gridOffset }}>
          <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:40px_40px]" />
          {/* Crosshairs */}
          <div className="absolute top-1/4 left-1/4 w-4 h-4 border-l border-t border-foreground" />
@@ -180,8 +105,8 @@ export default function Hero() {
         className="absolute left-1/2 md:left-[55%] lg:left-[60%] top-2/5 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none antialiased"
         style={{ 
           perspective: 1000,
-          x: useTransform(() => (parallaxXCard.get?.() || 0) + (scrollXCard.get?.() || 0)),
-          y: useTransform(() => (parallaxYCard.get?.() || 0) + (scrollYCard.get?.() || 0))
+          x: cardX,
+          y: cardY
         }}
       >
         {/* Tilt Container */}
@@ -235,7 +160,7 @@ export default function Hero() {
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
-        <motion.div style={{ x: parallaxXText, y: parallaxYText }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl ml-auto md:ml-0 md:mr-auto" data-testid="text-content-wrapper">
+        <motion.div style={{ x: textX, y: textY }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl ml-auto md:ml-0 md:mr-auto" data-testid="text-content-wrapper">
           
           {/* Top Technical Text - Fade in 1st */}
           <motion.div 
@@ -262,7 +187,7 @@ export default function Hero() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
               viewport={{ once: true }}
-              style={{ x: parallaxXName, y: parallaxYName }}
+              style={{ x: nameX, y: nameY }}
               data-testid="text-name-alexander"
             >
                <h1 className="text-[clamp(1.8rem,4vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
@@ -275,7 +200,7 @@ export default function Hero() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               viewport={{ once: true }}
-              style={{ x: parallaxXName, y: parallaxYName }}
+              style={{ x: nameX, y: nameY }}
               data-testid="text-name-stralendorff"
             >
                <h1 className="text-[clamp(1.8rem,4.2vw,4.2rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">

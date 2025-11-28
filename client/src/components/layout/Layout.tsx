@@ -3,74 +3,22 @@ import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { motion } from "framer-motion";
+import chromeLogo from "@assets/ChromeJIcon_1764303870326.png";
+import CustomCursor from "@/components/ui/custom-cursor";
+import { Footer } from "@/components/layout/Footer";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-import CustomCursor from "@/components/ui/custom-cursor";
-
-import { motion, useScroll, useTransform } from "framer-motion";
-import janonLogo from "@assets/janonlogo_1764302796958.png";
-import chromeLogo from "@assets/ChromeJIcon_1764303870326.png";
-
-// Footer Component
-function Footer() {
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0.8, 1], [50, 0]);
-  
-  return (
-    <motion.footer 
-      className="border-t border-black/10 mt-20 md:mt-32 py-12 md:py-24 bg-background relative overflow-hidden"
-      style={{ y }}
-    >
-      {/* Decorative grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-      
-      <div className="relative z-10 flex flex-col md:flex-row justify-between items-end gap-8 md:gap-12 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="space-y-4 w-full md:w-auto">
-          <div className="flex items-center gap-2 mb-4 md:mb-6">
-             <div className="w-2 h-2 bg-primary" />
-             <span className="font-mono text-[10px] sm:text-xs tracking-widest text-muted-foreground">SYSTEM_END_OF_LINE</span>
-          </div>
-          <div className="w-64 h-16 opacity-80 hover:opacity-100 transition-opacity duration-500">
-             <div 
-               className="w-full h-full bg-foreground"
-               style={{
-                 maskImage: `url(${janonLogo})`,
-                 maskSize: 'contain',
-                 maskRepeat: 'no-repeat',
-                 maskPosition: 'left center',
-                 WebkitMaskImage: `url(${janonLogo})`,
-                 WebkitMaskSize: 'contain',
-                 WebkitMaskRepeat: 'no-repeat',
-                 WebkitMaskPosition: 'left center',
-               }}
-             />
-          </div>
-          <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-md leading-relaxed border-l-2 border-primary pl-4 mt-4">
-            Designing the interface between humanity and the machine.
-            <br />© 2025. ALL RIGHTS RESERVED.
-          </p>
-        </div>
-        
-        <div className="flex flex-wrap gap-8 md:gap-12 text-[10px] sm:text-xs font-mono text-muted-foreground w-full md:w-auto">
-          <div className="flex flex-col gap-3 md:gap-4">
-             <span className="text-primary tracking-widest mb-1 md:mb-2 font-bold">SOCIAL</span>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">GITHUB</a>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">LINKEDIN</a>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">TWITTER</a>
-          </div>
-          <div className="flex flex-col gap-3 md:gap-4">
-             <span className="text-primary tracking-widest mb-1 md:mb-2 font-bold">LEGAL</span>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">PRIVACY</a>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">TERMS</a>
-          </div>
-        </div>
-      </div>
-    </motion.footer>
-  );
-}
+const NAV_ITEMS = [
+  { href: "#hero", label: "HOME" },
+  { href: "#skills", label: "SKILLS" },
+  { href: "#work", label: "PROJECTS" },
+  { href: "#audio", label: "MUSIC" },
+  { href: "#contact", label: "CONTACT" },
+];
 
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
@@ -78,20 +26,11 @@ export default function Layout({ children }: LayoutProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isCloseHovering, setIsCloseHovering] = useState(false);
 
-  const navItems = [
-    { href: "#hero", label: "HOME" },
-    { href: "#skills", label: "SKILLS" },
-    { href: "#work", label: "PROJECTS" },
-    { href: "#audio", label: "MUSIC" },
-    { href: "#contact", label: "CONTACT" },
-  ];
-
   useEffect(() => {
     const coordsRef = document.getElementById('coords-display');
     
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const sections = navItems.map(item => item.href.substring(1));
       const scrollPosition = scrollY + window.innerHeight / 3; // Trigger point
 
       // Calculate dynamic coordinate directly
@@ -104,13 +43,16 @@ export default function Layout({ children }: LayoutProps) {
         coordsRef.innerText = `${dynamicCoord}, -12.004`;
       }
 
-      for (const section of sections) {
-        const element = document.getElementById(section);
+      // Check active section
+      // Optimized to check against static items
+      for (const item of NAV_ITEMS) {
+        const sectionId = item.href.substring(1);
+        const element = document.getElementById(sectionId);
         if (element) {
           const { offsetTop, offsetHeight } = element;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(`#${section}`);
-            break; // Found the active section
+            setActiveSection(item.href);
+            break; 
           }
         }
       }
@@ -216,7 +158,7 @@ export default function Layout({ children }: LayoutProps) {
                 </SheetHeader>
                 
                 <nav className="flex flex-col gap-6">
-                    {navItems.map((item) => (
+                    {NAV_ITEMS.map((item) => (
                         <a 
                             key={item.label} 
                             href={item.href}
@@ -276,7 +218,7 @@ export default function Layout({ children }: LayoutProps) {
 
         {/* Navigation Dots */}
         <div className="flex flex-col gap-4 items-end relative">
-          {navItems.map((item) => (
+          {NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
