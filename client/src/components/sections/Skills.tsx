@@ -53,15 +53,25 @@ export default function Skills() {
               />
               
               <motion.div 
-                className="h-full bg-primary relative"
+                className="h-full bg-primary relative overflow-hidden"
                 initial={{ width: 0 }}
                 whileInView={{ width: `${skill.level}%` }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.5, delay: index * 0.1, ease: "circOut" }}
               >
-                <div className="absolute right-0 top-0 h-full w-2 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)] animate-pulse" />
-                {/* Glitch effect inside bar */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] animate-[shimmer_2s_infinite]" />
+                {/* Fluid Grain Effect */}
+                <div className="absolute inset-0 opacity-40 mix-blend-overlay"
+                  style={{
+                    backgroundImage: `url('/noise.png')`,
+                    backgroundSize: '100px 100px',
+                    animation: 'grain 2s steps(5) infinite'
+                  }}
+                />
+                
+                {/* Seamless Flowing Glow */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[fluid_3s_linear_infinite] w-[200%]" />
+                
+                <div className="absolute right-0 top-0 h-full w-1 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
               </motion.div>
             </div>
           </motion.div>
