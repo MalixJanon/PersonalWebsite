@@ -1,6 +1,7 @@
-import { Play, Pause, SkipForward, Volume2 } from "lucide-react";
+import { Play, Pause } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 import cover1 from "@assets/generated_images/abstract_album_art_orange_geometric.png";
 import cover2 from "@assets/generated_images/abstract_album_art_cyan_glitch.png";
 
@@ -23,24 +24,28 @@ export default function Music() {
   };
 
   return (
-    <section id="audio" className="py-24">
-      <div className="flex items-end justify-between mb-16 border-b border-white/10 pb-4">
+    <section id="audio" className="py-32 min-h-screen flex flex-col justify-center">
+      <div className="flex items-end justify-between mb-16 border-b border-white/10 pb-4 sticky top-20 z-20 bg-background/80 backdrop-blur-sm py-4">
         <h2 className="text-4xl md:text-6xl font-display font-bold text-right w-full">
-          AUDIO_LOGS
+          MUSIC
         </h2>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
-        {tracks.map((track) => (
-          <div 
+        {tracks.map((track, index) => (
+          <motion.div 
             key={track.id} 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.2 }}
             className={cn(
-              "tech-border p-6 bg-card/50 backdrop-blur-sm transition-all duration-300 group hover:bg-card",
-              activeTrack === track.id ? "border-primary" : ""
+              "tech-border p-6 bg-card/50 backdrop-blur-sm transition-all duration-300 group hover:bg-card hover:border-primary/50",
+              activeTrack === track.id ? "border-primary shadow-[0_0_20px_rgba(255,69,0,0.2)]" : ""
             )}
           >
             <div className="flex gap-6">
-              <div className="relative w-32 h-32 shrink-0 overflow-hidden">
+              <div className="relative w-32 h-32 shrink-0 overflow-hidden tech-border">
                 <img 
                   src={track.cover} 
                   alt={track.title} 
@@ -49,12 +54,12 @@ export default function Music() {
                 <div className="absolute inset-0 bg-black/20" />
                 <button 
                   onClick={() => togglePlay(track.id)}
-                  className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
                 >
                   {activeTrack === track.id && isPlaying ? (
-                    <Pause className="w-8 h-8 text-white" />
+                    <Pause className="w-8 h-8 text-primary fill-current" />
                   ) : (
-                    <Play className="w-8 h-8 text-white" />
+                    <Play className="w-8 h-8 text-white fill-white" />
                   )}
                 </button>
               </div>
@@ -62,8 +67,8 @@ export default function Music() {
               <div className="flex flex-col justify-between flex-1 py-1">
                 <div>
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-display text-2xl font-bold">{track.title}</h3>
-                    <span className="font-mono text-xs text-muted-foreground border border-white/10 px-2 py-0.5 rounded-full">
+                    <h3 className="font-display text-2xl font-bold group-hover:text-primary transition-colors">{track.title}</h3>
+                    <span className="font-mono text-xs text-muted-foreground border border-white/10 px-2 py-0.5 rounded-sm bg-black/40">
                       {track.bpm} BPM
                     </span>
                   </div>
@@ -71,12 +76,12 @@ export default function Music() {
                 </div>
 
                 {/* Visualizer Bar */}
-                <div className="flex items-end justify-between h-12 gap-1">
+                <div className="flex items-end justify-between h-12 gap-1 mt-4">
                   {track.waveform.map((height, i) => (
                     <div 
                       key={i}
                       className={cn(
-                        "w-full bg-white/10 transition-all duration-300",
+                        "w-full bg-white/10 transition-all duration-300 rounded-t-sm",
                         activeTrack === track.id && isPlaying ? "animate-pulse bg-primary" : ""
                       )}
                       style={{ 
@@ -93,7 +98,7 @@ export default function Music() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

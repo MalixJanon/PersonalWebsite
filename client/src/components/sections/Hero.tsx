@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import darkTexture from "@assets/generated_images/dark_futuristic_textured_background_with_subtle_grid.png";
+import Particles from "@/components/ui/particles";
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,7 +26,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={containerRef} className="min-h-[90vh] flex flex-col justify-center relative overflow-hidden">
+    <section id="hero" ref={containerRef} className="min-h-[100vh] flex flex-col justify-center relative overflow-hidden -mt-20 pt-20">
       {/* Dynamic Background Layer */}
       <div 
         className="absolute inset-0 z-0 opacity-40"
@@ -37,21 +38,34 @@ export default function Hero() {
           transition: 'transform 0.1s ease-out'
         }}
       />
+
+      {/* Particles Layer */}
+      <Particles className="absolute inset-0 z-0" />
       
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/80 to-background z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background z-0" />
 
       {/* Floating Elements */}
       <div className="absolute right-[10%] top-[20%] w-64 h-64 border border-white/5 rounded-full opacity-20 animate-[spin_10s_linear_infinite]" />
       <div className="absolute left-[5%] bottom-[20%] w-32 h-32 border border-primary/20 rotate-45 opacity-20" />
+      
+      {/* Technical Grid Lines */}
+      <div className="absolute inset-0 pointer-events-none">
+         <div className="absolute top-1/3 left-0 w-full h-[1px] bg-white/5" />
+         <div className="absolute top-2/3 left-0 w-full h-[1px] bg-white/5" />
+         <div className="absolute left-1/3 top-0 h-full w-[1px] bg-white/5" />
+         <div className="absolute left-2/3 top-0 h-full w-[1px] bg-white/5" />
+      </div>
 
-      <div className="relative z-10 max-w-4xl">
+      <div className="relative z-10 max-w-5xl px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex items-center gap-4 mb-6"
         >
-          <div className="font-mono text-primary text-xs tracking-[0.5em] mb-4 pl-1">
-            IDENTITY: CREATIVE_DIRECTOR
+          <div className="h-[1px] w-12 bg-primary" />
+          <div className="font-mono text-primary text-xs tracking-[0.5em] uppercase">
+            Identity: Creative_Director
           </div>
         </motion.div>
         
@@ -63,11 +77,14 @@ export default function Hero() {
           style={{ y: y1 }}
         >
           DIGITAL<br />
-          <span className="text-transparent text-stroke hover:text-white transition-colors duration-500">ALCHEMY</span>
+          <span className="text-transparent text-stroke hover:text-white transition-colors duration-500 relative group">
+            ALCHEMY
+            <span className="absolute -bottom-2 left-0 w-0 h-2 bg-primary group-hover:w-full transition-all duration-500 opacity-50 blur-sm" />
+          </span>
         </motion.h1>
 
         <motion.p 
-          className="text-lg md:text-xl text-muted-foreground max-w-xl font-mono leading-relaxed border-l-2 border-primary pl-6"
+          className="text-lg md:text-xl text-muted-foreground max-w-xl font-mono leading-relaxed border-l-2 border-primary pl-6 bg-black/20 backdrop-blur-sm py-4 pr-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -76,6 +93,20 @@ export default function Hero() {
           Forging immersive experiences at the intersection of design, code, and sound. 
           Specializing in high-fidelity interfaces and interactive systems.
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mt-8 flex gap-4"
+        >
+          <div className="px-4 py-2 border border-white/10 font-mono text-xs text-muted-foreground bg-black/40 backdrop-blur-md">
+             STATUS: ONLINE
+          </div>
+          <div className="px-4 py-2 border border-white/10 font-mono text-xs text-muted-foreground bg-black/40 backdrop-blur-md">
+             LATENCY: 12ms
+          </div>
+        </motion.div>
       </div>
 
       <motion.div 
@@ -83,7 +114,10 @@ export default function Hero() {
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <ArrowDown className="text-muted-foreground/50 w-6 h-6" />
+        <a href="#skills" className="group flex flex-col items-center gap-2 cursor-pointer">
+          <span className="font-mono text-[10px] tracking-widest text-muted-foreground group-hover:text-primary transition-colors">SCROLL_DOWN</span>
+          <ArrowDown className="text-primary w-6 h-6" />
+        </a>
       </motion.div>
     </section>
   );
