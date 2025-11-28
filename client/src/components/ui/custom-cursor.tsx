@@ -62,14 +62,13 @@ export default function CustomCursor() {
 
       {/* Standard Arrowhead Cursor (Default) */}
       <div className={cn(
-        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out",
+        "absolute top-0 left-0 transition-all duration-300 ease-out",
         (isText || isHovering) ? "opacity-0 scale-0" : "opacity-100 scale-100"
       )}>
-        {/* Geometric Arrowhead Shape */}
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-primary rotate-[-45deg] translate-x-2 translate-y-2">
-          <path d="M2 2L22 12L12 22L2 2Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M12 12L2 2" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+        {/* Simplified Triangle Shape pointing Top-Left */}
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-primary -translate-x-[2px] -translate-y-[2px]">
+          <path d="M2 2L9 20L12 12L20 9L2 2Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+          <circle cx="2" cy="2" r="1" fill="currentColor" />
         </svg>
       </div>
 
