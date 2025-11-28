@@ -173,7 +173,10 @@ export default function Layout({ children }: LayoutProps) {
       <div className="fixed top-3 right-4 sm:top-4 sm:right-6 z-[100]">
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
-                <button className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10 relative">
+                <button 
+                  className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10 relative cursor-pointer"
+                  onClick={() => isSheetOpen && setIsSheetOpen(false)}
+                >
                     <motion.div
                         initial={false}
                         animate={{ rotate: isSheetOpen ? 90 : 0 }}
