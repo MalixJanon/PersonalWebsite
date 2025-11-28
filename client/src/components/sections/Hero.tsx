@@ -53,9 +53,10 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   
-  // Standard Parallax
-  const yContent = useTransform(scrollY, [0, 1000], [0, -100]); 
-  const yBg = useTransform(scrollY, [0, 1000], [0, 100]); 
+  // Parallax Depth Layers - Name closest, text behind, card furthest
+  const yName = useTransform(scrollY, [0, 1000], [0, -20]);       // Closest - minimal parallax
+  const yText = useTransform(scrollY, [0, 1000], [0, -50]);       // Middle - medium parallax
+  const yCard = useTransform(scrollY, [0, 1000], [0, 150]);       // Furthest - maximum parallax 
 
   // Business Card Tilt Logic
   const x = useMotionValue(0);
@@ -146,7 +147,7 @@ export default function Hero() {
       <motion.div 
         className="absolute right-0 md:right-[5%] lg:right-[10%] top-[25%] md:top-1/3 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
         style={{ 
-          y: yBg,
+          y: yCard,
           perspective: 1000
         }}
       >
@@ -268,10 +269,16 @@ export default function Hero() {
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
-        <motion.div style={{ y: yContent }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl">
+        <motion.div style={{ y: yText }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl">
           
-          {/* Top Technical Text */}
-          <div className="flex items-center gap-4 font-mono text-[10px] md:text-xs tracking-widest text-muted-foreground">
+          {/* Top Technical Text - Fade in 1st */}
+          <motion.div 
+            className="flex items-center gap-4 font-mono text-[10px] md:text-xs tracking-widest text-muted-foreground"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0, ease: "easeOut" }}
+            viewport={{ once: true }}
+          >
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary shadow-[0_0_10px_rgba(255,51,51,0.5)]" />
               <span>FIG. 01 // SYSTEM_OVERRIDE</span>
@@ -279,30 +286,50 @@ export default function Hero() {
             <div className="h-px w-12 bg-black/20" />
             <span>EPSILON_CLASS</span>
             <div className="ml-auto hidden sm:block text-[8px] opacity-50">REF: 8849-X</div>
-          </div>
+          </motion.div>
 
-          {/* Main Typography - Aligned to Left */}
+          {/* Main Typography - Aligned to Left - Fade in 2nd & 3rd */}
           <div className="relative z-10 w-full mt-12 md:mt-0 border-l-2 border-primary/20 pl-0 md:pl-0 md:border-none">
-            <div className="relative w-full">
+            <motion.div 
+              className="relative w-full"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+              viewport={{ once: true }}
+              style={{ y: yName }}
+            >
                <h1 className="text-[clamp(1.8rem,4vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
                </h1>
-            </div>
-            <div className="relative ml-2 md:ml-0 mt-[-0.1em] w-full">
+            </motion.div>
+            <motion.div 
+              className="relative ml-2 md:ml-0 mt-[-0.1em] w-full"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+              viewport={{ once: true }}
+              style={{ y: yName }}
+            >
                <h1 className="text-[clamp(1.8rem,4.2vw,4.2rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
                  <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
                </h1>
                <h1 className="text-[clamp(1.8rem,4.2vw,4.2rem)] font-display font-black leading-[0.85] tracking-tighter text-primary mix-blend-multiply break-words">
                   <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
                </h1>
-            </div>
+            </motion.div>
             
             {/* Decorative Corner Bracket */}
             <div className="absolute -top-4 -left-4 w-8 h-8 border-t border-l border-foreground/10 hidden md:block" />
           </div>
 
-          {/* Description & Specimen Data */}
-          <div className="flex flex-col md:flex-row gap-12 mt-8 max-w-3xl">
+          {/* Description & Specimen Data - Fade in 4th */}
+          <motion.div 
+            className="flex flex-col md:flex-row gap-12 mt-8 max-w-3xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
+            viewport={{ once: true }}
+          >
             <div className="flex-1 border-l-2 border-primary pl-6 py-2 bg-white/30 backdrop-blur-sm">
               <p className="font-mono text-sm md:text-base leading-relaxed text-foreground/80 font-bold">
                 Forging immersive interfaces at the intersection of design and machine logic.
@@ -326,7 +353,7 @@ export default function Hero() {
                  </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
         </motion.div>
       </div>
