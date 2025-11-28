@@ -24,7 +24,7 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="work" className="py-32 min-h-screen flex flex-col justify-center">
+    <section id="work" className="py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-6 md:px-12">
       <div className="flex items-end justify-between mb-16 border-b border-white/10 pb-4 sticky top-20 z-20 bg-background/80 backdrop-blur-sm py-4">
         <h2 className="text-4xl md:text-6xl font-display font-bold">
           PROJECTS

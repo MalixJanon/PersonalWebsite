@@ -118,6 +118,10 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="flex items-center gap-4 mb-6"
+          style={{
+            translateX: `calc(var(--mouse-x, 0.5) * 20px)`,
+            translateY: `calc(var(--mouse-y, 0.5) * 20px)`
+          }}
         >
           <div className="h-[1px] w-12 bg-primary" />
           <div className="font-mono text-primary text-xs tracking-[0.5em] uppercase">
@@ -130,7 +134,11 @@ export default function Hero() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          style={{ y: y1 }}
+          style={{ 
+            y: y1,
+            translateX: `calc(var(--mouse-x, 0.5) * -30px)`,
+            translateY: `calc(var(--mouse-y, 0.5) * -30px)`
+          }}
         >
           <div className="text-6xl md:text-8xl lg:text-9xl font-display font-black leading-[0.85] tracking-tighter text-white">
             <DecryptText text="DIGITAL" delay={0} />
@@ -148,7 +156,11 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          style={{ y: y2 }}
+          style={{ 
+            y: y2,
+            translateX: `calc(var(--mouse-x, 0.5) * -15px)`,
+            translateY: `calc(var(--mouse-y, 0.5) * -15px)`
+          }}
         >
             {/* Refraction Box Effect - Liquid Glass */}
             <div className="absolute inset-0 border border-white/20 bg-white/5 backdrop-blur-xl -skew-x-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]" />
@@ -168,6 +180,10 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
           className="mt-8 flex gap-4"
+          style={{
+            translateX: `calc(var(--mouse-x, 0.5) * 10px)`,
+            translateY: `calc(var(--mouse-y, 0.5) * 10px)`
+          }}
         >
           <div className="px-4 py-2 border border-white/10 font-mono text-xs text-muted-foreground bg-black/40 backdrop-blur-md hover:border-primary/50 transition-colors cursor-default">
              STATUS: ONLINE

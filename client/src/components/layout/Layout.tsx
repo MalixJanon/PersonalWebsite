@@ -11,6 +11,7 @@ import CustomCursor from "@/components/ui/custom-cursor";
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const [activeSection, setActiveSection] = useState("");
+  const [coords, setCoords] = useState("45.912");
 
   const navItems = [
     { href: "#hero", label: "HOME" },
@@ -22,8 +23,18 @@ export default function Layout({ children }: LayoutProps) {
 
   useEffect(() => {
     const handleScroll = () => {
+      const scrollY = window.scrollY;
       const sections = navItems.map(item => item.href.substring(1));
-      const scrollPosition = window.scrollY + window.innerHeight / 3; // Trigger point
+      const scrollPosition = scrollY + window.innerHeight / 3; // Trigger point
+
+      // Calculate dynamic coordinate
+      const scrollPercentage = Math.min(1, scrollY / (document.body.scrollHeight - window.innerHeight));
+      const baseCoord = 45.912;
+      const dynamicCoord = (baseCoord + (scrollPercentage * 10)).toFixed(3);
+      
+      // Update coords state or directly manipulate DOM/state if we want smoother updates per frame
+      // For React state, let's add a new state for coords
+      setCoords(dynamicCoord);
 
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -130,7 +141,7 @@ export default function Layout({ children }: LayoutProps) {
       <div className="fixed left-6 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-12 z-40 text-[10px] font-mono text-muted-foreground/30 pointer-events-none select-none">
          <div className="writing-vertical-rl rotate-180 tracking-widest flex items-center gap-4">
             <span className="text-primary/50">
-              COORDS: {activeSection ? activeSection.replace('#', '45.') : '45.912'}, -12.004
+              COORDS: {coords}, -12.004
             </span>
             <div className="h-12 w-[1px] bg-primary/20" />
          </div>
@@ -152,7 +163,7 @@ export default function Layout({ children }: LayoutProps) {
          </div>
       </div>
 
-      <main className="pt-20 pb-20 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
+      <main className="pt-20 pb-20 relative z-10">
         {children}
       </main>
 

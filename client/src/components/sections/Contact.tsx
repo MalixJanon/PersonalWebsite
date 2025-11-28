@@ -35,7 +35,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-32 min-h-[80vh] flex flex-col justify-center relative">
+    <section id="contact" className="py-32 min-h-[80vh] flex flex-col justify-center relative max-w-7xl mx-auto px-6 md:px-12">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
