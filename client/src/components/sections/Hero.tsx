@@ -164,7 +164,9 @@ export default function Hero() {
       <motion.div 
         className="absolute right-1/4 md:right-[30%] lg:right-1/3 top-1/4 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none antialiased"
         style={{ 
-          perspective: 1000
+          perspective: 1000,
+          x: parallaxXCard,
+          y: parallaxYCard
         }}
       >
         {/* Tilt Container */}
