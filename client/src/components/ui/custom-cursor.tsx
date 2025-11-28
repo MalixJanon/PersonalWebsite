@@ -16,12 +16,17 @@ export default function CustomCursor() {
       const isTextInput = 
         target.tagName === 'INPUT' || 
         target.tagName === 'TEXTAREA' || 
-        target.isContentEditable;
+        target.isContentEditable ||
+        // Also check for text elements that aren't interactive but contain text
+        (target.childNodes.length === 1 && 
+         target.childNodes[0].nodeType === Node.TEXT_NODE && 
+         target.textContent && target.textContent.trim().length > 0 &&
+         !target.closest('button') && !target.closest('a'));
       
       setIsText(isTextInput);
 
-      // Check for clickable elements (if not text)
-      const isClickable = !isTextInput && (
+      // Check for clickable elements (if not text input/area)
+      const isClickable = !target.matches('input, textarea') && (
         target.tagName === 'A' || 
         target.tagName === 'BUTTON' || 
         target.closest('a') || 
@@ -55,43 +60,42 @@ export default function CustomCursor() {
         <div className="w-4 h-[2px] bg-primary absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-3" />
       </div>
 
-      {/* Standard & Hover Cursor (Technical Precision Theme) */}
+      {/* Standard Arrowhead Cursor (Default) */}
+      <div className={cn(
+        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out",
+        (isText || isHovering) ? "opacity-0 scale-0" : "opacity-100 scale-100"
+      )}>
+        {/* Geometric Arrowhead Shape */}
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-primary rotate-[-45deg] translate-x-2 translate-y-2">
+          <path d="M2 2L22 12L12 22L2 2Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+          <path d="M12 12L2 2" stroke="currentColor" strokeWidth="1.5" />
+          <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+        </svg>
+      </div>
+
+      {/* Hover Cursor (Stylized Crosshair) */}
       <div className={cn(
         "relative transition-all duration-200 ease-out",
-        isText ? "opacity-0" : "opacity-100"
+        isHovering ? "opacity-100 scale-100" : "opacity-0 scale-0"
       )}>
         
-        {/* Center Dot */}
-        <div className={cn(
-          "absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-primary -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
-          isHovering ? "scale-0" : "scale-100"
-        )} />
+        {/* Center Diamond */}
+        <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-primary -translate-x-1/2 -translate-y-1/2 rotate-45 transition-transform duration-500 animate-pulse" />
 
-        {/* Outer Square Frame */}
-        <div className={cn(
-          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-primary transition-all duration-300",
-          isHovering ? "w-12 h-12 opacity-100 rotate-45" : "w-4 h-4 opacity-50 rotate-0"
-        )} />
+        {/* Rotating Outer Ring Segments */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 animate-[spin_8s_linear_infinite]">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-2 bg-primary" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-2 bg-primary" />
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-2 bg-primary" />
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 h-1 w-2 bg-primary" />
+        </div>
 
-        {/* Technical Crosshair Lines */}
-        <div className={cn(
-          "absolute top-1/2 left-1/2 w-8 h-[1px] bg-primary -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
-          isHovering ? "w-16 opacity-100" : "w-0 opacity-0"
-        )} />
-        <div className={cn(
-          "absolute top-1/2 left-1/2 h-8 w-[1px] bg-primary -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
-          isHovering ? "h-16 opacity-100" : "h-0 opacity-0"
-        )} />
-
-        {/* Corner Accents on Hover */}
-        <div className={cn(
-          "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
-          isHovering ? "w-8 h-8 opacity-100" : "w-0 h-0 opacity-0"
-        )}>
-             <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-primary" />
-             <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-primary" />
-             <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-primary" />
-             <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-primary" />
+        {/* Corner Brackets Expanding */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 transition-all duration-300">
+             <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary" />
+             <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary" />
+             <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary" />
+             <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary" />
         </div>
       </div>
     </div>
