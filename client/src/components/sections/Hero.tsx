@@ -144,7 +144,7 @@ export default function Hero() {
 
       {/* 3D Business Card Asset - Completely Rebuilt */}
       <motion.div 
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
+        className="absolute right-0 md:right-[10%] top-1/3 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
         style={{ 
           y: yBg,
           perspective: 1000
@@ -267,11 +267,8 @@ export default function Hero() {
         />
       </motion.div>
 
-      <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none items-center md:items-start">
-        <motion.div 
-          style={{ y: yContent }} 
-          className="flex flex-col gap-8 pointer-events-auto max-w-2xl p-8 md:p-12 rounded-[2rem] bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] ring-1 ring-white/5"
-        >
+      <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
+        <motion.div style={{ y: yContent }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl">
           
           {/* Top Technical Text */}
           <div className="flex items-center gap-4 font-mono text-[10px] md:text-xs tracking-widest text-muted-foreground">
