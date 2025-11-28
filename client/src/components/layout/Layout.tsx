@@ -169,6 +169,15 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </header>
 
+      {/* Close Menu Overlay - Appears on top of X when menu is open */}
+      {isSheetOpen && (
+        <button
+          onClick={() => setIsSheetOpen(false)}
+          className="fixed top-3 right-4 sm:top-4 sm:right-6 z-[101] w-14 h-14 p-2 rounded-sm"
+          aria-label="Close menu"
+        />
+      )}
+
       {/* Hamburger Menu - Moved outside Header to escape stacking context */}
       <div className="fixed top-3 right-4 sm:top-4 sm:right-6 z-[100]">
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
