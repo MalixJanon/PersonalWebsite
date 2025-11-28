@@ -159,68 +159,73 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
         
-        {/* Right: Hamburger Menu */}
+        {/* Right: Empty placeholder to maintain grid layout */}
         <div className="flex justify-end">
-            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-                <SheetTrigger asChild>
-                    <button className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10 relative !z-[100]">
-                        <motion.div
-                            initial={false}
-                            animate={{ rotate: isSheetOpen ? 90 : 0 }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            {isSheetOpen ? (
-                                <X className="w-10 h-10 text-foreground group-hover:text-primary transition-colors" />
-                            ) : (
-                                <Menu className="w-10 h-10 text-foreground group-hover:text-primary transition-colors" />
-                            )}
-                        </motion.div>
-                    </button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10 !z-[90] pt-20">
-                    <SheetHeader className="mb-8 text-left">
-                        <SheetTitle className="font-display text-2xl font-bold tracking-tighter">NAVIGATION</SheetTitle>
-                        <SheetDescription className="font-mono text-xs tracking-widest text-primary font-bold">
-                            // SYSTEM_ACCESS
-                        </SheetDescription>
-                    </SheetHeader>
-                    
-                    <nav className="flex flex-col gap-6">
-                        {navItems.map((item) => (
-                            <a 
-                                key={item.label} 
-                                href={item.href}
-                                onClick={(e) => {
-                                    scrollToSection(e, item.href);
-                                    setIsSheetOpen(false);
-                                }}
-                                className={cn(
-                                    "text-xl font-display font-bold tracking-tight transition-all duration-300 flex items-center gap-4 group",
-                                    activeSection === item.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
-                                )}
-                            >
-                                <span className={cn(
-                                    "w-2 h-2 bg-primary rotate-45 opacity-0 group-hover:opacity-100 transition-opacity",
-                                    activeSection === item.href ? "opacity-100" : ""
-                                )} />
-                                {item.label}
-                            </a>
-                        ))}
-                    </nav>
-    
-                    <div className="absolute bottom-8 left-6 right-6">
-                        <div className="flex items-center gap-2 mb-4">
-                            <div className="w-2 h-2 bg-green-500 animate-pulse rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
-                            <span className="font-mono text-[10px] tracking-widest text-foreground font-bold">SYS.ONLINE</span>
-                        </div>
-                        <div className="font-mono text-[10px] text-muted-foreground">
-                            v3.0.0 // MOCKUP_MODE
-                        </div>
-                    </div>
-                </SheetContent>
-            </Sheet>
+             <div className="w-10 h-10" /> 
         </div>
       </header>
+
+      {/* Hamburger Menu - Moved outside Header to escape stacking context */}
+      <div className="fixed top-3 right-4 sm:top-4 sm:right-6 z-[100]">
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+                <button className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10 relative">
+                    <motion.div
+                        initial={false}
+                        animate={{ rotate: isSheetOpen ? 90 : 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        {isSheetOpen ? (
+                            <X className="w-10 h-10 text-foreground group-hover:text-primary transition-colors" />
+                        ) : (
+                            <Menu className="w-10 h-10 text-foreground group-hover:text-primary transition-colors" />
+                        )}
+                    </motion.div>
+                </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10 !z-[90] pt-20">
+                <SheetHeader className="mb-8 text-left">
+                    <SheetTitle className="font-display text-2xl font-bold tracking-tighter">NAVIGATION</SheetTitle>
+                    <SheetDescription className="font-mono text-xs tracking-widest text-primary font-bold">
+                        // SYSTEM_ACCESS
+                    </SheetDescription>
+                </SheetHeader>
+                
+                <nav className="flex flex-col gap-6">
+                    {navItems.map((item) => (
+                        <a 
+                            key={item.label} 
+                            href={item.href}
+                            onClick={(e) => {
+                                scrollToSection(e, item.href);
+                                setIsSheetOpen(false);
+                            }}
+                            className={cn(
+                                "text-xl font-display font-bold tracking-tight transition-all duration-300 flex items-center gap-4 group",
+                                activeSection === item.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                            )}
+                        >
+                            <span className={cn(
+                                "w-2 h-2 bg-primary rotate-45 opacity-0 group-hover:opacity-100 transition-opacity",
+                                activeSection === item.href ? "opacity-100" : ""
+                            )} />
+                            {item.label}
+                        </a>
+                    ))}
+                </nav>
+
+                <div className="absolute bottom-8 left-6 right-6">
+                    <div className="flex items-center gap-2 mb-4">
+                        <div className="w-2 h-2 bg-green-500 animate-pulse rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                        <span className="font-mono text-[10px] tracking-widest text-foreground font-bold">SYS.ONLINE</span>
+                    </div>
+                    <div className="font-mono text-[10px] text-muted-foreground">
+                        v3.0.0 // MOCKUP_MODE
+                    </div>
+                </div>
+            </SheetContent>
+        </Sheet>
+      </div>
 
       {/* Consolidated Side HUD - Navigation Dots + Coordinates */}
       <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-4 z-40">

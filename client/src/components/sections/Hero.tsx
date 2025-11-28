@@ -144,7 +144,7 @@ export default function Hero() {
 
       {/* 3D Business Card Asset - Completely Rebuilt */}
       <motion.div 
-        className="absolute right-0 md:right-[10%] top-1/3 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
+        className="absolute right-0 md:right-[5%] lg:right-[10%] top-[25%] md:top-1/3 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
         style={{ 
           y: yBg,
           perspective: 1000
@@ -157,7 +157,7 @@ export default function Hero() {
             rotateY: rotateY,
             transformStyle: "preserve-3d",
           }}
-          className="relative w-[300px] md:w-[400px] aspect-[1.75/1]"
+          className="relative w-[220px] sm:w-[280px] md:w-[380px] lg:w-[420px] aspect-[1.75/1]"
         >
           {/* Spinning Container */}
           <motion.div
@@ -281,17 +281,17 @@ export default function Hero() {
           </div>
 
           {/* Main Typography - Aligned to Left */}
-          <div className="relative z-10 w-full">
+          <div className="relative z-10 w-full mt-12 md:mt-0">
             <div className="relative w-full">
-               <h1 className="text-[clamp(1.2rem,3.6vw,3.8rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
+               <h1 className="text-[clamp(1.8rem,4vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
                </h1>
             </div>
             <div className="relative ml-2 md:ml-0 mt-[-0.1em] w-full">
-               <h1 className="text-[clamp(1.2rem,3.8vw,4rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
+               <h1 className="text-[clamp(1.8rem,4.2vw,4.2rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
                  <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
                </h1>
-               <h1 className="text-[clamp(1.2rem,3.8vw,4rem)] font-display font-black leading-[0.85] tracking-tighter text-primary mix-blend-multiply break-words">
+               <h1 className="text-[clamp(1.8rem,4.2vw,4.2rem)] font-display font-black leading-[0.85] tracking-tighter text-primary mix-blend-multiply break-words">
                   <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
                </h1>
             </div>
