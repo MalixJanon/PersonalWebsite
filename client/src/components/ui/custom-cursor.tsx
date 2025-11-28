@@ -72,6 +72,11 @@ export default function CustomCursor() {
            foundRed = true;
            break;
         }
+        // Special check for the send transmission button
+        if (current.tagName === 'BUTTON' && current.querySelector('.bg-primary')) {
+           foundRed = true;
+           break;
+        }
         current = current.parentElement;
       }
       setIsRedHover(foundRed);
