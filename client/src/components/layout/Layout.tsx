@@ -139,11 +139,11 @@ export default function Layout({ children }: LayoutProps) {
       {/* Removed Dark Overlays (Scanlines/Noise) for Clean Look */}
       
       {/* Fixed HUD Elements */}
-      <header className="fixed top-0 left-0 w-full z-[60] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center bg-background/20 backdrop-blur-xl border-b border-white/5 shadow-sm overflow-hidden">
+      <header className="fixed top-0 left-0 w-full z-[60] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center bg-background/20 backdrop-blur-md border-b border-white/5 shadow-sm overflow-hidden">
         
         {/* Logo Section */}
         <div className="flex items-center gap-4">
-          <div className="w-24 sm:w-32 h-6 sm:h-8 opacity-90 hover:opacity-100 transition-opacity duration-300">
+          <div className="w-44 sm:w-60 h-11 sm:h-14 opacity-90 hover:opacity-100 transition-opacity duration-300">
              <div 
                className="w-full h-full bg-foreground"
                style={{
