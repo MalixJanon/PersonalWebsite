@@ -162,10 +162,8 @@ export default function Hero() {
 
       {/* 3D Business Card Asset - Completely Rebuilt */}
       <motion.div 
-        className="absolute right-0 md:right-[5%] lg:right-[10%] top-[25%] md:top-1/3 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
+        className="absolute right-1/4 md:right-[30%] lg:right-1/3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
         style={{ 
-          x: parallaxXCard,
-          y: parallaxYCard,
           perspective: 1000
         }}
       >
@@ -287,7 +285,7 @@ export default function Hero() {
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
-        <motion.div style={{ x: parallaxXText, y: parallaxYText }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl">
+        <motion.div style={{ x: parallaxXText, y: parallaxYText }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl ml-auto md:ml-0 md:mr-auto">
           
           {/* Top Technical Text - Fade in 1st */}
           <motion.div 
