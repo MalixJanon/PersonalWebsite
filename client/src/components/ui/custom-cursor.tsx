@@ -69,9 +69,9 @@ export default function CustomCursor() {
         "absolute top-0 left-0 transition-all duration-300 ease-out",
         (isText || isHovering) ? "opacity-0 scale-0" : "opacity-100 scale-100"
       )}>
-        {/* Simplified Triangle Shape pointing Top-Left - Opaque */}
+        {/* Simplified Triangle Shape pointing Top-Left */}
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-primary -translate-x-[2px] -translate-y-[2px]">
-          <path d="M2 2L9 20L12 12L20 9L2 2Z" fill="currentColor" fillOpacity="1" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+          <path d="M2 2L9 20L12 12L20 9L2 2Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
           <circle cx="2" cy="2" r="1" fill="currentColor" />
         </svg>
       </div>
