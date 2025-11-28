@@ -8,6 +8,54 @@ interface LayoutProps {
 
 import CustomCursor from "@/components/ui/custom-cursor";
 
+import { motion, useScroll, useTransform } from "framer-motion";
+
+// Footer Component
+function Footer() {
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0.8, 1], [50, 0]);
+  
+  return (
+    <motion.footer 
+      className="border-t border-white/5 mt-32 py-24 bg-black/40 backdrop-blur-md relative overflow-hidden"
+      style={{ y }}
+    >
+      {/* Decorative grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      
+      <div className="relative z-10 flex flex-col md:flex-row justify-between items-end gap-12 px-6 md:px-12 max-w-7xl mx-auto">
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 mb-6">
+             <div className="w-2 h-2 bg-primary animate-pulse" />
+             <span className="font-mono text-xs tracking-widest text-muted-foreground">SYSTEM_END_OF_LINE</span>
+          </div>
+          <h2 className="text-6xl md:text-8xl font-display font-bold text-transparent text-stroke opacity-20 hover:opacity-100 transition-opacity cursor-default select-none">
+            NEXUS
+          </h2>
+          <p className="font-mono text-sm text-muted-foreground max-w-md leading-relaxed border-l border-primary/30 pl-4">
+            Designing the interface between humanity and the machine.
+            <br />© 2025. ALL RIGHTS RESERVED.
+          </p>
+        </div>
+        
+        <div className="flex gap-12 text-xs font-mono text-muted-foreground">
+          <div className="flex flex-col gap-4">
+             <span className="text-primary tracking-widest mb-2">SOCIAL</span>
+             <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">GITHUB</a>
+             <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">LINKEDIN</a>
+             <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">TWITTER</a>
+          </div>
+          <div className="flex flex-col gap-4">
+             <span className="text-primary tracking-widest mb-2">LEGAL</span>
+             <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">PRIVACY</a>
+             <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">TERMS</a>
+          </div>
+        </div>
+      </div>
+    </motion.footer>
+  );
+}
+
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const [activeSection, setActiveSection] = useState("");
@@ -167,25 +215,7 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </main>
 
-      <footer className="border-t border-white/5 mt-20 py-12 bg-black/20 backdrop-blur-sm">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8 px-6 md:px-12 max-w-7xl mx-auto">
-          <div>
-            <h2 className="text-4xl font-display font-bold text-transparent text-stroke opacity-20 hover:opacity-100 transition-opacity cursor-default">
-              NEXUS
-            </h2>
-            <p className="font-mono text-xs text-muted-foreground mt-2 max-w-xs">
-              Designing the interface between humanity and the machine.
-            </p>
-          </div>
-          
-          <div className="flex gap-8 text-xs font-mono text-muted-foreground">
-            <a href="#" className="hover:text-primary transition-colors">GITHUB</a>
-            <a href="#" className="hover:text-primary transition-colors">LINKEDIN</a>
-            <a href="#" className="hover:text-primary transition-colors">TWITTER</a>
-            <a href="#" className="hover:text-primary transition-colors">MAIL</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

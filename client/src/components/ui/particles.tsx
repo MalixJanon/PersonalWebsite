@@ -42,20 +42,20 @@ export default function Particles({ className }: ParticlesProps) {
       const depth = Math.random() * 2 + 0.5; // 0.5 to 2.5
       return {
         x: x ?? Math.random() * canvas.width,
-        y: y ?? canvas.height + 10, // Start just below screen if creating new
-        vx: (Math.random() - 0.5) * 0.2, // Reduced horizontal speed
-        vy: -Math.random() * 0.5 - 0.1, // Slower upward movement
-        size: Math.random() * 2 + 1, // Slightly smaller
+        y: y ?? Math.random() * canvas.height, // Spawn anywhere vertically
+        vx: (Math.random() - 0.5) * 0.3, // Omnidirectional X
+        vy: (Math.random() - 0.5) * 0.3, // Omnidirectional Y
+        size: Math.random() * 1.5 + 0.5, // Smaller dust-like size
         alpha: 0, // Start invisible and fade in
-        targetAlpha: Math.random() * 0.6 + 0.4,
+        targetAlpha: Math.random() * 0.4 + 0.2, // Subtler opacity
         life: 0,
-        maxLife: Math.random() * 300 + 200,
+        maxLife: Math.random() * 400 + 300, // Longer life
         depth,
       };
     };
 
     const initParticles = () => {
-      const particleCount = Math.floor(window.innerWidth / 10);
+      const particleCount = Math.floor(window.innerWidth / 8); // Denser dust
       particles = [];
       for (let i = 0; i < particleCount; i++) {
         // Initial random spread
@@ -77,8 +77,8 @@ export default function Particles({ className }: ParticlesProps) {
       const offsetY = (targetMouseY - canvas.height / 2) * 0.05;
 
       // Spawning new particles to maintain density
-      if (particles.length < Math.floor(window.innerWidth / 10)) {
-         if (Math.random() > 0.8) {
+      if (particles.length < Math.floor(window.innerWidth / 8)) {
+         if (Math.random() > 0.5) {
              particles.push(createParticle());
          }
       }
@@ -92,24 +92,24 @@ export default function Particles({ className }: ParticlesProps) {
         p.life++;
 
         // Fade in/out
-        if (p.life < 20) {
-            p.alpha += (p.targetAlpha - p.alpha) * 0.1;
+        if (p.life < 50) {
+            p.alpha += (p.targetAlpha - p.alpha) * 0.05;
         }
         if (p.life > p.maxLife - 50) {
             p.alpha *= 0.95;
         }
 
-        // Mouse interaction (turbulence)
+        // Gentle Mouse interaction (turbulence) - reduced for dust
         const dx = mouseX - p.x;
         const dy = mouseY - p.y;
         const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 200) {
-            p.x -= (dx / dist) * 0.5;
-            p.y -= (dy / dist) * 0.5;
+        if (dist < 150) {
+            p.x -= (dx / dist) * 0.2;
+            p.y -= (dy / dist) * 0.2;
         }
 
         // Remove if dead or out of bounds
-        if (p.life > p.maxLife || p.y < -50 || p.x < -50 || p.x > canvas.width + 50) {
+        if (p.life > p.maxLife || p.y < -50 || p.y > canvas.height + 50 || p.x < -50 || p.x > canvas.width + 50) {
           particles.splice(i, 1);
           continue;
         }
@@ -118,21 +118,20 @@ export default function Particles({ className }: ParticlesProps) {
         const drawX = p.x + (offsetX * p.depth);
         const drawY = p.y + (offsetY * p.depth);
 
-        // Intense Glow Effect (Smaller feather)
-        const gradient = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.size * 2); // Reduced glow radius
-        gradient.addColorStop(0, `rgba(255, 100, 0, ${p.alpha})`); 
-        gradient.addColorStop(0.5, `rgba(255, 69, 0, ${p.alpha * 0.5})`); // Sharper falloff
+        // Dust Glow Effect
+        const gradient = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.size * 3); 
+        gradient.addColorStop(0, `rgba(255, 140, 50, ${p.alpha})`); 
         gradient.addColorStop(1, `rgba(0, 0, 0, 0)`);
         
-        ctx.globalCompositeOperation = 'screen'; // Additive blending for glow
+        ctx.globalCompositeOperation = 'screen'; 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(drawX, drawY, p.size * 2, 0, Math.PI * 2);
+        ctx.arc(drawX, drawY, p.size * 3, 0, Math.PI * 2);
         ctx.fill();
         
         // Core
         ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = `rgba(255, 200, 150, ${p.alpha})`;
+        ctx.fillStyle = `rgba(255, 220, 180, ${p.alpha})`;
         ctx.beginPath();
         ctx.arc(drawX, drawY, p.size * 0.5, 0, Math.PI * 2);
         ctx.fill();

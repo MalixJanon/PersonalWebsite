@@ -40,21 +40,21 @@ export default function Music() {
             viewport={{ once: true }}
             transition={{ delay: index * 0.2 }}
             className={cn(
-              "tech-border p-6 bg-card/50 backdrop-blur-sm transition-all duration-300 group hover:bg-card hover:border-primary/50",
+              "tech-border p-6 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:bg-card hover:border-primary/50",
               activeTrack === track.id ? "border-primary shadow-[0_0_20px_rgba(255,69,0,0.2)]" : ""
             )}
           >
             <div className="flex gap-6">
-              <div className="relative w-32 h-32 shrink-0 overflow-hidden tech-border">
+              <div className="relative w-32 h-32 shrink-0 overflow-hidden tech-border group/art cursor-pointer">
                 <img 
                   src={track.cover} 
                   alt={track.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover/art:scale-110 grayscale group-hover/art:grayscale-0" 
                 />
                 <div className="absolute inset-0 bg-black/20" />
                 <button 
                   onClick={() => togglePlay(track.id)}
-                  className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-[2px]"
+                  className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover/art:opacity-100 transition-opacity backdrop-blur-[2px]"
                 >
                   {activeTrack === track.id && isPlaying ? (
                     <Pause className="w-8 h-8 text-primary fill-current" />
