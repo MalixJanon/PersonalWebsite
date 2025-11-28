@@ -169,20 +169,6 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </header>
 
-      {/* Close Menu Overlay - Appears on top of X when menu is open */}
-      {isSheetOpen && (
-        <button
-          onClick={() => setIsSheetOpen(false)}
-          className="fixed w-16 h-16 rounded-sm hover:bg-primary/30 transition-colors"
-          style={{
-            top: 'calc(0.75rem - 8px)',
-            right: 'calc(1rem - 8px)',
-            zIndex: 9999,
-          }}
-          aria-label="Close menu"
-        />
-      )}
-
       {/* Hamburger Menu - Moved outside Header to escape stacking context */}
       <div className="fixed top-3 right-4 sm:top-4 sm:right-6 z-[100]">
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -204,6 +190,26 @@ export default function Layout({ children }: LayoutProps) {
                     </motion.div>
                 </motion.button>
             </SheetTrigger>
+            {/* Close Button Overlay for X icon */}
+            {isSheetOpen && (
+              <button
+                onClick={() => setIsSheetOpen(false)}
+                className="fixed w-16 h-16 rounded-sm transition-colors"
+                style={{
+                  top: 'calc(0.75rem - 8px)',
+                  right: 'calc(1rem - 8px)',
+                  zIndex: 101,
+                  backgroundColor: 'transparent',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 51, 51, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+                aria-label="Close menu"
+              />
+            )}
             <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10 !z-[40] pt-20">
                 <SheetHeader className="mb-8 text-left">
                     <SheetTitle className="font-display text-2xl font-bold tracking-tighter">NAVIGATION</SheetTitle>
