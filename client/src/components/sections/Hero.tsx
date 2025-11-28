@@ -81,7 +81,7 @@ export default function Hero() {
         <img src={isometricStructure} alt="Industrial Structure" className="w-full h-auto object-contain scale-125 md:scale-150" />
       </motion.div>
 
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center">
+      <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center">
         <motion.div style={{ y: yContent }} className="flex flex-col gap-8">
           
           {/* Top Technical Text */}
@@ -94,18 +94,18 @@ export default function Hero() {
             <span>EPSILON_CLASS</span>
           </div>
 
-          {/* Main Typography */}
-          <div className="relative z-10">
-            <div className="relative">
-               <h1 className="text-[clamp(2.5rem,9vw,10rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground">
+          {/* Main Typography - Aligned to Left */}
+          <div className="relative z-10 w-full">
+            <div className="relative w-full">
+               <h1 className="text-[clamp(3rem,11vw,12rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground break-words">
                  <TypewriterReveal text="ALEXANDER" delay={200} speed={50} />
                </h1>
             </div>
-            <div className="relative ml-2 md:ml-4 mt-[-0.1em]">
-               <h1 className="text-[clamp(2.5rem,9vw,10rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm">
+            <div className="relative ml-2 md:ml-4 mt-[-0.1em] w-full">
+               <h1 className="text-[clamp(3rem,11vw,12rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
                  STRALENDORFF
                </h1>
-               <h1 className="text-[clamp(2.5rem,9vw,10rem)] font-display font-black leading-[0.85] tracking-tighter text-primary mix-blend-multiply">
+               <h1 className="text-[clamp(3rem,11vw,12rem)] font-display font-black leading-[0.85] tracking-tighter text-primary mix-blend-multiply break-words">
                   <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
                </h1>
             </div>

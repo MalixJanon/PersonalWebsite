@@ -27,7 +27,7 @@ function Footer() {
       <div className="relative z-10 flex flex-col md:flex-row justify-between items-end gap-8 md:gap-12 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
         <div className="space-y-4 w-full md:w-auto">
           <div className="flex items-center gap-2 mb-4 md:mb-6">
-             <div className="w-2 h-2 bg-primary" />
+             <div className="w-2 h-2 bg-green-500" />
              <span className="font-mono text-[10px] sm:text-xs tracking-widest text-muted-foreground">SYSTEM_END_OF_LINE</span>
           </div>
           <div className="w-64 h-16 opacity-20 hover:opacity-100 transition-opacity duration-500">
@@ -127,10 +127,7 @@ export default function Layout({ children }: LayoutProps) {
       <header className="fixed top-0 left-0 w-full z-[60] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center bg-background/90 backdrop-blur-md border-b border-black/5 shadow-sm overflow-hidden">
         
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 text-primary">
-             <JanonLogo />
-          </div>
-          <div className="w-2 h-2 bg-primary animate-pulse rounded-full ml-2" />
+          <div className="w-2 h-2 bg-green-500 animate-pulse rounded-full ml-2 shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
           <span className="font-mono text-[10px] sm:text-xs tracking-widest text-foreground font-bold">SYS.ONLINE</span>
         </div>
         
