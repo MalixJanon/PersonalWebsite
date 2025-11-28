@@ -214,11 +214,6 @@ export default function Hero() {
                      background: "linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%, rgba(0,0,0,0.1) 100%)"
                    }}
                  />
-                 
-                 {/* Edge Highlight */}
-                 <div className="absolute inset-0 rounded-[16px] pointer-events-none" style={{
-                   background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.2) 100%)"
-                 }} />
               </div>
 
               {/* --- BACK FACE --- */}
@@ -249,11 +244,6 @@ export default function Hero() {
                      background: "linear-gradient(90deg, transparent 20%, rgba(255,255,255,0.15) 50%, transparent 80%)"
                    }}
                  />
-                 
-                 {/* Edge Highlight */}
-                 <div className="absolute inset-0 rounded-[16px] pointer-events-none" style={{
-                   background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.25) 100%)"
-                 }} />
               </div>
 
           </motion.div>
