@@ -176,11 +176,11 @@ export default function Hero() {
             rotate: "28deg",
             scale: 1.5
           }}
-          className="relative w-[220px] sm:w-[280px] md:w-[380px] lg:w-[420px] aspect-[1.75/1]"
+          className="relative w-[220px] sm:w-[280px] md:w-[380px] lg:w-[420px] aspect-[1.75/1] overflow-visible"
         >
           {/* Spinning Container */}
           <motion.div
-             className="w-full h-full relative"
+             className="w-full h-full relative overflow-visible"
              style={{ 
                rotateY: spinY,
                transformStyle: "preserve-3d" 
