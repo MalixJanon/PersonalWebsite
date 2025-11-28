@@ -37,7 +37,7 @@ export default function CustomCursor() {
       {/* Crosshair center */}
       <div className={cn(
         "relative w-8 h-8 transition-all duration-300 ease-out",
-        isHovering ? "scale-75 rotate-45" : "scale-100"
+        isHovering ? "scale-100 rotate-45" : "scale-100"
       )}>
         {/* Horizontal line - fades out on hover */}
         <div className={cn(
@@ -54,7 +54,20 @@ export default function CustomCursor() {
         <div className={cn(
           "absolute top-1/2 left-1/2 w-3 h-3 border border-primary -translate-x-1/2 -translate-y-1/2 transition-all duration-300",
           isHovering ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-0 rotate-45"
-        )} />
+        )}>
+             {/* Corner extensions (Only visible on hover) */}
+             <div className={cn("absolute -top-1 -left-1 w-2 h-[1px] bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
+             <div className={cn("absolute -top-1 -left-1 w-[1px] h-2 bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
+             
+             <div className={cn("absolute -top-1 -right-1 w-2 h-[1px] bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
+             <div className={cn("absolute -top-1 -right-1 w-[1px] h-2 bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
+             
+             <div className={cn("absolute -bottom-1 -left-1 w-2 h-[1px] bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
+             <div className={cn("absolute -bottom-1 -left-1 w-[1px] h-2 bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
+             
+             <div className={cn("absolute -bottom-1 -right-1 w-2 h-[1px] bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
+             <div className={cn("absolute -bottom-1 -right-1 w-[1px] h-2 bg-primary transition-all duration-300", isHovering ? "opacity-100" : "opacity-0")} />
+        </div>
 
         {/* Center dot */}
         <div className={cn(

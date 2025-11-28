@@ -54,7 +54,7 @@ export default function Music() {
                 <div className="absolute inset-0 bg-black/20" />
                 <button 
                   onClick={() => togglePlay(track.id)}
-                  className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+                  className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-[2px]"
                 >
                   {activeTrack === track.id && isPlaying ? (
                     <Pause className="w-8 h-8 text-primary fill-current" />

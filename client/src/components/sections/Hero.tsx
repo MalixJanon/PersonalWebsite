@@ -89,12 +89,13 @@ export default function Hero() {
           backgroundImage: `url(${planetTexture})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          width: '100vw',
-          height: '100vh',
+          width: '120vw', // Enlarged for parallax
+          height: '120vh', // Enlarged for parallax
           position: 'absolute',
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -50%) scale(1.1)',
+          transform: 'translate(calc(-50% + var(--mouse-x, 0.5) * -40px), calc(-50% + var(--mouse-y, 0.5) * -40px))', // Parallax
+          transition: 'transform 0.1s ease-out'
         }}
       />
 
@@ -149,16 +150,17 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           style={{ y: y2 }}
         >
-            {/* Refraction Box Effect */}
-            <div className="absolute inset-0 border border-white/10 bg-white/5 backdrop-blur-md -skew-x-6" />
-            <div className="absolute inset-0 border-t border-l border-white/20 -skew-x-6 mix-blend-overlay" />
+            {/* Refraction Box Effect - Liquid Glass */}
+            <div className="absolute inset-0 border border-white/20 bg-white/5 backdrop-blur-xl -skew-x-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]" />
+            <div className="absolute inset-0 border-t border-l border-white/30 -skew-x-6 mix-blend-overlay" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50 -skew-x-6 pointer-events-none" />
             
-            <p className="relative z-10 text-lg md:text-xl text-muted-foreground font-mono leading-relaxed pl-8 py-6 pr-6">
+            <p className="relative z-10 text-lg md:text-xl text-muted-foreground font-mono leading-relaxed pl-8 py-6 pr-6 drop-shadow-md">
                 Forging immersive experiences at the intersection of design, code, and sound. 
                 Specializing in high-fidelity interfaces and interactive systems.
             </p>
             
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary -skew-x-6" />
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary -skew-x-6 shadow-[0_0_10px_rgba(255,69,0,0.5)]" />
         </motion.div>
 
         <motion.div

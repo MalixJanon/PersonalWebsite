@@ -43,9 +43,9 @@ export default function Particles({ className }: ParticlesProps) {
       return {
         x: x ?? Math.random() * canvas.width,
         y: y ?? canvas.height + 10, // Start just below screen if creating new
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: -Math.random() * 1.5 - 0.5, // Faster upward movement
-        size: Math.random() * 3 + 1, // Slightly larger
+        vx: (Math.random() - 0.5) * 0.2, // Reduced horizontal speed
+        vy: -Math.random() * 0.5 - 0.1, // Slower upward movement
+        size: Math.random() * 2 + 1, // Slightly smaller
         alpha: 0, // Start invisible and fade in
         targetAlpha: Math.random() * 0.6 + 0.4,
         life: 0,
@@ -118,17 +118,16 @@ export default function Particles({ className }: ParticlesProps) {
         const drawX = p.x + (offsetX * p.depth);
         const drawY = p.y + (offsetY * p.depth);
 
-        // Intense Glow Effect
-        const gradient = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.size * 4);
+        // Intense Glow Effect (Smaller feather)
+        const gradient = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.size * 2); // Reduced glow radius
         gradient.addColorStop(0, `rgba(255, 100, 0, ${p.alpha})`); 
-        gradient.addColorStop(0.2, `rgba(255, 69, 0, ${p.alpha * 0.8})`);
-        gradient.addColorStop(0.5, `rgba(255, 69, 0, ${p.alpha * 0.2})`);
+        gradient.addColorStop(0.5, `rgba(255, 69, 0, ${p.alpha * 0.5})`); // Sharper falloff
         gradient.addColorStop(1, `rgba(0, 0, 0, 0)`);
         
         ctx.globalCompositeOperation = 'screen'; // Additive blending for glow
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(drawX, drawY, p.size * 4, 0, Math.PI * 2);
+        ctx.arc(drawX, drawY, p.size * 2, 0, Math.PI * 2);
         ctx.fill();
         
         // Core

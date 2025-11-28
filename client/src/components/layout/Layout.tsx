@@ -129,14 +129,27 @@ export default function Layout({ children }: LayoutProps) {
       {/* Left Side HUD - Technical Details */}
       <div className="fixed left-6 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-12 z-40 text-[10px] font-mono text-muted-foreground/30 pointer-events-none select-none">
          <div className="writing-vertical-rl rotate-180 tracking-widest flex items-center gap-4">
-            <span className="text-primary/50">COORDS: 45.912, -12.004</span>
+            <span className="text-primary/50">
+              COORDS: {activeSection ? activeSection.replace('#', '45.') : '45.912'}, -12.004
+            </span>
             <div className="h-12 w-[1px] bg-primary/20" />
          </div>
-         <div className="h-24 w-[1px] bg-border mx-auto relative">
+         <div className="h-24 w-[1px] bg-border mx-auto relative overflow-hidden">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-[1px] bg-primary/50" />
+            <div 
+              className="absolute left-1/2 -translate-x-1/2 w-3 h-[1px] bg-primary/50 transition-all duration-500"
+              style={{ 
+                top: activeSection === '#hero' ? '0%' : 
+                     activeSection === '#skills' ? '25%' :
+                     activeSection === '#work' ? '50%' :
+                     activeSection === '#audio' ? '75%' : '100%'
+              }}
+            />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-[1px] bg-primary/50" />
          </div>
-         <div className="writing-vertical-rl rotate-180 tracking-widest">SECTOR 7G</div>
+         <div className="writing-vertical-rl rotate-180 tracking-widest">
+            SECTOR {activeSection ? activeSection.replace('#', '').toUpperCase().substring(0, 2) : '7G'}
+         </div>
       </div>
 
       <main className="pt-20 pb-20 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
