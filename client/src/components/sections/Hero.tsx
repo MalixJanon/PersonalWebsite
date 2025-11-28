@@ -188,30 +188,30 @@ export default function Hero() {
           >
               {/* --- FRONT FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden"
+                className="absolute inset-0 w-full h-full backface-hidden overflow-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "translateZ(1px)",
-                  willChange: "transform",
-                  isolation: "isolate"
+                  borderRadius: "16px",
+                  WebkitMaskImage: "radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, black 100%)"
                 }}
               >
-                 <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover rounded-[16px]" />
+                 <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
               </div>
 
               {/* --- BACK FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden"
+                className="absolute inset-0 w-full h-full backface-hidden overflow-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "rotateY(180deg) translateZ(1px)",
-                  willChange: "transform",
-                  isolation: "isolate"
+                  borderRadius: "16px",
+                  WebkitMaskImage: "radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, black 100%)"
                 }}
               >
-                 <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover rounded-[16px]" />
+                 <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
               </div>
 
           </motion.div>
