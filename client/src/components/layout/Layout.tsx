@@ -154,8 +154,8 @@ export default function Layout({ children }: LayoutProps) {
         </div>
         
         {/* Center: Logo Section */}
-        <div className="flex items-center justify-center">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 opacity-90 hover:opacity-100 transition-opacity duration-300">
+        <div className="flex items-center justify-center h-full">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 opacity-90 hover:opacity-100 transition-opacity duration-300">
              <img 
                src={chromeLogo}
                alt="Logo"
