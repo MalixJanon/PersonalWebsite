@@ -77,7 +77,7 @@ export default function Projects() {
                 <span className="font-mono text-primary text-sm tracking-widest">{project.category}</span>
               </div>
               
-              <h3 className="text-4xl md:text-5xl font-display font-bold leading-tight group-hover:text-transparent group-hover:text-stroke transition-colors duration-300">
+              <h3 className="text-4xl md:text-5xl font-display font-bold leading-tight text-transparent text-stroke group-hover:text-foreground transition-colors duration-300">
                 {project.title}
               </h3>
               
