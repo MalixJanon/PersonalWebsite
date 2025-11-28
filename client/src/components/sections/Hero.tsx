@@ -124,54 +124,61 @@ export default function Hero() {
           perspective: 1000 
         }}
       >
+        {/* Container for Mouse Tilt */}
         <motion.div
           initial={{ rotateZ: 28 }}
-          animate={{ rotateY: 360 }}
-          transition={{ rotateY: { duration: 20, repeat: Infinity, ease: "linear" } }}
           style={{
             rotateX,
+            rotateY: rotateY, // Use mouse tilt for Y
             transformStyle: "preserve-3d",
           }}
           className="relative w-[300px] md:w-[500px] aspect-[1.75/1] transition-all duration-200 ease-out"
         >
-          {/* Front Face */}
-          <div 
-            className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden shadow-2xl"
-            style={{ 
-              backfaceVisibility: "hidden",
-              WebkitBackfaceVisibility: "hidden",
-              transform: "translateZ(1px)"
-            }}
+          {/* Inner Container for Infinite Spin */}
+          <motion.div
+             className="w-full h-full"
+             animate={{ rotateY: 360 }}
+             transition={{ rotateY: { duration: 20, repeat: Infinity, ease: "linear" } }}
+             style={{ transformStyle: "preserve-3d" }}
           >
-             <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
-             {/* Lighting overlay */}
-             <motion.div 
-               className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 pointer-events-none mix-blend-overlay"
-               style={{
-                 backgroundPosition: `${gradientX}% ${gradientY}%`
-               }}
-             />
-          </div>
+              {/* Front Face */}
+              <div 
+                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden shadow-2xl"
+                style={{ 
+                  backfaceVisibility: "hidden",
+                  WebkitBackfaceVisibility: "hidden",
+                  transform: "translateZ(1px)"
+                }}
+              >
+                 <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
+                 {/* Lighting overlay */}
+                 <motion.div 
+                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 pointer-events-none mix-blend-overlay"
+                   style={{
+                     backgroundPosition: `${gradientX}% ${gradientY}%`
+                   }}
+                 />
+              </div>
 
-          {/* Back Face */}
-          <div 
-            className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden shadow-2xl bg-[#111]"
-            style={{ 
-              backfaceVisibility: "hidden",
-              WebkitBackfaceVisibility: "hidden",
-              transform: "rotateY(180deg) translateZ(1px)"
-            }}
-          >
-             <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
-             {/* Lighting overlay */}
-             <motion.div 
-               className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none mix-blend-overlay"
-             />
-          </div>
-          
-          {/* Side/Thickness (Simulated) */}
-          <div className="absolute inset-0 rounded-[20px] border border-white/10 pointer-events-none" style={{ transform: "translateZ(2px)" }} />
-
+              {/* Back Face */}
+              <div 
+                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden shadow-2xl bg-[#111]"
+                style={{ 
+                  backfaceVisibility: "hidden",
+                  WebkitBackfaceVisibility: "hidden",
+                  transform: "rotateY(180deg) translateZ(1px)"
+                }}
+              >
+                 <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
+                 {/* Lighting overlay */}
+                 <motion.div 
+                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none mix-blend-overlay"
+                 />
+              </div>
+              
+              {/* Side/Thickness (Simulated) */}
+              <div className="absolute inset-0 rounded-[20px] border border-white/10 pointer-events-none" style={{ transform: "translateZ(2px)" }} />
+          </motion.div>
         </motion.div>
       </motion.div>
 
@@ -191,7 +198,7 @@ export default function Hero() {
           {/* Main Typography - Aligned to Left */}
           <div className="relative z-10 w-full">
             <div className="relative w-full">
-               <h1 className="text-[clamp(1.4rem,4.1vw,4.5rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground break-words">
+               <h1 className="text-[clamp(1.2rem,3.8vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
                </h1>
             </div>
@@ -237,7 +244,7 @@ export default function Hero() {
 
       {/* Scroll Indicator */}
       <motion.div 
-        className="absolute bottom-8 left-8 z-30"
+        className="absolute bottom-32 left-8 z-30"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >

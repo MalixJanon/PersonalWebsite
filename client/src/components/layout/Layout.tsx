@@ -163,7 +163,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="flex justify-end">
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
-                    <button className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10 relative z-[9999]">
+                    <button className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10 relative !z-[100]">
                         <motion.div
                             initial={false}
                             animate={{ rotate: isSheetOpen ? 90 : 0 }}
@@ -177,7 +177,7 @@ export default function Layout({ children }: LayoutProps) {
                         </motion.div>
                     </button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10 z-[65] pt-20">
+                <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10 !z-[90] pt-20">
                     <SheetHeader className="mb-8 text-left">
                         <SheetTitle className="font-display text-2xl font-bold tracking-tighter">NAVIGATION</SheetTitle>
                         <SheetDescription className="font-mono text-xs tracking-widest text-primary font-bold">
