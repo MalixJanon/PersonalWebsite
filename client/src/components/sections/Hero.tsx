@@ -198,7 +198,7 @@ export default function Hero() {
           {/* Main Typography - Aligned to Left */}
           <div className="relative z-10 w-full">
             <div className="relative w-full">
-               <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
+               <h1 className="text-[clamp(1.2rem,3.6vw,3.8rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
                </h1>
             </div>
