@@ -145,7 +145,7 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Fixed HUD Elements */}
-      <header className="fixed top-0 left-0 w-full z-[30] px-4 sm:px-6 py-3 sm:py-4 grid grid-cols-3 items-center bg-background/20 backdrop-blur-md border-b border-white/5 shadow-sm overflow-hidden">
+      <header className="fixed top-0 left-0 w-full z-[30] px-4 sm:px-6 py-3 sm:py-4 grid grid-cols-3 items-center bg-background/20 backdrop-blur-md border-b border-white/5 shadow-sm">
         
         {/* Left: SYS.ONLINE */}
         <div className="flex items-center gap-2 justify-start">
