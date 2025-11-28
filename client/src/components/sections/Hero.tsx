@@ -118,19 +118,21 @@ export default function Hero() {
 
       {/* 3D Business Card Asset */}
       <motion.div 
-        className="absolute right-0 md:right-[10%] top-1/2 -translate-y-1/2 z-10 w-full md:w-[45%] h-[300px] md:h-[400px] flex items-center justify-center perspective-1000"
+        className="absolute right-0 md:right-[10%] top-1/3 -translate-y-1/2 z-10 w-full md:w-[45%] h-[300px] md:h-[400px] flex items-center justify-center perspective-1000"
         style={{ 
           y: yBg,
           perspective: 1000 
         }}
       >
         <motion.div
+          initial={{ rotateZ: 28 }}
+          animate={{ rotateY: 360 }}
+          transition={{ rotateY: { duration: 20, repeat: Infinity, ease: "linear" } }}
           style={{
             rotateX,
-            rotateY,
             transformStyle: "preserve-3d",
           }}
-          className="relative w-[300px] md:w-[500px] aspect-[1.58/1] transition-all duration-200 ease-out"
+          className="relative w-[300px] md:w-[500px] aspect-[1.75/1] transition-all duration-200 ease-out"
         >
           {/* Front Face */}
           <div 
@@ -189,11 +191,11 @@ export default function Hero() {
           {/* Main Typography - Aligned to Left */}
           <div className="relative z-10 w-full">
             <div className="relative w-full">
-               <h1 className="text-[clamp(1.4rem,5.1vw,5.5rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground break-words">
+               <h1 className="text-[clamp(1.4rem,4.1vw,4.5rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground break-words">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
                </h1>
             </div>
-            <div className="relative ml-2 md:ml-4 mt-[-0.1em] w-full">
+            <div className="relative ml-2 md:ml-0 mt-[-0.1em] w-full">
                <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
                  <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
                </h1>
