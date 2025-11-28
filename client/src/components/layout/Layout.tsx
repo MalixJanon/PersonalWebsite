@@ -27,7 +27,7 @@ function Footer() {
       <div className="relative z-10 flex flex-col md:flex-row justify-between items-end gap-8 md:gap-12 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
         <div className="space-y-4 w-full md:w-auto">
           <div className="flex items-center gap-2 mb-4 md:mb-6">
-             <div className="w-2 h-2 bg-green-500" />
+             <div className="w-2 h-2 bg-primary" />
              <span className="font-mono text-[10px] sm:text-xs tracking-widest text-muted-foreground">SYSTEM_END_OF_LINE</span>
           </div>
           <div className="w-64 h-16 opacity-20 hover:opacity-100 transition-opacity duration-500">

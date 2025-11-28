@@ -31,14 +31,12 @@ export default function CustomCursor() {
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Update and draw particles
+      // Draw and update particles
       for (let i = particlesRef.current.length - 1; i >= 0; i--) {
         const p = particlesRef.current[i];
         
-        p.life -= 0.02; // Decay rate
-        p.x += p.vx;
-        p.y += p.vy;
-        p.size += 0.1; // Expand slightly
+        p.life -= 0.05; // Faster fade for dotted line
+        // No movement, static dots
         
         if (p.life <= 0) {
           particlesRef.current.splice(i, 1);
@@ -46,9 +44,9 @@ export default function CustomCursor() {
         }
         
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        // Grey smoke color
-        ctx.fillStyle = `rgba(100, 100, 100, ${p.life * 0.3})`;
+        ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2); // Small dots
+        // Red dotted line
+        ctx.fillStyle = `rgba(255, 51, 51, ${p.life})`;
         ctx.fill();
       }
       
@@ -68,24 +66,22 @@ export default function CustomCursor() {
       const { clientX, clientY } = e;
       setPosition({ x: clientX, y: clientY });
       
-      // Add smoke particles
+      // Add dots based on distance
       const dx = clientX - lastPosRef.current.x;
       const dy = clientY - lastPosRef.current.y;
-      const speed = Math.sqrt(dx*dx + dy*dy);
+      const distance = Math.sqrt(dx*dx + dy*dy);
       
-      if (speed > 2) { // Only emit if moving fast enough
-        // Add a particle
+      if (distance > 5) { // Add dot every 5 pixels
         particlesRef.current.push({
           x: clientX,
           y: clientY,
-          vx: (Math.random() - 0.5) * 1, // Slight drift
-          vy: (Math.random() - 0.5) * 1,
+          vx: 0,
+          vy: 0,
           life: 1.0,
-          size: Math.random() * 4 + 2 // Random size 2-6px
+          size: 1.5
         });
+        lastPosRef.current = { x: clientX, y: clientY };
       }
-      
-      lastPosRef.current = { x: clientX, y: clientY };
       
       const target = e.target as HTMLElement;
       
