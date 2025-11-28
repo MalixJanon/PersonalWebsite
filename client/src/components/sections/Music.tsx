@@ -24,14 +24,14 @@ export default function Music() {
   };
 
   return (
-    <section id="audio" className="py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-6 md:px-12">
-      <div className="flex items-end justify-between mb-16 border-b border-white/10 pb-4 sticky top-20 z-20 bg-background/80 backdrop-blur-sm py-4">
-        <h2 className="text-4xl md:text-6xl font-display font-bold text-right w-full">
+    <section id="audio" className="py-20 md:py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+      <div className="flex items-end justify-between mb-12 md:mb-16 border-b border-white/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/80 backdrop-blur-sm py-4">
+        <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-right w-full">
           MUSIC
         </h2>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-6 md:gap-8">
         {tracks.map((track, index) => (
           <motion.div 
             key={track.id} 
@@ -40,12 +40,12 @@ export default function Music() {
             viewport={{ once: true }}
             transition={{ delay: index * 0.2 }}
             className={cn(
-              "tech-border p-6 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:bg-card hover:border-primary/50",
+              "tech-border p-4 sm:p-6 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:bg-card hover:border-primary/50",
               activeTrack === track.id ? "border-primary shadow-[0_0_20px_rgba(255,69,0,0.2)]" : ""
             )}
           >
-            <div className="flex gap-6">
-              <div className="relative w-32 h-32 shrink-0 overflow-hidden tech-border group/art cursor-pointer">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+              <div className="relative w-full sm:w-32 aspect-square sm:h-32 shrink-0 overflow-hidden tech-border group/art cursor-pointer">
                 <img 
                   src={track.cover} 
                   alt={track.title} 
@@ -67,16 +67,16 @@ export default function Music() {
               <div className="flex flex-col justify-between flex-1 py-1">
                 <div>
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-display text-2xl font-bold group-hover:text-primary transition-colors">{track.title}</h3>
-                    <span className="font-mono text-xs text-muted-foreground border border-white/10 px-2 py-0.5 rounded-sm bg-black/40">
+                    <h3 className="font-display text-xl sm:text-2xl font-bold group-hover:text-primary transition-colors line-clamp-1">{track.title}</h3>
+                    <span className="font-mono text-[10px] sm:text-xs text-muted-foreground border border-white/10 px-2 py-0.5 rounded-sm bg-black/40 shrink-0 ml-2">
                       {track.bpm} BPM
                     </span>
                   </div>
-                  <p className="text-primary font-mono text-xs tracking-widest">ORIGINAL MIX</p>
+                  <p className="text-primary font-mono text-[10px] sm:text-xs tracking-widest">ORIGINAL MIX</p>
                 </div>
 
                 {/* Visualizer Bar */}
-                <div className="flex items-end justify-between h-12 gap-1 mt-4">
+                <div className="flex items-end justify-between h-8 sm:h-12 gap-1 mt-4">
                   {track.waveform.map((height, i) => (
                     <div 
                       key={i}
@@ -92,7 +92,7 @@ export default function Music() {
                   ))}
                 </div>
 
-                <div className="flex justify-between items-center mt-2 font-mono text-xs text-muted-foreground">
+                <div className="flex justify-between items-center mt-2 font-mono text-[10px] sm:text-xs text-muted-foreground">
                   <span>{activeTrack === track.id ? "0:45" : "0:00"}</span>
                   <span>{track.duration}</span>
                 </div>

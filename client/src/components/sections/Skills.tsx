@@ -10,33 +10,33 @@ const skills = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-32 relative min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-6 md:px-12">
-      <div className="flex items-end justify-between mb-16 border-b border-white/10 pb-4 sticky top-20 z-20 bg-background/80 backdrop-blur-sm py-4">
-        <h2 className="text-4xl md:text-6xl font-display font-bold">
+    <section id="skills" className="py-20 md:py-32 relative min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+      <div className="flex items-end justify-between mb-12 md:mb-16 border-b border-white/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/80 backdrop-blur-sm py-4">
+        <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold">
           SKILLS
         </h2>
-        <span className="font-mono text-xs text-primary tracking-widest hidden md:block">
+        <span className="font-mono text-[10px] sm:text-xs text-primary tracking-widest hidden sm:block">
           // SYSTEM_DIAGNOSTICS
         </span>
       </div>
 
-      <div className="grid gap-12 max-w-4xl mx-auto w-full">
+      <div className="grid gap-8 md:gap-12 max-w-4xl mx-auto w-full">
         {skills.map((skill, index) => (
           <motion.div 
             key={skill.code} 
             className="group relative"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
             {/* Tech markers */}
-            <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rotate-45 shadow-[0_0_10px_rgba(255,69,0,0.8)]" />
+            <div className="absolute -left-2 md:-left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 md:w-2 md:h-2 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rotate-45 shadow-[0_0_10px_rgba(255,69,0,0.8)]" />
             
-            <div className="flex justify-between items-end mb-2 font-mono text-sm pl-2">
-              <span className="group-hover:text-primary transition-colors text-lg font-bold tracking-wider duration-300">{skill.name}</span>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-end mb-2 font-mono text-sm pl-2 gap-1 sm:gap-0">
+              <span className="group-hover:text-primary transition-colors text-base sm:text-lg font-bold tracking-wider duration-300">{skill.name}</span>
               <motion.span 
-                className="text-muted-foreground text-[10px] border border-white/10 px-2 py-1 bg-black/30"
+                className="text-muted-foreground text-[9px] sm:text-[10px] border border-white/10 px-2 py-1 bg-black/30 w-fit"
                 whileHover={{ scale: 1.1, borderColor: "rgba(255,69,0,0.5)" }}
               >
                 {skill.code} :: {skill.level}%

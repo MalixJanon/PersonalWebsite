@@ -17,36 +17,36 @@ function Footer() {
   
   return (
     <motion.footer 
-      className="border-t border-white/5 mt-32 py-24 bg-black/40 backdrop-blur-md relative overflow-hidden"
+      className="border-t border-white/5 mt-20 md:mt-32 py-12 md:py-24 bg-black/40 backdrop-blur-md relative overflow-hidden"
       style={{ y }}
     >
       {/* Decorative grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       
-      <div className="relative z-10 flex flex-col md:flex-row justify-between items-end gap-12 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 mb-6">
+      <div className="relative z-10 flex flex-col md:flex-row justify-between items-end gap-8 md:gap-12 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
+        <div className="space-y-4 w-full md:w-auto">
+          <div className="flex items-center gap-2 mb-4 md:mb-6">
              <div className="w-2 h-2 bg-primary animate-pulse" />
-             <span className="font-mono text-xs tracking-widest text-muted-foreground">SYSTEM_END_OF_LINE</span>
+             <span className="font-mono text-[10px] sm:text-xs tracking-widest text-muted-foreground">SYSTEM_END_OF_LINE</span>
           </div>
-          <h2 className="text-6xl md:text-8xl font-display font-bold text-transparent text-stroke opacity-20 hover:opacity-100 transition-opacity cursor-default select-none">
+          <h2 className="text-5xl sm:text-6xl md:text-8xl font-display font-bold text-transparent text-stroke opacity-20 hover:opacity-100 transition-opacity cursor-default select-none">
             NEXUS
           </h2>
-          <p className="font-mono text-sm text-muted-foreground max-w-md leading-relaxed border-l border-primary/30 pl-4">
+          <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-md leading-relaxed border-l border-primary/30 pl-4">
             Designing the interface between humanity and the machine.
             <br />© 2025. ALL RIGHTS RESERVED.
           </p>
         </div>
         
-        <div className="flex gap-12 text-xs font-mono text-muted-foreground">
-          <div className="flex flex-col gap-4">
-             <span className="text-primary tracking-widest mb-2">SOCIAL</span>
+        <div className="flex flex-wrap gap-8 md:gap-12 text-[10px] sm:text-xs font-mono text-muted-foreground w-full md:w-auto">
+          <div className="flex flex-col gap-3 md:gap-4">
+             <span className="text-primary tracking-widest mb-1 md:mb-2">SOCIAL</span>
              <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">GITHUB</a>
              <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">LINKEDIN</a>
              <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">TWITTER</a>
           </div>
-          <div className="flex flex-col gap-4">
-             <span className="text-primary tracking-widest mb-2">LEGAL</span>
+          <div className="flex flex-col gap-3 md:gap-4">
+             <span className="text-primary tracking-widest mb-1 md:mb-2">LEGAL</span>
              <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">PRIVACY</a>
              <a href="#" className="hover:text-primary transition-colors hover:translate-x-1 transform duration-300">TERMS</a>
           </div>

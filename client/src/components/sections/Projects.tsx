@@ -24,27 +24,27 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="work" className="py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-6 md:px-12">
+    <section id="work" className="py-20 md:py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
       <motion.div 
-        className="flex items-end justify-between mb-16 border-b border-white/10 pb-4 sticky top-20 z-20 bg-background/80 backdrop-blur-sm py-4"
+        className="flex items-end justify-between mb-12 md:mb-16 border-b border-white/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/80 backdrop-blur-sm py-4"
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-4xl md:text-6xl font-display font-bold">
+        <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold">
           PROJECTS
         </h2>
-        <span className="font-mono text-xs text-primary tracking-widest hidden md:block">
+        <span className="font-mono text-[10px] sm:text-xs text-primary tracking-widest hidden sm:block">
           // SELECTED_WORKS
         </span>
       </motion.div>
 
-      <div className="space-y-32">
+      <div className="space-y-20 md:space-y-32">
         {projects.map((project, index) => (
           <motion.div 
             key={project.id} 
-            className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 md:gap-24 items-center group perspective-1000`}
+            className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 md:gap-24 items-center group perspective-1000`}
             initial={{ opacity: 0, y: 100, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-50px" }}
@@ -56,7 +56,7 @@ export default function Projects() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="absolute -inset-4 border border-primary/20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100" />
+              <div className="absolute -inset-4 border border-primary/20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 hidden sm:block" />
               
               {/* Tech Corners */}
               <div className="absolute -top-2 -left-2 w-4 h-4 border-t border-l border-white/50 z-20 transition-all duration-500 group-hover:-top-4 group-hover:-left-4 group-hover:border-primary" />
@@ -73,15 +73,15 @@ export default function Projects() {
               </div>
               
               {/* Decorative decorative elements */}
-              <div className="absolute -bottom-8 -right-8 font-mono text-9xl font-bold text-white/5 z-[-1] select-none">
+              <div className="absolute -bottom-4 -right-4 md:-bottom-8 md:-right-8 font-mono text-6xl md:text-9xl font-bold text-white/5 z-[-1] select-none">
                 0{project.id}
               </div>
             </motion.div>
 
             {/* Content Container */}
-            <div className="w-full md:w-2/5 space-y-6 relative">
+            <div className="w-full md:w-2/5 space-y-4 md:space-y-6 relative">
               <motion.div 
-                className="absolute -left-8 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-primary/50 to-transparent"
+                className="absolute -left-4 md:-left-8 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-primary/50 to-transparent hidden md:block"
                 initial={{ opacity: 0, height: 0 }}
                 whileInView={{ opacity: 1, height: "100%" }}
                 transition={{ duration: 1 }}
@@ -89,27 +89,27 @@ export default function Projects() {
               
               <div className="flex items-center gap-4">
                 <motion.span 
-                  className="w-12 h-[1px] bg-primary" 
+                  className="w-8 md:w-12 h-[1px] bg-primary" 
                   initial={{ width: 0 }}
                   whileInView={{ width: 48 }}
                   transition={{ duration: 0.8 }}
                 />
-                <span className="font-mono text-primary text-sm tracking-widest">{project.category}</span>
+                <span className="font-mono text-primary text-xs md:text-sm tracking-widest">{project.category}</span>
               </div>
               
-              <div className="bg-primary px-4 py-1 inline-block mb-4 transform -skew-x-6 origin-left">
-                <h3 className="text-4xl md:text-5xl font-display font-bold leading-tight text-black transform skew-x-6">
+              <div className="bg-primary px-3 md:px-4 py-1 inline-block mb-4 transform -skew-x-6 origin-left">
+                <h3 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold leading-tight text-black transform skew-x-6">
                   {project.title}
                 </h3>
               </div>
               
-              <p className="text-muted-foreground/80 leading-relaxed border-l border-white/10 pl-4 group-hover:text-foreground transition-colors duration-300">
+              <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed border-l border-white/10 pl-4 group-hover:text-foreground transition-colors duration-300">
                 {project.description}
               </p>
 
               <div className="flex flex-wrap gap-2 pt-4">
                 {project.tags.map(tag => (
-                  <span key={tag} className="px-3 py-1 border border-white/10 text-xs font-mono text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors cursor-default bg-black/30">
+                  <span key={tag} className="px-2 md:px-3 py-1 border border-white/10 text-[10px] md:text-xs font-mono text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors cursor-default bg-black/30">
                     {tag}
                   </span>
                 ))}
