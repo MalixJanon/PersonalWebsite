@@ -49,8 +49,8 @@ export default function CustomCursor() {
       // Helper to check if color is "reddish"
       const isReddish = (color: string) => {
         if (!color) return false;
-        // Parse rgb(r, g, b)
-        const match = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        // Parse rgb(r, g, b) or rgba(r, g, b, a)
+        const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
         if (match) {
           const r = parseInt(match[1]);
           const g = parseInt(match[2]);
@@ -66,14 +66,16 @@ export default function CustomCursor() {
       let foundRed = false;
       
       // Check up to 3 levels up
-      for (let i = 0; i < 3 && current; i++) {
+      for (let i = 0; i < 4 && current; i++) {
         const style = window.getComputedStyle(current);
-        if (isReddish(style.backgroundColor) || isReddish(style.color)) {
+        if (isReddish(style.backgroundColor) || isReddish(style.color) || current.classList.contains('bg-primary')) {
            foundRed = true;
            break;
         }
+        
         // Special check for the send transmission button
-        if (current.tagName === 'BUTTON' && current.querySelector('.bg-primary')) {
+        // Button might have children like span/div, but button itself has bg-primary
+        if (current.tagName === 'BUTTON' && (current.classList.contains('bg-primary') || current.querySelector('.bg-primary'))) {
            foundRed = true;
            break;
         }
