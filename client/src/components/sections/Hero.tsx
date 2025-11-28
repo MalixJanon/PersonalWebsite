@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, animate, useMotionTemplate } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import isometricStructure from "@assets/generated_images/red_isometric_industrial_structure_on_light_grey_background.png";
 import cardFront from "@assets/cardfront_1764303990780.png";
@@ -72,6 +72,32 @@ export default function Hero() {
   const gradientX = useTransform(mouseX, [-0.5, 0.5], [0, 100]);
   const gradientY = useTransform(mouseY, [-0.5, 0.5], [0, 100]);
 
+  // Continuous rotation for the card
+  const spinY = useMotionValue(0);
+  
+  useEffect(() => {
+    const animation = animate(spinY, 360, {
+      duration: 20,
+      ease: "linear",
+      repeat: Infinity,
+    });
+    return () => animation.stop();
+  }, [spinY]);
+
+  // Derived lighting values based on spin
+  const frontLight = useTransform(spinY, (v) => {
+    const angle = v % 360;
+    return Math.max(0, Math.sin((angle + 45) * (Math.PI / 180))); 
+  });
+  
+  const backLight = useTransform(spinY, (v) => {
+    const angle = (v + 180) % 360;
+    return Math.max(0, Math.sin((angle + 45) * (Math.PI / 180)));
+  });
+
+  // Dynamic gradient position moving with the face
+  const shimmerPos = useTransform(spinY, [0, 360], ["100%", "-100%"]);
+
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (rect) {
@@ -116,36 +142,34 @@ export default function Hero() {
          <div className="absolute bottom-1/4 right-1/4 w-4 h-4 border-r border-b border-foreground" />
       </div>
 
-      {/* 3D Business Card Asset */}
+      {/* 3D Business Card Asset - Completely Rebuilt */}
       <motion.div 
-        className="absolute right-0 md:right-[10%] top-1/3 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000"
+        className="absolute right-0 md:right-[10%] top-1/3 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
         style={{ 
           y: yBg,
-          perspective: 1000,
-          width: "auto",
-          height: "auto"
+          perspective: 1000
         }}
       >
-        {/* Container for Mouse Tilt */}
+        {/* Tilt Container */}
         <motion.div
-          initial={{ rotateZ: 28 }}
           style={{
             rotateX,
-            rotateY: rotateY, // Use mouse tilt for Y
+            rotateY: rotateY,
             transformStyle: "preserve-3d",
           }}
-          className="relative w-[300px] md:w-[500px] aspect-[1.75/1] transition-all duration-200 ease-out"
+          className="relative w-[300px] md:w-[400px] aspect-[1.75/1]"
         >
-          {/* Inner Container for Infinite Spin */}
+          {/* Spinning Container */}
           <motion.div
-             className="w-full h-full"
-             animate={{ rotateY: 360 }}
-             transition={{ rotateY: { duration: 20, repeat: Infinity, ease: "linear" } }}
-             style={{ transformStyle: "preserve-3d" }}
+             className="w-full h-full relative"
+             style={{ 
+               rotateY: spinY,
+               transformStyle: "preserve-3d" 
+             }}
           >
-              {/* Front Face */}
+              {/* --- FRONT FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden bg-white"
+                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden bg-white backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
@@ -153,25 +177,26 @@ export default function Hero() {
                 }}
               >
                  <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
-                 {/* Lighting overlay - Sharper gloss */}
+                 
+                 {/* Dynamic Lighting Overlay */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0 pointer-events-none mix-blend-overlay"
+                   className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent mix-blend-overlay"
                    style={{
-                     backgroundPosition: `${gradientX}% ${gradientY}%`,
-                     backgroundSize: "200% 200%"
+                     opacity: frontLight,
+                     background: useMotionTemplate`linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.6) ${gradientX}%, transparent 80%)`
                    }}
                  />
-                 {/* Dynamic Shine for Rotation - More subtle and premium */}
+                 
+                 {/* Specular Reflection */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12"
-                   animate={{ x: ["-100%", "200%"] }}
-                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.5 }}
+                   className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent mix-blend-soft-light"
+                   style={{ opacity: brightness }}
                  />
               </div>
 
-              {/* Back Face */}
+              {/* --- BACK FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden rounded-[20px] overflow-hidden bg-[#0a0a0a]"
+                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden bg-[#111] backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
@@ -179,51 +204,67 @@ export default function Hero() {
                 }}
               >
                  <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
-                 {/* Lighting overlay */}
+                 
+                 {/* Dark Metallic Lighting */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none mix-blend-overlay"
+                    className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/50"
+                    style={{ opacity: backLight }}
                  />
-                 {/* Back Face Reflection - Subtle textured finish */}
+                 
+                 {/* Moving glint on back */}
                  <motion.div 
-                   className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/60 pointer-events-none"
+                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
+                   style={{ x: shimmerPos }}
                  />
               </div>
               
-              {/* True 3D Thickness/Sides - Darker Industrial Look */}
-              {/* Top Side */}
-              <div 
-                className="absolute w-full h-[2px] bg-[#1a1a1a] origin-bottom"
-                style={{ 
-                    top: 0,
-                    transform: "rotateX(90deg) translateY(-1px) translateZ(1px)" 
-                }} 
-              />
-              {/* Bottom Side */}
-              <div 
-                className="absolute w-full h-[2px] bg-[#0f0f0f] origin-top"
-                style={{ 
-                    bottom: 0,
-                    transform: "rotateX(-90deg) translateY(1px) translateZ(1px)" 
-                }} 
-              />
+              {/* --- SIDES (Thickness) --- */}
+              {/* Using exact pixel math for the transform to prevent gaps */}
+              
               {/* Right Side */}
               <div 
-                className="absolute w-[2px] h-full bg-[#222] origin-left"
-                style={{ 
-                    right: 0,
-                    transform: "rotateY(90deg) translateX(1px) translateZ(1px)" 
-                }} 
+                className="absolute top-0 right-0 w-[2px] h-full bg-[#e5e5e5] origin-left"
+                style={{ transform: "rotateY(90deg)" }} 
               />
+              
               {/* Left Side */}
               <div 
-                className="absolute w-[2px] h-full bg-[#0a0a0a] origin-right"
-                style={{ 
-                    left: 0,
-                    transform: "rotateY(-90deg) translateX(-1px) translateZ(1px)" 
-                }} 
+                className="absolute top-0 left-0 w-[2px] h-full bg-[#d4d4d4] origin-right"
+                style={{ transform: "rotateY(-90deg)" }} 
               />
+              
+              {/* Top Side */}
+              <div 
+                className="absolute top-0 left-0 w-full h-[2px] bg-[#f0f0f0] origin-bottom"
+                style={{ transform: "rotateX(90deg)" }} 
+              />
+              
+              {/* Bottom Side */}
+              <div 
+                className="absolute bottom-0 left-0 w-full h-[2px] bg-[#c0c0c0] origin-top"
+                style={{ transform: "rotateX(-90deg)" }} 
+              />
+
           </motion.div>
         </motion.div>
+        
+        {/* Drop Shadow - detached and responsive */}
+        <motion.div
+            className="absolute w-[80%] h-[20%] bg-black/30 blur-2xl rounded-[50%]"
+            style={{
+                bottom: -60,
+                rotateX: 90,
+                scale: useTransform(spinY, (v) => {
+                   // Shadow grows/shrinks as card rotates
+                   const angle = v * (Math.PI / 180);
+                   return 0.8 + Math.abs(Math.cos(angle)) * 0.2;
+                }),
+                opacity: useTransform(spinY, (v) => {
+                   const angle = v * (Math.PI / 180);
+                   return 0.3 + Math.abs(Math.cos(angle)) * 0.2;
+                })
+            }}
+        />
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
