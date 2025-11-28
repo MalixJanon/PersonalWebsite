@@ -52,6 +52,13 @@ const TypewriterReveal = ({ text, className, delay = 0, speed = 100 }: Typewrite
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   
+  // Scroll-based parallax
+  const { scrollY } = useScroll();
+  const scrollYCard = useTransform(scrollY, [0, 800], [0, -100]);  // Card moves up with scroll
+  const scrollYName = useTransform(scrollY, [0, 800], [0, -60]);   // Name moves up less
+  const scrollYText = useTransform(scrollY, [0, 800], [0, -40]);   // Text moves up even less
+  const scrollYGrid = useTransform(scrollY, [0, 800], [0, 50]);    // Grid moves down (inverted)
+  
   // Mouse-based Parallax Depth Layers
   const parallaxMouseX = useMotionValue(0);
   const parallaxMouseY = useMotionValue(0);
@@ -151,14 +158,14 @@ export default function Hero() {
       className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden py-20 md:py-32 perspective-1000 bg-background"
     >
       {/* Technical Background Grid */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
+      <motion.div className="absolute inset-0 pointer-events-none opacity-20" style={{ y: scrollYGrid }}>
          <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:40px_40px]" />
          {/* Crosshairs */}
          <div className="absolute top-1/4 left-1/4 w-4 h-4 border-l border-t border-foreground" />
          <div className="absolute top-1/4 right-1/4 w-4 h-4 border-r border-t border-foreground" />
          <div className="absolute bottom-1/4 left-1/4 w-4 h-4 border-l border-b border-foreground" />
          <div className="absolute bottom-1/4 right-1/4 w-4 h-4 border-r border-b border-foreground" />
-      </div>
+      </motion.div>
 
       {/* 3D Business Card Asset - Completely Rebuilt */}
       <motion.div 
@@ -166,7 +173,7 @@ export default function Hero() {
         style={{ 
           perspective: 1000,
           x: parallaxXCard,
-          y: parallaxYCard
+          y: scrollYCard
         }}
       >
         {/* Tilt Container */}
@@ -247,7 +254,7 @@ export default function Hero() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
               viewport={{ once: true }}
-              style={{ x: parallaxXName, y: parallaxYName }}
+              style={{ x: parallaxXName, y: scrollYName }}
             >
                <h1 className="text-[clamp(1.8rem,4vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
@@ -259,7 +266,7 @@ export default function Hero() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               viewport={{ once: true }}
-              style={{ x: parallaxXName, y: parallaxYName }}
+              style={{ x: parallaxXName, y: scrollYName }}
             >
                <h1 className="text-[clamp(1.8rem,4.2vw,4.2rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
                  <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
