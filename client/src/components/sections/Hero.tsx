@@ -51,12 +51,23 @@ const TypewriterReveal = ({ text, className, delay = 0, speed = 100 }: Typewrite
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
   
-  // Parallax Depth Layers - Name closest, text behind, card furthest
-  const yName = useTransform(scrollY, [0, 1000], [0, -20]);       // Closest - minimal parallax
-  const yText = useTransform(scrollY, [0, 1000], [0, -50]);       // Middle - medium parallax
-  const yCard = useTransform(scrollY, [0, 1000], [0, 150]);       // Furthest - maximum parallax 
+  // Mouse-based Parallax Depth Layers
+  const parallaxMouseX = useMotionValue(0);
+  const parallaxMouseY = useMotionValue(0);
+  
+  const parallaxSpringX = useSpring(parallaxMouseX, { stiffness: 300, damping: 40 });
+  const parallaxSpringY = useSpring(parallaxMouseY, { stiffness: 300, damping: 40 });
+  
+  // Parallax transforms based on mouse position - different depths
+  const parallaxXName = useTransform(parallaxSpringX, [-0.5, 0.5], [8, -8]);           // Name: closest, minimal
+  const parallaxYName = useTransform(parallaxSpringY, [-0.5, 0.5], [8, -8]);
+  
+  const parallaxXText = useTransform(parallaxSpringX, [-0.5, 0.5], [20, -20]);         // Text: middle depth
+  const parallaxYText = useTransform(parallaxSpringY, [-0.5, 0.5], [20, -20]);
+  
+  const parallaxXCard = useTransform(parallaxSpringX, [-0.5, 0.5], [-40, 40]);         // Card: furthest depth
+  const parallaxYCard = useTransform(parallaxSpringY, [-0.5, 0.5], [-40, 40]);
 
   // Business Card Tilt Logic
   const x = useMotionValue(0);
@@ -112,12 +123,18 @@ export default function Hero() {
       
       x.set(xPct);
       y.set(yPct);
+      
+      // Also set parallax based on mouse position
+      parallaxMouseX.set(xPct);
+      parallaxMouseY.set(yPct);
     }
   };
 
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
+    parallaxMouseX.set(0);
+    parallaxMouseY.set(0);
   };
 
   const handleScrollDown = () => {
@@ -147,7 +164,8 @@ export default function Hero() {
       <motion.div 
         className="absolute right-0 md:right-[5%] lg:right-[10%] top-[25%] md:top-1/3 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
         style={{ 
-          y: yCard,
+          x: parallaxXCard,
+          y: parallaxYCard,
           perspective: 1000
         }}
       >
@@ -269,7 +287,7 @@ export default function Hero() {
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
-        <motion.div style={{ y: yText }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl">
+        <motion.div style={{ x: parallaxXText, y: parallaxYText }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl">
           
           {/* Top Technical Text - Fade in 1st */}
           <motion.div 
@@ -296,7 +314,7 @@ export default function Hero() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
               viewport={{ once: true }}
-              style={{ y: yName }}
+              style={{ x: parallaxXName, y: parallaxYName }}
             >
                <h1 className="text-[clamp(1.8rem,4vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
@@ -308,7 +326,7 @@ export default function Hero() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               viewport={{ once: true }}
-              style={{ y: yName }}
+              style={{ x: parallaxXName, y: parallaxYName }}
             >
                <h1 className="text-[clamp(1.8rem,4.2vw,4.2rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
                  <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
