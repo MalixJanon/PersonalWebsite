@@ -182,8 +182,8 @@ export default function Hero() {
              className="w-full h-full relative overflow-visible"
              style={{ 
                rotateY: spinY,
-               transformStyle: "preserve-3d",
-               rotate: "28deg"
+               rotateZ: "28deg",
+               transformStyle: "preserve-3d"
              }}
           >
               {/* --- FRONT FACE --- */}
