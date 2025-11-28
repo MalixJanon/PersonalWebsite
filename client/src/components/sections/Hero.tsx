@@ -188,14 +188,14 @@ export default function Hero() {
           >
               {/* --- FRONT FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full rounded-[16px] backface-hidden"
+                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "translateZ(1px)"
                 }}
               >
-                 <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
+                 <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover rounded-[16px]" />
                  
                  {/* Dynamic Lighting Overlay */}
                  <motion.div 
@@ -215,14 +215,14 @@ export default function Hero() {
 
               {/* --- BACK FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full rounded-[16px] bg-[#111] backface-hidden"
+                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "rotateY(180deg) translateZ(1px)"
                 }}
               >
-                 <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
+                 <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover rounded-[16px]" />
                  
                  {/* Dark Metallic Lighting */}
                  <motion.div 
@@ -236,33 +236,6 @@ export default function Hero() {
                    style={{ x: shimmerPos }}
                  />
               </div>
-              
-              {/* --- SIDES (Thickness) --- */}
-              {/* Using exact pixel math for the transform to prevent gaps */}
-              
-              {/* Right Side */}
-              <div 
-                className="absolute top-0 right-0 w-[2px] h-full bg-[#e5e5e5] origin-left"
-                style={{ transform: "rotateY(90deg)" }} 
-              />
-              
-              {/* Left Side */}
-              <div 
-                className="absolute top-0 left-0 w-[2px] h-full bg-[#d4d4d4] origin-right"
-                style={{ transform: "rotateY(-90deg)" }} 
-              />
-              
-              {/* Top Side */}
-              <div 
-                className="absolute top-0 left-0 w-full h-[2px] bg-[#f0f0f0] origin-bottom"
-                style={{ transform: "rotateX(90deg)" }} 
-              />
-              
-              {/* Bottom Side */}
-              <div 
-                className="absolute bottom-0 left-0 w-full h-[2px] bg-[#c0c0c0] origin-top"
-                style={{ transform: "rotateX(-90deg)" }} 
-              />
 
           </motion.div>
         </motion.div>
