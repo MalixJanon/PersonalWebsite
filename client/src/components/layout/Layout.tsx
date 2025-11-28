@@ -173,9 +173,9 @@ export default function Layout({ children }: LayoutProps) {
       <div className="fixed top-3 right-4 sm:top-4 sm:right-6 z-[100]">
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
-                <button 
-                  className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10 relative cursor-pointer"
-                  onClick={() => isSheetOpen && setIsSheetOpen(false)}
+                <motion.button 
+                  className="group p-2 hover:bg-white/10 transition-colors rounded-sm border border-transparent hover:border-white/10 relative"
+                  whileTap={{ scale: 0.95 }}
                 >
                     <motion.div
                         initial={false}
@@ -188,7 +188,7 @@ export default function Layout({ children }: LayoutProps) {
                             <Menu className="w-10 h-10 text-foreground group-hover:text-primary transition-colors" />
                         )}
                     </motion.div>
-                </button>
+                </motion.button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10 !z-[90] pt-20">
                 <SheetHeader className="mb-8 text-left">
