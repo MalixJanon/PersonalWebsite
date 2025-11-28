@@ -173,7 +173,6 @@ export default function Hero() {
             rotateX,
             rotateY: rotateY,
             transformStyle: "preserve-3d",
-            rotate: "28deg",
             scale: 1.5
           }}
           className="relative w-[220px] sm:w-[280px] md:w-[380px] lg:w-[420px] aspect-[1.75/1] overflow-visible"
@@ -183,35 +182,34 @@ export default function Hero() {
              className="w-full h-full relative overflow-visible"
              style={{ 
                rotateY: spinY,
-               transformStyle: "preserve-3d" 
+               transformStyle: "preserve-3d",
+               rotate: "28deg"
              }}
           >
               {/* --- FRONT FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden overflow-hidden"
+                className="absolute inset-0 w-full h-full backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "translateZ(1px)",
-                  borderRadius: "16px",
-                  WebkitMaskImage: "radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, black 100%)"
+                  borderRadius: "16px"
                 }}
               >
-                 <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover" />
+                 <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover rounded-[16px]" />
               </div>
 
               {/* --- BACK FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full backface-hidden overflow-hidden"
+                className="absolute inset-0 w-full h-full backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "rotateY(180deg) translateZ(1px)",
-                  borderRadius: "16px",
-                  WebkitMaskImage: "radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, black 100%)"
+                  borderRadius: "16px"
                 }}
               >
-                 <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover" />
+                 <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover rounded-[16px]" />
               </div>
 
           </motion.div>
