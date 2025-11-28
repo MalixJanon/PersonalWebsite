@@ -188,7 +188,7 @@ export default function Hero() {
           >
               {/* --- FRONT FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden bg-white backface-hidden"
+                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
