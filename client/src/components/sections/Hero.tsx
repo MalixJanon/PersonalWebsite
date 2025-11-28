@@ -193,28 +193,11 @@ export default function Hero() {
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "translateZ(1px)",
-                  willChange: "transform"
+                  willChange: "transform",
+                  isolation: "isolate"
                 }}
               >
                  <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover rounded-[16px]" />
-                 
-                 {/* Enhanced Dynamic Lighting Overlay */}
-                 <motion.div 
-                   className="absolute inset-0 mix-blend-overlay pointer-events-none"
-                   style={{
-                     opacity: frontLight,
-                     background: useMotionTemplate`linear-gradient(105deg, transparent 15%, rgba(255,255,255,0.7) ${gradientX}%, transparent 85%)`
-                   }}
-                 />
-                 
-                 {/* Premium Specular Reflection */}
-                 <motion.div 
-                   className="absolute inset-0 mix-blend-screen pointer-events-none"
-                   style={{ 
-                     opacity: brightness,
-                     background: "linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%, rgba(0,0,0,0.1) 100%)"
-                   }}
-                 />
               </div>
 
               {/* --- BACK FACE --- */}
@@ -224,28 +207,11 @@ export default function Hero() {
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   transform: "rotateY(180deg) translateZ(1px)",
-                  willChange: "transform"
+                  willChange: "transform",
+                  isolation: "isolate"
                 }}
               >
                  <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover rounded-[16px]" />
-                 
-                 {/* Enhanced Dark Metallic Lighting */}
-                 <motion.div 
-                    className="absolute inset-0 mix-blend-multiply pointer-events-none"
-                    style={{ 
-                      opacity: backLight,
-                      background: "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 40%, rgba(0,0,0,0.4) 100%)"
-                    }}
-                 />
-                 
-                 {/* Premium Moving glint on back */}
-                 <motion.div 
-                   className="absolute inset-0 mix-blend-screen pointer-events-none"
-                   style={{ 
-                     x: shimmerPos,
-                     background: "linear-gradient(90deg, transparent 20%, rgba(255,255,255,0.15) 50%, transparent 80%)"
-                   }}
-                 />
               </div>
 
           </motion.div>
