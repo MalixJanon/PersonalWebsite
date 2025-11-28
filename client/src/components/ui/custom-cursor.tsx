@@ -5,6 +5,7 @@ export default function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isText, setIsText] = useState(false);
+  const [isRedHover, setIsRedHover] = useState(false);
 
   useEffect(() => {
     const updatePosition = (e: MouseEvent) => {
@@ -39,6 +40,41 @@ export default function CustomCursor() {
       );
       
       setIsHovering(!!isClickable);
+
+      // Check if hovering over a red element (Primary Color)
+      // Primary is roughly 0 80% 60% (HSL) -> #FF3333 -> RGB(255, 51, 51)
+      // We check computed style for background color
+      // Optimize: check if target changed or just do it (modern browsers are fast)
+      
+      // Helper to check if color is "reddish"
+      const isReddish = (color: string) => {
+        if (!color) return false;
+        // Parse rgb(r, g, b)
+        const match = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        if (match) {
+          const r = parseInt(match[1]);
+          const g = parseInt(match[2]);
+          const b = parseInt(match[3]);
+          // High Red, Low Green/Blue
+          return r > 200 && g < 100 && b < 100;
+        }
+        return false;
+      };
+
+      // Check target and closest parent with background
+      let current: HTMLElement | null = target;
+      let foundRed = false;
+      
+      // Check up to 3 levels up
+      for (let i = 0; i < 3 && current; i++) {
+        const style = window.getComputedStyle(current);
+        if (isReddish(style.backgroundColor) || isReddish(style.color)) {
+           foundRed = true;
+           break;
+        }
+        current = current.parentElement;
+      }
+      setIsRedHover(foundRed);
     };
 
     window.addEventListener('mousemove', updatePosition);
@@ -47,7 +83,10 @@ export default function CustomCursor() {
 
   return (
     <div 
-      className="fixed pointer-events-none z-[9999]"
+      className={cn(
+        "fixed pointer-events-none z-[9999]",
+        isRedHover ? "mix-blend-difference" : ""
+      )}
       style={{ 
         left: position.x, 
         top: position.y,
