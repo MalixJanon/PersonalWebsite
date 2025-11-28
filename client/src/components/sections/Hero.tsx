@@ -97,16 +97,16 @@ export default function Hero() {
           {/* Main Typography - Aligned to Left */}
           <div className="relative z-10 w-full">
             <div className="relative w-full">
-               <h1 className="text-[clamp(1.5rem,4.5vw,5rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground break-words">
-                 <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
+               <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground break-words">
+                 <TypewriterReveal text="ALEXANDER" delay={200} speed={50} />
                </h1>
             </div>
-            <div className="relative ml-1 md:ml-2 mt-[-0.1em] w-full">
-               <h1 className="text-[clamp(1.5rem,4.5vw,5rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
-                 STRALENDORFF
+            <div className="relative ml-2 md:ml-4 mt-[-0.1em] w-full">
+               <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
+                 VAN STRALENDORFF
                </h1>
-               <h1 className="text-[clamp(1.5rem,4.5vw,5rem)] font-display font-black leading-[0.85] tracking-tighter text-primary mix-blend-multiply break-words">
-                  <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
+               <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] font-display font-black leading-[0.85] tracking-tighter text-primary mix-blend-multiply break-words">
+                  <TypewriterReveal text="VAN STRALENDORFF" delay={1000} speed={50} />
                </h1>
             </div>
           </div>

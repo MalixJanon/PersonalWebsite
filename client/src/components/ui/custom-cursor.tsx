@@ -6,20 +6,11 @@ export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const [isText, setIsText] = useState(false);
   const [isRedHover, setIsRedHover] = useState(false);
-  
-  // Trail state
-  const [trail, setTrail] = useState<{x: number, y: number, id: number}[]>([]);
 
   useEffect(() => {
     const updatePosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
       
-      // Add point to trail
-      setTrail(prev => {
-        const newPoint = { x: e.clientX, y: e.clientY, id: Date.now() };
-        return [...prev.slice(-15), newPoint]; // Keep last 15 points
-      });
-
       const target = e.target as HTMLElement;
       
       // Check for text inputs
@@ -94,16 +85,7 @@ export default function CustomCursor() {
     };
 
     window.addEventListener('mousemove', updatePosition);
-    
-    // Cleanup trail interval
-    const trailInterval = setInterval(() => {
-      setTrail(prev => prev.slice(1));
-    }, 50);
-
-    return () => {
-      window.removeEventListener('mousemove', updatePosition);
-      clearInterval(trailInterval);
-    };
+    return () => window.removeEventListener('mousemove', updatePosition);
   }, []);
 
   return (
@@ -113,35 +95,11 @@ export default function CustomCursor() {
         isRedHover ? "mix-blend-difference" : ""
       )}
       style={{ 
-        left: 0, 
-        top: 0,
-        width: '100%',
-        height: '100%'
+        left: position.x, 
+        top: position.y,
+        transform: 'translate(-50%, -50%)'
       }}
     >
-      {/* Trail Effect */}
-      {trail.map((point, index) => (
-        <div
-          key={point.id}
-          className="absolute w-1 h-1 bg-primary rounded-full pointer-events-none"
-          style={{
-            left: point.x,
-            top: point.y,
-            opacity: index / trail.length * 0.5,
-            transform: `translate(-50%, -50%) scale(${index / trail.length})`,
-            transition: 'opacity 0.1s'
-          }}
-        />
-      ))}
-
-      <div
-        className="absolute"
-        style={{
-          left: position.x,
-          top: position.y,
-          transform: 'translate(-50%, -50%)'
-        }}
-      >
       {/* Text Cursor Variant (Technical I-Beam) */}
       <div className={cn(
         "absolute top-1/2 left-1/2 transition-all duration-200",
@@ -188,7 +146,6 @@ export default function CustomCursor() {
              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary" />
              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary" />
         </div>
-      </div>
       </div>
     </div>
   );
