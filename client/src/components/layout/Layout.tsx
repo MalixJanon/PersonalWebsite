@@ -12,6 +12,7 @@ import CustomCursor from "@/components/ui/custom-cursor";
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import janonLogo from "@assets/janonlogo_1764302796958.png";
+import chromeLogo from "@assets/ChromeJIcon_1764303870326.png";
 
 // Footer Component
 function Footer() {
@@ -149,19 +150,11 @@ export default function Layout({ children }: LayoutProps) {
         
         {/* Center: Logo Section */}
         <div className="flex items-center justify-center">
-          <div className="w-44 sm:w-60 h-11 sm:h-14 opacity-90 hover:opacity-100 transition-opacity duration-300">
-             <div 
-               className="w-full h-full bg-foreground"
-               style={{
-                 maskImage: `url(${janonLogo})`,
-                 maskSize: 'contain',
-                 maskRepeat: 'no-repeat',
-                 maskPosition: 'center',
-                 WebkitMaskImage: `url(${janonLogo})`,
-                 WebkitMaskSize: 'contain',
-                 WebkitMaskRepeat: 'no-repeat',
-                 WebkitMaskPosition: 'center',
-               }}
+          <div className="w-16 h-16 sm:w-20 sm:h-20 opacity-90 hover:opacity-100 transition-opacity duration-300">
+             <img 
+               src={chromeLogo}
+               alt="Logo"
+               className="w-full h-full object-contain"
              />
           </div>
         </div>
