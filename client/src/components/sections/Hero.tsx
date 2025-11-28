@@ -181,7 +181,7 @@ export default function Hero() {
         style={{ 
           perspective: 1000,
           x: parallaxXCard,
-          y: scrollYCard
+          y: useTransform(() => (parallaxYCard.get?.() || 0) + (scrollYCard.get?.() || 0))
         }}
       >
         {/* Tilt Container */}
