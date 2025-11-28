@@ -162,9 +162,11 @@ export default function Hero() {
 
       {/* 3D Business Card Asset - Completely Rebuilt */}
       <motion.div 
-        className="absolute right-1/4 md:right-[30%] lg:right-1/3 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none"
+        className="absolute right-1/4 md:right-[30%] lg:right-1/3 top-1/4 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none antialiased"
         style={{ 
-          perspective: 1000
+          perspective: 1000,
+          rotate: "28deg",
+          scale: 1.5
         }}
       >
         {/* Tilt Container */}
@@ -265,23 +267,6 @@ export default function Hero() {
           </motion.div>
         </motion.div>
         
-        {/* Drop Shadow - detached and responsive */}
-        <motion.div
-            className="absolute w-[80%] h-[20%] bg-black/30 blur-2xl rounded-[50%]"
-            style={{
-                bottom: -60,
-                rotateX: 90,
-                scale: useTransform(spinY, (v) => {
-                   // Shadow grows/shrinks as card rotates
-                   const angle = v * (Math.PI / 180);
-                   return 0.8 + Math.abs(Math.cos(angle)) * 0.2;
-                }),
-                opacity: useTransform(spinY, (v) => {
-                   const angle = v * (Math.PI / 180);
-                   return 0.3 + Math.abs(Math.cos(angle)) * 0.2;
-                })
-            }}
-        />
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
