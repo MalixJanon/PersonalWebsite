@@ -204,7 +204,7 @@ export default function Layout({ children }: LayoutProps) {
                     </motion.div>
                 </motion.button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10 !z-[90] pt-20">
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background/95 backdrop-blur-xl border-l border-white/10 !z-[40] pt-20">
                 <SheetHeader className="mb-8 text-left">
                     <SheetTitle className="font-display text-2xl font-bold tracking-tighter">NAVIGATION</SheetTitle>
                     <SheetDescription className="font-mono text-xs tracking-widest text-primary font-bold">
