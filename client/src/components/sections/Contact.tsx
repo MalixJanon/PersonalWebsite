@@ -168,7 +168,7 @@ export default function Contact() {
               </Button>
             </form>
           </Form>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
