@@ -6,6 +6,8 @@ interface LayoutProps {
   children: ReactNode;
 }
 
+import CustomCursor from "@/components/ui/custom-cursor";
+
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const [activeSection, setActiveSection] = useState("");
@@ -55,7 +57,8 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen w-full bg-background text-foreground relative overflow-x-hidden font-sans selection:bg-primary selection:text-black">
+    <div className="min-h-screen w-full bg-background text-foreground relative overflow-x-hidden font-sans selection:bg-primary selection:text-black cursor-none">
+      <CustomCursor />
       {/* Global Overlays */}
       <div className="fixed inset-0 z-50 pointer-events-none scanlines opacity-30 mix-blend-overlay" />
       <div className="fixed inset-0 z-40 pointer-events-none bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />

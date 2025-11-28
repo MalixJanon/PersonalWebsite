@@ -1,0 +1,58 @@
+import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
+
+export default function CustomCursor() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const updatePosition = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+      
+      // Check if hovering over clickable element
+      const target = e.target as HTMLElement;
+      const isClickable = 
+        target.tagName === 'A' || 
+        target.tagName === 'BUTTON' || 
+        target.closest('a') || 
+        target.closest('button') ||
+        target.classList.contains('cursor-pointer');
+      
+      setIsHovering(!!isClickable);
+    };
+
+    window.addEventListener('mousemove', updatePosition);
+    return () => window.removeEventListener('mousemove', updatePosition);
+  }, []);
+
+  return (
+    <div 
+      className="fixed pointer-events-none z-[9999] mix-blend-difference"
+      style={{ 
+        left: position.x, 
+        top: position.y,
+        transform: 'translate(-50%, -50%)'
+      }}
+    >
+      {/* Crosshair center */}
+      <div className={cn(
+        "relative w-8 h-8 transition-all duration-300 ease-out",
+        isHovering ? "scale-150 rotate-45" : "scale-100"
+      )}>
+        {/* Horizontal line */}
+        <div className="absolute top-1/2 left-0 w-full h-[1px] bg-primary" />
+        {/* Vertical line */}
+        <div className="absolute left-1/2 top-0 h-full w-[1px] bg-primary" />
+        
+        {/* Center dot */}
+        <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-primary -translate-x-1/2 -translate-y-1/2 rounded-full" />
+      </div>
+      
+      {/* Outer ring on hover */}
+      <div className={cn(
+        "absolute top-1/2 left-1/2 w-12 h-12 border border-primary/50 rounded-full -translate-x-1/2 -translate-y-1/2 transition-all duration-500",
+        isHovering ? "scale-100 opacity-100" : "scale-50 opacity-0"
+      )} />
+    </div>
+  );
+}

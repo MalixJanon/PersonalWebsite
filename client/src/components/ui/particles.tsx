@@ -13,67 +13,102 @@ export default function Particles({ className }: ParticlesProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
+    let particles: { 
+      x: number; 
+      y: number; 
+      vx: number; 
+      vy: number; 
+      size: number;
+      alpha: number;
+      life: number;
+      maxLife: number;
+      depth: number; // For parallax
+    }[] = [];
+    
     let animationFrameId: number;
     let mouseX = 0;
     let mouseY = 0;
+    // Target mouse position for smooth interpolation
+    let targetMouseX = 0;
+    let targetMouseY = 0;
 
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
 
-    const createParticles = () => {
-      const particleCount = Math.floor(window.innerWidth / 10); // Responsive count
+    const createParticle = (x?: number, y?: number) => {
+      const depth = Math.random() * 2 + 0.5; // 0.5 to 2.5
+      return {
+        x: x ?? Math.random() * canvas.width,
+        y: y ?? canvas.height + Math.random() * 100,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: -Math.random() * 1 - 0.2, // Upward movement
+        size: Math.random() * 2 + 0.5,
+        alpha: Math.random() * 0.5 + 0.2,
+        life: 0,
+        maxLife: Math.random() * 200 + 100,
+        depth,
+      };
+    };
+
+    const initParticles = () => {
+      const particleCount = Math.floor(window.innerWidth / 15);
       particles = [];
       for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          size: Math.random() * 2 + 0.5,
-        });
+        particles.push(createParticle(Math.random() * canvas.width, Math.random() * canvas.height));
       }
     };
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      particles.forEach((p) => {
-        // Mouse interaction
-        const dx = mouseX - p.x;
-        const dy = mouseY - p.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 150;
+      // Smooth mouse movement for parallax
+      targetMouseX += (mouseX - targetMouseX) * 0.05;
+      targetMouseY += (mouseY - targetMouseY) * 0.05;
 
-        if (distance < maxDist) {
-          const force = (maxDist - distance) / maxDist;
-          const angle = Math.atan2(dy, dx);
-          p.vx -= Math.cos(angle) * force * 0.5;
-          p.vy -= Math.sin(angle) * force * 0.5;
-        }
+      // Parallax offset from center
+      const offsetX = (targetMouseX - canvas.width / 2) * 0.05;
+      const offsetY = (targetMouseY - canvas.height / 2) * 0.05;
 
-        // Movement
+      particles.forEach((p, index) => {
+        // Update position with parallax
+        // We don't actually change p.x/p.y based on mouse, we render with offset
+        // But to keep them moving, we update p.x/p.y based on velocity
+        
         p.x += p.vx;
         p.y += p.vy;
+        p.life++;
 
-        // Friction
-        p.vx *= 0.98;
-        p.vy *= 0.98;
+        // Mouse repulsion (add turbulence)
+        const dx = mouseX - p.x;
+        const dy = mouseY - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 200) {
+            p.x -= (dx / dist) * 0.5;
+            p.y -= (dy / dist) * 0.5;
+        }
 
-        // Bounds
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+        // Reset if dead or out of bounds
+        if (p.life > p.maxLife || p.y < -50) {
+          particles[index] = createParticle();
+        }
 
         // Draw
-        ctx.fillStyle = `rgba(255, 69, 0, ${Math.min(1, 150/distance * 0.5)})`; // Orange glow near mouse
-        if (distance > 150) ctx.fillStyle = 'rgba(255, 69, 0, 0.3)'; // Dim orange otherwise
-        
+        // Parallax shift: closer particles (higher depth) move more
+        const drawX = p.x + (offsetX * p.depth);
+        const drawY = p.y + (offsetY * p.depth);
+
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.arc(drawX, drawY, p.size, 0, Math.PI * 2);
+        
+        // Ember glow
+        const gradient = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.size * 2);
+        gradient.addColorStop(0, `rgba(255, 160, 50, ${p.alpha})`); // Bright orange center
+        gradient.addColorStop(0.4, `rgba(255, 69, 0, ${p.alpha * 0.5})`); // Red-orange mid
+        gradient.addColorStop(1, `rgba(255, 69, 0, 0)`); // Fade out
+        
+        ctx.fillStyle = gradient;
         ctx.fill();
       });
 
@@ -90,7 +125,7 @@ export default function Particles({ className }: ParticlesProps) {
     window.addEventListener('mousemove', handleMouseMove);
     
     resize();
-    createParticles();
+    initParticles();
     animate();
 
     return () => {

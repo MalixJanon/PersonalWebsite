@@ -34,6 +34,7 @@
   
   --animate-glitch: glitch 1s linear infinite;
   --animate-scanline: scanline 8s linear infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
   
   @keyframes glitch {
     2%, 64% { transform: translate(2px,0) skew(0deg); }
@@ -44,6 +45,11 @@
   @keyframes scanline {
     0% { transform: translateY(-100%); }
     100% { transform: translateY(100%); }
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
 }
 
@@ -87,11 +93,14 @@
   --ring: 16 100% 50%;
 
   --radius: 0px; /* Sharp corners for industrial feel */
+  
+  cursor: crosshair; /* Fallback */
 }
 
 @layer base {
   * {
     @apply border-border;
+    cursor: none; /* Hide default cursor for custom one */
   }
   body {
     @apply font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground;
@@ -150,5 +159,13 @@
     );
     background-size: 100% 4px;
     pointer-events: none;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .rotate-y-2 {
+    transform: rotateY(2deg);
   }
 }

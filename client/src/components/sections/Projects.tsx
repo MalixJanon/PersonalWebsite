@@ -77,9 +77,11 @@ export default function Projects() {
                 <span className="font-mono text-primary text-sm tracking-widest">{project.category}</span>
               </div>
               
-              <h3 className="text-4xl md:text-5xl font-display font-bold leading-tight text-transparent text-stroke group-hover:text-foreground transition-colors duration-300">
-                {project.title}
-              </h3>
+              <div className="bg-primary px-4 py-1 inline-block mb-4 transform -skew-x-6 origin-left">
+                <h3 className="text-4xl md:text-5xl font-display font-bold leading-tight text-black transform skew-x-6">
+                  {project.title}
+                </h3>
+              </div>
               
               <p className="text-muted-foreground/80 leading-relaxed border-l border-white/10 pl-4 group-hover:text-foreground transition-colors duration-300">
                 {project.description}

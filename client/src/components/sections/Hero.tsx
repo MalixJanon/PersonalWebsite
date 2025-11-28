@@ -98,8 +98,12 @@ export default function Hero() {
           backgroundImage: `url(${planetTexture})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          transform: 'scale(1.1) translate(calc(var(--mouse-x, 0.5) * -10px), calc(var(--mouse-y, 0.5) * -10px))',
-          transition: 'transform 0.1s ease-out'
+          width: '100vw',
+          height: '100vh',
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%) scale(1.1)',
         }}
       />
 
@@ -116,7 +120,7 @@ export default function Hero() {
          <div className="absolute left-2/3 top-0 h-full w-[1px] bg-white/5" />
       </div>
 
-      <div className="relative z-10 max-w-5xl px-4">
+      <div className="relative z-10 max-w-5xl px-4 w-full">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -129,20 +133,23 @@ export default function Hero() {
           </div>
         </motion.div>
         
-        <motion.h1 
-          className="text-6xl md:text-8xl lg:text-9xl font-display font-black leading-[0.9] tracking-tighter mb-8 mix-blend-screen"
+        <motion.div 
+          className="relative mb-8 mix-blend-normal"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           style={{ y: y1 }}
         >
-          <DecryptText text="DIGITAL" revealDelay={200} />
-          <br />
-          <span className="text-transparent text-stroke hover:text-white transition-colors duration-500 relative group cursor-default">
-            ALCHEMY
-            <span className="absolute -bottom-2 left-0 w-0 h-2 bg-primary group-hover:w-full transition-all duration-500 opacity-50 blur-sm" />
-          </span>
-        </motion.h1>
+          <div className="text-6xl md:text-8xl lg:text-9xl font-display font-black leading-[0.85] tracking-tighter text-white">
+            <DecryptText text="DIGITAL" revealDelay={200} />
+          </div>
+          
+          <div className="bg-primary inline-block px-4 py-2 mt-2 transform -skew-x-6 origin-left">
+             <span className="text-6xl md:text-8xl lg:text-9xl font-display font-black leading-[0.85] tracking-tighter text-black block transform skew-x-6">
+                ALCHEMY
+             </span>
+          </div>
+        </motion.div>
 
         <motion.p 
           className="text-lg md:text-xl text-muted-foreground max-w-xl font-mono leading-relaxed border-l-2 border-primary pl-6 bg-black/40 backdrop-blur-md py-4 pr-4 rounded-r-sm"
