@@ -35,7 +35,7 @@ export default function CustomCursor() {
       for (let i = particlesRef.current.length - 1; i >= 0; i--) {
         const p = particlesRef.current[i];
         
-        p.life -= 0.05; // Faster fade for dotted line
+        p.life -= 0.01; // Slow fade
         // No movement, static dots
         
         if (p.life <= 0) {
@@ -70,18 +70,18 @@ export default function CustomCursor() {
       const dx = clientX - lastPosRef.current.x;
       const dy = clientY - lastPosRef.current.y;
       const distance = Math.sqrt(dx*dx + dy*dy);
-      const spacing = 8; // Fixed spacing between dots
+      const spacing = 20; // Wider spacing between dots
       
       if (distance >= spacing) {
         const steps = Math.floor(distance / spacing);
         
         for (let i = 1; i <= steps; i++) {
           const ratio = i / steps;
-          const x = lastPosRef.current.x + dx * ratio;
-          const y = lastPosRef.current.y + dy * ratio;
+          const x = lastPosRef.current.x + dx * ratio + 10; // Offset X +10
+          const y = lastPosRef.current.y + dy * ratio + 10; // Offset Y +10
           
           particlesRef.current.push({
-            x: x, // Center of cursor roughly
+            x: x, 
             y: y, 
             vx: 0,
             vy: 0,
