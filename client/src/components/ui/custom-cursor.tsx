@@ -18,10 +18,14 @@ export default function CustomCursor() {
         target.tagName === 'TEXTAREA' || 
         target.isContentEditable ||
         // Also check for text elements that aren't interactive but contain text
+        // EXCLUDING headings and display text as per request
         (target.childNodes.length === 1 && 
          target.childNodes[0].nodeType === Node.TEXT_NODE && 
          target.textContent && target.textContent.trim().length > 0 &&
-         !target.closest('button') && !target.closest('a'));
+         !target.closest('button') && !target.closest('a') &&
+         !target.closest('h1') && !target.closest('h2') && !target.closest('h3') && 
+         !target.closest('h4') && !target.closest('h5') && !target.closest('h6') &&
+         !target.classList.contains('font-display'));
       
       setIsText(isTextInput);
 
