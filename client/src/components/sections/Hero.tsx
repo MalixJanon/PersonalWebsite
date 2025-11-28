@@ -188,12 +188,11 @@ export default function Hero() {
           >
               {/* --- FRONT FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden shadow-2xl"
+                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
-                  transform: "translateZ(1px)",
-                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3)"
+                  transform: "translateZ(1px)"
                 }}
               >
                  <img src={cardFront} alt="Business Card Front" className="w-full h-full object-cover rounded-[16px]" />
@@ -224,12 +223,11 @@ export default function Hero() {
 
               {/* --- BACK FACE --- */}
               <div 
-                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden shadow-2xl"
+                className="absolute inset-0 w-full h-full rounded-[16px] overflow-hidden backface-hidden"
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
-                  transform: "rotateY(180deg) translateZ(1px)",
-                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)"
+                  transform: "rotateY(180deg) translateZ(1px)"
                 }}
               >
                  <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover rounded-[16px]" />
