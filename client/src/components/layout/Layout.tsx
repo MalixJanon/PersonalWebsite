@@ -9,7 +9,7 @@ interface LayoutProps {
 import CustomCursor from "@/components/ui/custom-cursor";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import JanonLogo from "@/components/ui/janon-logo";
+import janonLogo from "@assets/janonlogo_1764302796958.png";
 
 // Footer Component
 function Footer() {
@@ -30,8 +30,20 @@ function Footer() {
              <div className="w-2 h-2 bg-primary" />
              <span className="font-mono text-[10px] sm:text-xs tracking-widest text-muted-foreground">SYSTEM_END_OF_LINE</span>
           </div>
-          <div className="w-64 h-16 opacity-20 hover:opacity-100 transition-opacity duration-500">
-            <JanonLogo />
+          <div className="w-64 h-16 opacity-80 hover:opacity-100 transition-opacity duration-500">
+             <div 
+               className="w-full h-full bg-foreground"
+               style={{
+                 maskImage: `url(${janonLogo})`,
+                 maskSize: 'contain',
+                 maskRepeat: 'no-repeat',
+                 maskPosition: 'left center',
+                 WebkitMaskImage: `url(${janonLogo})`,
+                 WebkitMaskSize: 'contain',
+                 WebkitMaskRepeat: 'no-repeat',
+                 WebkitMaskPosition: 'left center',
+               }}
+             />
           </div>
           <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-md leading-relaxed border-l-2 border-primary pl-4 mt-4">
             Designing the interface between humanity and the machine.

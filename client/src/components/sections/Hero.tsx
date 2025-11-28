@@ -64,7 +64,7 @@ export default function Hero() {
     <section 
       id="hero" 
       ref={containerRef} 
-      className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden pt-20 perspective-1000 bg-background"
+      className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden py-20 md:py-32 perspective-1000 bg-background"
     >
       {/* Technical Background Grid */}
       <div className="absolute inset-0 pointer-events-none opacity-20">

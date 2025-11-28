@@ -82,7 +82,7 @@ export default function Music() {
                 </div>
 
                 {/* Visualizer Bar */}
-                <div className="flex items-end justify-between h-10 sm:h-16 gap-[2px] mt-4 overflow-hidden">
+                <div className="flex items-center justify-between h-12 sm:h-20 gap-[2px] mt-4 overflow-hidden">
                   {/* Generate more bars by interpolating or duplicating */}
                   {Array.from({ length: 32 }).map((_, i) => {
                      // Create a pseudo-random pattern based on original waveform
