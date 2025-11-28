@@ -24,6 +24,7 @@ export default function Particles({ className }: ParticlesProps) {
       life: number;
       maxLife: number;
       depth: number; // For parallax
+      isGlowing: boolean;
     }[] = [];
     
     let animationFrameId: number;
@@ -51,6 +52,7 @@ export default function Particles({ className }: ParticlesProps) {
         life: 0,
         maxLife: Math.random() * 400 + 300, // Longer life
         depth,
+        isGlowing: false // New state for interaction
       };
     };
 
@@ -99,14 +101,25 @@ export default function Particles({ className }: ParticlesProps) {
             p.alpha *= 0.95;
         }
 
-        // Gentle Mouse interaction (turbulence) - reduced for dust
+        // Gentle Mouse interaction (turbulence) - Repulsion and Glow
         const dx = mouseX - p.x;
         const dy = mouseY - p.y;
         const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 150) {
-            p.x -= (dx / dist) * 0.2;
-            p.y -= (dy / dist) * 0.2;
+        const range = 200;
+        
+        if (dist < range) {
+            // Repulsion force
+            const force = (range - dist) / range;
+            p.vx -= (dx / dist) * force * 0.5;
+            p.vy -= (dy / dist) * force * 0.5;
+            p.isGlowing = true;
+        } else {
+            p.isGlowing = false;
         }
+        
+        // Dampen velocity slightly to return to drift
+        p.vx *= 0.98;
+        p.vy *= 0.98;
 
         // Remove if dead or out of bounds
         if (p.life > p.maxLife || p.y < -50 || p.y > canvas.height + 50 || p.x < -50 || p.x > canvas.width + 50) {
@@ -118,22 +131,29 @@ export default function Particles({ className }: ParticlesProps) {
         const drawX = p.x + (offsetX * p.depth);
         const drawY = p.y + (offsetY * p.depth);
 
-        // Dust Glow Effect
-        const gradient = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.size * 3); 
-        gradient.addColorStop(0, `rgba(255, 140, 50, ${p.alpha})`); 
-        gradient.addColorStop(1, `rgba(0, 0, 0, 0)`);
+        if (p.isGlowing) {
+            // Glow Effect (Orange when near cursor)
+            const gradient = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.size * 4); 
+            gradient.addColorStop(0, `rgba(255, 100, 0, ${p.alpha})`); 
+            gradient.addColorStop(1, `rgba(0, 0, 0, 0)`);
+            
+            ctx.globalCompositeOperation = 'screen'; 
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(drawX, drawY, p.size * 4, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Core (Orange)
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = `rgba(255, 200, 150, ${p.alpha})`;
+        } else {
+            // Standard White/Dust Core
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha * 0.8})`;
+        }
         
-        ctx.globalCompositeOperation = 'screen'; 
-        ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(drawX, drawY, p.size * 3, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Core
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = `rgba(255, 220, 180, ${p.alpha})`;
-        ctx.beginPath();
-        ctx.arc(drawX, drawY, p.size * 0.5, 0, Math.PI * 2);
+        ctx.arc(drawX, drawY, p.size * 0.8, 0, Math.PI * 2);
         ctx.fill();
       }
 

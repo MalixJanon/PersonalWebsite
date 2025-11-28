@@ -114,83 +114,100 @@ export default function Hero() {
 
       <div className="relative z-20 max-w-6xl px-4 w-full pl-12 md:pl-24"> {/* Added padding to clear HUD */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex items-center gap-4 mb-8"
-          style={{
-            translateX: `calc(var(--mouse-x, 0.5) * 30px)`, // Increased movement for foreground
-            translateY: `calc(var(--mouse-y, 0.5) * 30px)`
-          }}
-        >
-          <div className="h-[1px] w-12 bg-primary shadow-[0_0_10px_rgba(255,69,0,0.8)]" />
-          <div className="font-mono text-primary text-xs tracking-[0.5em] uppercase drop-shadow-[0_0_5px_rgba(255,69,0,0.5)]">
-            Identity: Creative_Director
-          </div>
-        </motion.div>
-        
-        <motion.div 
-          className="relative mb-12 mix-blend-normal"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          style={{ 
-            y: y1,
-            translateX: `calc(var(--mouse-x, 0.5) * -50px)`, // Stronger parallax for title (foreground feel)
-            translateY: `calc(var(--mouse-y, 0.5) * -50px)`
-          }}
-        >
-          <div className="text-7xl md:text-9xl lg:text-[10rem] font-display font-black leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
-            <DecryptText text="DIGITAL" delay={0} />
-          </div>
-          
-          <div className="bg-primary inline-block px-6 py-2 mt-4 transform -skew-x-6 origin-left shadow-lg shadow-primary/20">
-             <span className="text-7xl md:text-9xl lg:text-[10rem] font-display font-black leading-[0.85] tracking-tighter text-black block transform skew-x-6">
-                <DecryptText text="ALCHEMY" delay={1000} />
-             </span>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          className="relative max-w-2xl"
+          className="flex flex-col relative"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          style={{ 
-            y: y2,
-            translateX: `calc(var(--mouse-x, 0.5) * -20px)`, // Subtle parallax for desc
-            translateY: `calc(var(--mouse-y, 0.5) * -20px)`
-          }}
+          transition={{ duration: 1 }}
         >
-            {/* Refraction Box Effect - Liquid Glass */}
-            <div className="absolute inset-0 border border-white/20 bg-white/5 backdrop-blur-xl -skew-x-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]" />
-            <div className="absolute inset-0 border-t border-l border-white/30 -skew-x-6 mix-blend-overlay" />
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50 -skew-x-6 pointer-events-none" />
-            
-            <p className="relative z-10 text-xl md:text-2xl text-muted-foreground font-mono leading-relaxed pl-10 py-8 pr-8 drop-shadow-md">
-                Forging immersive experiences at the intersection of design, code, and sound. 
-                Specializing in high-fidelity interfaces and interactive systems.
-            </p>
-            
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary -skew-x-6 shadow-[0_0_10px_rgba(255,69,0,0.5)]" />
-        </motion.div>
+            {/* Connecting Line Structure */}
+            <motion.div 
+              className="absolute left-[-20px] top-0 bottom-0 w-[1px] bg-primary/30" 
+              initial={{ height: 0 }}
+              animate={{ height: "100%" }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+            />
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="mt-12 flex gap-6"
-          style={{
-            translateX: `calc(var(--mouse-x, 0.5) * 15px)`,
-            translateY: `calc(var(--mouse-y, 0.5) * 15px)`
-          }}
-        >
-          <div className="px-6 py-3 border border-white/10 font-mono text-sm text-muted-foreground bg-black/40 backdrop-blur-md hover:border-primary/50 transition-colors cursor-default">
-             STATUS: ONLINE
-          </div>
-          <div className="px-6 py-3 border border-white/10 font-mono text-sm text-muted-foreground bg-black/40 backdrop-blur-md hover:border-primary/50 transition-colors cursor-default">
-             LATENCY: 12ms
-          </div>
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="flex items-center gap-4 mb-4 pl-6 relative"
+              style={{
+                translateX: `calc(var(--mouse-x, 0.5) * 30px)`, 
+                translateY: `calc(var(--mouse-y, 0.5) * 30px)`
+              }}
+            >
+              <div className="absolute left-0 top-1/2 w-4 h-[1px] bg-primary/50" />
+              <div className="font-mono text-primary text-xs tracking-[0.5em] uppercase drop-shadow-[0_0_5px_rgba(255,69,0,0.5)]">
+                Identity: Creative_Director
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              className="relative mb-8 mix-blend-normal pl-2"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              style={{ 
+                y: y1,
+                translateX: `calc(var(--mouse-x, 0.5) * -50px)`, 
+                translateY: `calc(var(--mouse-y, 0.5) * -50px)`
+              }}
+            >
+              <div className="text-7xl md:text-9xl lg:text-[10rem] font-display font-black leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
+                <DecryptText text="DIGITAL" delay={0} />
+              </div>
+              
+              <div className="bg-primary inline-block px-6 py-2 mt-2 transform -skew-x-6 origin-left shadow-lg shadow-primary/20">
+                 <span className="text-7xl md:text-9xl lg:text-[10rem] font-display font-black leading-[0.85] tracking-tighter text-black block transform skew-x-6">
+                    <DecryptText text="ALCHEMY" delay={1000} />
+                 </span>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              className="relative max-w-2xl pl-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              style={{ 
+                y: y2,
+                translateX: `calc(var(--mouse-x, 0.5) * -20px)`, 
+                translateY: `calc(var(--mouse-y, 0.5) * -20px)`
+              }}
+            >
+                <div className="absolute left-0 top-8 w-4 h-[1px] bg-primary/50" />
+                
+                {/* Refraction Box Effect - Liquid Glass */}
+                <div className="absolute inset-0 border border-white/20 bg-white/5 backdrop-blur-xl -skew-x-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]" />
+                <div className="absolute inset-0 border-t border-l border-white/30 -skew-x-6 mix-blend-overlay" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50 -skew-x-6 pointer-events-none" />
+                
+                <p className="relative z-10 text-xl md:text-2xl text-muted-foreground font-mono leading-relaxed pl-10 py-8 pr-8 drop-shadow-md">
+                    Forging immersive experiences at the intersection of design, code, and sound. 
+                    Specializing in high-fidelity interfaces and interactive systems.
+                </p>
+                
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary -skew-x-6 shadow-[0_0_10px_rgba(255,69,0,0.5)]" />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="mt-12 flex gap-6 pl-8"
+              style={{
+                translateX: `calc(var(--mouse-x, 0.5) * 15px)`,
+                translateY: `calc(var(--mouse-y, 0.5) * 15px)`
+              }}
+            >
+              <div className="px-6 py-3 border border-white/10 font-mono text-sm text-muted-foreground bg-black/40 backdrop-blur-md hover:border-primary/50 transition-colors cursor-default hover:scale-105 transition-transform duration-300">
+                 STATUS: ONLINE
+              </div>
+              <div className="px-6 py-3 border border-white/10 font-mono text-sm text-muted-foreground bg-black/40 backdrop-blur-md hover:border-primary/50 transition-colors cursor-default hover:scale-105 transition-transform duration-300">
+                 LATENCY: 12ms
+              </div>
+            </motion.div>
         </motion.div>
       </div>
 

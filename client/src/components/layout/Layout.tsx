@@ -123,7 +123,7 @@ export default function Layout({ children }: LayoutProps) {
       <div className="fixed inset-0 z-40 pointer-events-none bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
       
       {/* Fixed HUD Elements */}
-      <header className="fixed top-0 left-0 w-full z-40 px-6 py-4 flex justify-between items-center bg-background/90 backdrop-blur-md border-b border-white/10 shadow-2xl shadow-black/50 overflow-hidden">
+      <header className="fixed top-0 left-0 w-full z-[60] px-6 py-4 flex justify-between items-center bg-background/90 backdrop-blur-md border-b border-white/10 shadow-2xl shadow-black/50 overflow-hidden">
         {/* Glass Refraction Effect */}
         <div className="absolute inset-0 bg-white/5 opacity-0 hover:opacity-100 transition-opacity pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -159,57 +159,57 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </header>
 
-      {/* Side HUD elements - Navigation Dots */}
-      <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-4 z-40 items-end">
-        {navItems.map((item) => (
-          <a
-            key={item.label}
-            href={item.href}
-            onClick={(e) => scrollToSection(e, item.href)}
-            className="group flex items-center gap-3"
-          >
-            <span className={cn(
-              "font-mono text-[10px] transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0",
-              activeSection === item.href ? "text-primary opacity-100 translate-x-0" : "text-muted-foreground"
-            )}>
-              {item.label}
-            </span>
-            <div className={cn(
-              "w-2 h-2 transition-all duration-300 border border-primary rotate-45 group-hover:bg-primary/50",
-              activeSection === item.href ? "bg-primary scale-125" : "bg-transparent"
-            )} />
-          </a>
-        ))}
-        
-        {/* Connecting Line */}
-        <div className="absolute right-[3px] top-0 bottom-0 w-[1px] bg-white/5 -z-10" />
+      {/* Consolidated Side HUD - Navigation Dots + Coordinates */}
+      <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-6 z-40">
+        {/* Coordinates Section (Moved from Left) */}
+        <div className="flex flex-col items-end gap-2 font-mono text-[10px] text-muted-foreground/50 pointer-events-none select-none text-right border-r border-white/10 pr-6 mr-4 relative h-40 justify-center">
+           <div className="absolute right-0 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
+           
+           <motion.div 
+             className="flex flex-col gap-1"
+             animate={{ opacity: [0.5, 1, 0.5] }}
+             transition={{ duration: 4, repeat: Infinity }}
+           >
+              <span className="text-primary/70 tracking-widest">COORDS</span>
+              <span>{coords}, -12.004</span>
+           </motion.div>
+
+           <div className="h-8" />
+
+           <div className="flex flex-col gap-1">
+              <span className="text-primary/70 tracking-widest">SECTOR</span>
+              <span>{activeSection ? activeSection.replace('#', '').toUpperCase().substring(0, 2) : '7G'}</span>
+           </div>
+        </div>
+
+        {/* Navigation Dots */}
+        <div className="flex flex-col gap-4 items-end relative">
+          {navItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              onClick={(e) => scrollToSection(e, item.href)}
+              className="group flex items-center gap-3"
+            >
+              <span className={cn(
+                "font-mono text-[10px] transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0",
+                activeSection === item.href ? "text-primary opacity-100 translate-x-0" : "text-muted-foreground"
+              )}>
+                {item.label}
+              </span>
+              <div className={cn(
+                "w-2 h-2 transition-all duration-300 border border-primary rotate-45 group-hover:bg-primary/50",
+                activeSection === item.href ? "bg-primary scale-125 shadow-[0_0_10px_rgba(255,69,0,0.8)]" : "bg-transparent"
+              )} />
+            </a>
+          ))}
+          
+          {/* Connecting Line */}
+          <div className="absolute right-[3px] top-0 bottom-0 w-[1px] bg-white/5 -z-10" />
+        </div>
       </div>
 
-      {/* Left Side HUD - Technical Details */}
-      <div className="fixed left-6 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-12 z-40 text-[10px] font-mono text-muted-foreground/30 pointer-events-none select-none">
-         <div className="writing-vertical-rl rotate-180 tracking-widest flex items-center gap-4">
-            <span className="text-primary/50">
-              COORDS: {coords}, -12.004
-            </span>
-            <div className="h-12 w-[1px] bg-primary/20" />
-         </div>
-         <div className="h-24 w-[1px] bg-border mx-auto relative overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-[1px] bg-primary/50" />
-            <div 
-              className="absolute left-1/2 -translate-x-1/2 w-3 h-[1px] bg-primary/50 transition-all duration-500"
-              style={{ 
-                top: activeSection === '#hero' ? '0%' : 
-                     activeSection === '#skills' ? '25%' :
-                     activeSection === '#work' ? '50%' :
-                     activeSection === '#audio' ? '75%' : '100%'
-              }}
-            />
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-[1px] bg-primary/50" />
-         </div>
-         <div className="writing-vertical-rl rotate-180 tracking-widest">
-            SECTOR {activeSection ? activeSection.replace('#', '').toUpperCase().substring(0, 2) : '7G'}
-         </div>
-      </div>
+      {/* Removed Left Side HUD */}
 
       <main className="pt-20 pb-20 relative z-10">
         {children}

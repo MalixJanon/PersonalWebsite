@@ -31,11 +31,16 @@ export default function Skills() {
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
             {/* Tech markers */}
-            <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rotate-45" />
+            <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rotate-45 shadow-[0_0_10px_rgba(255,69,0,0.8)]" />
             
             <div className="flex justify-between items-end mb-2 font-mono text-sm pl-2">
-              <span className="group-hover:text-primary transition-colors text-lg font-bold tracking-wider">{skill.name}</span>
-              <span className="text-muted-foreground text-[10px] border border-white/10 px-2 py-1 bg-black/30">{skill.code} :: {skill.level}%</span>
+              <span className="group-hover:text-primary transition-colors text-lg font-bold tracking-wider duration-300">{skill.name}</span>
+              <motion.span 
+                className="text-muted-foreground text-[10px] border border-white/10 px-2 py-1 bg-black/30"
+                whileHover={{ scale: 1.1, borderColor: "rgba(255,69,0,0.5)" }}
+              >
+                {skill.code} :: {skill.level}%
+              </motion.span>
             </div>
             
             <div className="h-4 bg-white/5 w-full relative overflow-hidden skew-x-[-10deg] tech-border">
