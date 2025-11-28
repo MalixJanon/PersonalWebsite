@@ -51,21 +51,14 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   
-  // Parallax for text elements (Reversed & Slowed as requested)
-  // Previously moving UP (-y), now moving DOWN (+y) and slower
-  const y1 = useTransform(scrollY, [0, 1000], [0, 50]); // Identity (Slowest)
-  const y2 = useTransform(scrollY, [0, 1000], [0, -400]); // Name (Still fast Upward for contrast? Or user wanted ALL text reversed?)
-  // User said: "reverse direction and slow speed of parallax on the "IDENTITY", "STATUS", and "LATENCY" assets"
-  // IMPLICATION: Keep main title parallax as is (upward/fast)? User didn't explicitly say change main title, but said "All text boxes should have parallax" in prev turn.
-  // In THIS turn: "reverse direction and slow speed of parallax on the "IDENTITY", "STATUS", and "LATENCY" assets."
-  // So IDENTITY/STATUS/LATENCY go DOWN. Main Title (y2) and Description (y3) can stay UP or whatever.
-  // Let's move IDENTITY/STATUS/LATENCY DOWN (positive Y).
+  // Parallax for text elements (All moving UP for unified direction)
+  const y1 = useTransform(scrollY, [0, 1000], [0, -50]); // Identity
+  const y2 = useTransform(scrollY, [0, 1000], [0, -400]); // Name
   
-  const yIdentity = useTransform(scrollY, [0, 1000], [0, 40]); 
-  const yStatus = useTransform(scrollY, [0, 1000], [0, 30]); 
+  // All text elements moving in same direction (UP / Negative Y) with varying speeds for depth
+  const yIdentity = useTransform(scrollY, [0, 1000], [0, -100]); 
+  const yStatus = useTransform(scrollY, [0, 1000], [0, -120]); 
   
-  // Main Title & Desc - Keep them moving UP for contrast/depth (or user might want them all same direction? "ALL text boxes should have parallax, not just the header" from prev turn.
-  // I will keep Main Title moving UP to separate layers.
   const yTitle = useTransform(scrollY, [0, 1000], [0, -300]); 
   const yDesc = useTransform(scrollY, [0, 1000], [0, -150]);
 
