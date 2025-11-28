@@ -11,8 +11,8 @@ const skills = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-20 md:py-32 relative min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background overflow-hidden">
-      <div className="flex items-end justify-between mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4">
+    <section id="skills" className="py-20 md:py-32 relative min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
+      <div className="flex items-end justify-between mb-12 md:mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4">
         <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-foreground">
           SKILLS
         </h2>
@@ -21,87 +21,68 @@ export default function Skills() {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-12 w-full relative z-10 max-w-5xl mx-auto">
+      <div className="grid gap-8 md:gap-12 max-w-4xl mx-auto w-full">
         {skills.map((skill, index) => (
           <motion.div 
             key={skill.code} 
             className="group relative"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <div className="flex items-end justify-between mb-4">
-               <h3 className="font-display text-3xl md:text-5xl font-black text-foreground group-hover:text-primary transition-colors duration-500">
-                  {skill.name}
-               </h3>
-               <motion.span 
-                className="font-mono text-lg md:text-xl text-primary font-bold"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.5 + index * 0.1 }}
-               >
-                  {skill.level}%
-               </motion.span>
+            {/* Tech markers */}
+            <div className="absolute -left-2 md:-left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 md:w-2 md:h-2 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rotate-45 shadow-sm" />
+            
+            <div className="flex flex-col sm:flex-row justify-between sm:items-end mb-2 font-mono text-sm pl-2 gap-1 sm:gap-0">
+              <span className="group-hover:text-primary transition-colors text-base sm:text-lg font-bold tracking-wider duration-300 text-foreground">{skill.name}</span>
+              <div className="flex items-center gap-4">
+                <motion.span 
+                  className="text-muted-foreground text-[9px] sm:text-[10px] border border-black/10 px-2 py-1 bg-white/50 w-fit font-bold"
+                  whileHover={{ scale: 1.1, borderColor: "hsl(var(--primary))", color: "hsl(var(--primary))" }}
+                >
+                  {skill.code}
+                </motion.span>
+                <span className="font-bold text-primary text-xs">{skill.level}%</span>
+              </div>
             </div>
             
-            {/* Large Progress Bar Container */}
-            <div className="h-12 md:h-16 w-full bg-black/5 border border-black/10 relative overflow-hidden">
-               {/* Background Grid Pattern */}
-               <div className="absolute inset-0 opacity-20 bg-[linear-gradient(90deg,transparent_19px,rgba(0,0,0,0.1)_1px)] bg-[size:20px_100%]" />
-
-               {/* The Fill */}
-               <motion.div 
-                  className="absolute top-0 left-0 h-full bg-primary overflow-hidden"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${skill.level}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.5, ease: "circOut", delay: 0.2 + index * 0.1 }}
-               >
-                  {/* Liquid Bubbling Effect */}
-                  <div className="absolute inset-0 w-full h-full">
-                    {/* Bubbles */}
-                    {Array.from({ length: 8 }).map((_, i) => (
-                        <div 
-                            key={i}
-                            className="absolute rounded-full bg-white/20 animate-bubble"
-                            style={{
-                                width: `${Math.random() * 20 + 10}px`,
-                                height: `${Math.random() * 20 + 10}px`,
-                                bottom: `-${Math.random() * 20 + 20}px`,
-                                left: `${Math.random() * 100}%`,
-                                animationDuration: `${Math.random() * 2 + 2}s`,
-                                animationDelay: `${Math.random() * 2}s`,
-                                animationIterationCount: 'infinite',
-                                animationTimingFunction: 'linear'
-                            }}
-                        />
-                    ))}
-                  </div>
-                  
-                  {/* Shine/Gloss */}
-                  <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/30 to-transparent" />
-               </motion.div>
-            </div>
-            
-            <div className="mt-3 flex justify-between items-center">
-               <span className="font-mono text-xs text-muted-foreground tracking-widest font-bold">[{skill.code}]</span>
-               <span className="font-mono text-xs text-muted-foreground tracking-widest font-bold uppercase">{skill.status}</span>
+            <div className="h-6 bg-black/5 w-full relative overflow-hidden skew-x-[-12deg] border border-black/5 group-hover:border-primary/30 transition-colors duration-300">
+              {/* Background Grid in bar */}
+              <div className="absolute inset-0 w-full h-full opacity-20" 
+                style={{ 
+                  backgroundImage: 'linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.1) 50%)', 
+                  backgroundSize: '4px 100%' 
+                }} 
+              />
+              
+              <motion.div 
+                className="h-full bg-primary relative overflow-hidden"
+                initial={{ width: 0 }}
+                whileInView={{ width: `${skill.level}%` }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: index * 0.1, ease: "circOut" }}
+              >
+                {/* Seamless Flowing Glow */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[fluid_3s_linear_infinite] w-[200%]" />
+                
+                {/* Leading Edge Highlight */}
+                <div className="absolute right-0 top-0 h-full w-1 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+              </motion.div>
             </div>
           </motion.div>
         ))}
       </div>
-      
-      <style>{`
-        @keyframes bubble {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
-        }
-        .animate-bubble {
-            animation-name: bubble;
-        }
-      `}</style>
+
+      {/* Decorative Elements */}
+      <div className="absolute right-4 top-1/3 opacity-5 pointer-events-none hidden lg:block mix-blend-multiply">
+        <svg width="300" height="300" viewBox="0 0 100 100" className="stroke-black fill-none stroke-[0.5]">
+          <circle cx="50" cy="50" r="40" className="animate-[spin_20s_linear_infinite]" />
+          <circle cx="50" cy="50" r="30" className="animate-[spin_15s_linear_infinite_reverse]" />
+          <path d="M50 10 L50 90" />
+          <path d="M10 50 L90 50" />
+        </svg>
+      </div>
     </section>
   );
 }
