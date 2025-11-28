@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Send, Linkedin, Instagram, Github } from "lucide-react";
+import { motion } from "framer-motion";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -36,22 +37,40 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-20 md:py-32 min-h-[80vh] flex flex-col justify-center relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
-      <div className="absolute inset-0 pointer-events-none">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="absolute inset-0 pointer-events-none"
+      >
         <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-      </div>
+      </motion.div>
 
-      <div className="flex items-end justify-between mb-12 md:mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4">
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="flex items-end justify-between mb-12 md:mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4"
+      >
         <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-foreground">
           LET'S WORK TOGETHER
         </h2>
         <span className="font-mono text-[10px] sm:text-xs text-primary tracking-widest hidden md:block font-bold">
           // INITIATE_CONTACT
         </span>
-      </div>
+      </motion.div>
 
       <div className="grid md:grid-cols-2 gap-12 md:gap-16">
-        <div className="space-y-8">
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="space-y-8"
+        >
           <p className="text-base md:text-lg text-muted-foreground font-mono leading-relaxed font-medium">
             Ready to build the future? Whether it's a new product, a brand overhaul, or an experimental interface, let's discuss how we can collaborate.
           </p>
@@ -86,9 +105,15 @@ export default function Contact() {
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-white/60 backdrop-blur-sm p-8 tech-border relative overflow-hidden shadow-sm">
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-white/60 backdrop-blur-sm p-8 tech-border relative overflow-hidden shadow-sm"
+        >
             {/* Decorative corner accents */}
             <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary" />
             <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary" />

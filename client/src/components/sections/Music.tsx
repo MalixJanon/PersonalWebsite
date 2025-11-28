@@ -25,11 +25,17 @@ export default function Music() {
 
   return (
     <section id="audio" className="py-20 md:py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
-      <div className="flex items-end justify-between mb-12 md:mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4">
+      <motion.div 
+        className="flex items-end justify-between mb-12 md:mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-right w-full text-foreground">
           MUSIC
         </h2>
-      </div>
+      </motion.div>
 
       <div className="grid md:grid-cols-2 gap-6 md:gap-8">
         {tracks.map((track, index) => (

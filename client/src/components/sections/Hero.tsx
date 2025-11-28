@@ -77,8 +77,8 @@ export default function Hero() {
       </div>
 
       {/* Main 3D Asset */}
-      <motion.div className="absolute right-0 md:right-[-10%] top-1/2 -translate-y-1/2 z-0 w-full md:w-[60%] opacity-90 mix-blend-multiply" style={{ y: yBg }}>
-        <img src={isometricStructure} alt="Industrial Structure" className="w-full h-auto object-contain scale-125 md:scale-150" />
+      <motion.div className="absolute right-0 md:right-[-5%] top-1/2 -translate-y-1/2 z-0 w-full md:w-[55%] opacity-90 mix-blend-multiply" style={{ y: yBg }}>
+        <img src={isometricStructure} alt="Industrial Structure" className="w-full h-auto object-contain scale-100 md:scale-110" />
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center">
@@ -103,7 +103,7 @@ export default function Hero() {
             </div>
             <div className="relative ml-2 md:ml-4 mt-[-0.1em] w-full">
                <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
-                 STRALENDORFF
+                 <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
                </h1>
                <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] font-display font-black leading-[0.85] tracking-tighter text-primary mix-blend-multiply break-words">
                   <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
