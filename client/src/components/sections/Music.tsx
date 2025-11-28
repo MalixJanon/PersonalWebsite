@@ -76,20 +76,26 @@ export default function Music() {
                 </div>
 
                 {/* Visualizer Bar */}
-                <div className="flex items-end justify-between h-8 sm:h-12 gap-1 mt-4">
-                  {track.waveform.map((height, i) => (
-                    <div 
-                      key={i}
-                      className={cn(
-                        "w-full bg-black/10 transition-all duration-300 rounded-t-sm",
-                        activeTrack === track.id && isPlaying ? "animate-pulse bg-primary" : ""
-                      )}
-                      style={{ 
-                        height: `${height}%`,
-                        animationDelay: `${i * 0.05}s`
-                      }}
-                    />
-                  ))}
+                <div className="flex items-end justify-between h-10 sm:h-16 gap-[2px] mt-4 overflow-hidden">
+                  {/* Generate more bars by interpolating or duplicating */}
+                  {Array.from({ length: 32 }).map((_, i) => {
+                     // Create a pseudo-random pattern based on original waveform
+                     const originalIndex = i % track.waveform.length;
+                     const height = track.waveform[originalIndex];
+                     return (
+                        <div 
+                          key={i}
+                          className={cn(
+                            "w-full bg-black/10 transition-all duration-300 rounded-full", // Rounded ends
+                            activeTrack === track.id && isPlaying ? "animate-pulse bg-primary" : ""
+                          )}
+                          style={{ 
+                            height: `${height}%`,
+                            animationDelay: `${i * 0.05}s`
+                          }}
+                        />
+                     );
+                  })}
                 </div>
 
                 <div className="flex justify-between items-center mt-2 font-mono text-[10px] sm:text-xs text-muted-foreground font-bold">

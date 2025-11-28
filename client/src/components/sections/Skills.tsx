@@ -21,39 +21,87 @@ export default function Skills() {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 w-full relative z-10">
+      <div className="grid grid-cols-1 gap-12 w-full relative z-10 max-w-5xl mx-auto">
         {skills.map((skill, index) => (
           <motion.div 
             key={skill.code} 
             className="group relative"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <div className="flex items-end justify-between mb-2">
-               <h3 className="font-display text-2xl md:text-4xl font-black text-foreground/20 group-hover:text-foreground transition-colors duration-500">
+            <div className="flex items-end justify-between mb-4">
+               <h3 className="font-display text-3xl md:text-5xl font-black text-foreground group-hover:text-primary transition-colors duration-500">
                   {skill.name}
                </h3>
-               <span className="font-mono text-xs text-primary font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+               <motion.span 
+                className="font-mono text-lg md:text-xl text-primary font-bold"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.5 + index * 0.1 }}
+               >
                   {skill.level}%
-               </span>
+               </motion.span>
             </div>
             
-            <div className="h-[1px] w-full bg-black/10 relative overflow-hidden group-hover:h-[2px] transition-all duration-300">
-               <div 
-                  className="absolute top-0 left-0 h-full bg-primary transition-all duration-1000 ease-out w-0 group-hover:w-full"
-                  style={{ width: `${skill.level}%` }} // Initial static width for mobile if needed, or use animation
-               />
+            {/* Large Progress Bar Container */}
+            <div className="h-12 md:h-16 w-full bg-black/5 border border-black/10 relative overflow-hidden">
+               {/* Background Grid Pattern */}
+               <div className="absolute inset-0 opacity-20 bg-[linear-gradient(90deg,transparent_19px,rgba(0,0,0,0.1)_1px)] bg-[size:20px_100%]" />
+
+               {/* The Fill */}
+               <motion.div 
+                  className="absolute top-0 left-0 h-full bg-primary overflow-hidden"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${skill.level}%` }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.5, ease: "circOut", delay: 0.2 + index * 0.1 }}
+               >
+                  {/* Liquid Bubbling Effect */}
+                  <div className="absolute inset-0 w-full h-full">
+                    {/* Bubbles */}
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <div 
+                            key={i}
+                            className="absolute rounded-full bg-white/20 animate-bubble"
+                            style={{
+                                width: `${Math.random() * 20 + 10}px`,
+                                height: `${Math.random() * 20 + 10}px`,
+                                bottom: `-${Math.random() * 20 + 20}px`,
+                                left: `${Math.random() * 100}%`,
+                                animationDuration: `${Math.random() * 2 + 2}s`,
+                                animationDelay: `${Math.random() * 2}s`,
+                                animationIterationCount: 'infinite',
+                                animationTimingFunction: 'linear'
+                            }}
+                        />
+                    ))}
+                  </div>
+                  
+                  {/* Shine/Gloss */}
+                  <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/30 to-transparent" />
+               </motion.div>
             </div>
             
-            <div className="mt-2 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-               <span className="font-mono text-[10px] text-muted-foreground tracking-widest">MODULE: {skill.code}</span>
-               <span className="font-mono text-[10px] text-muted-foreground tracking-widest">STATUS: {skill.status}</span>
+            <div className="mt-3 flex justify-between items-center">
+               <span className="font-mono text-xs text-muted-foreground tracking-widest font-bold">[{skill.code}]</span>
+               <span className="font-mono text-xs text-muted-foreground tracking-widest font-bold uppercase">{skill.status}</span>
             </div>
           </motion.div>
         ))}
       </div>
+      
+      <style>{`
+        @keyframes bubble {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+        .animate-bubble {
+            animation-name: bubble;
+        }
+      `}</style>
     </section>
   );
 }
