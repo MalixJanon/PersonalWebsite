@@ -54,10 +54,18 @@ export default function Hero() {
   
   // Scroll-based parallax
   const { scrollY } = useScroll();
-  const scrollYCard = useTransform(scrollY, [0, 1400], [0, -100]);  // Card moves up with scroll - slower exit
-  const scrollYName = useTransform(scrollY, [0, 1400], [0, -60]);   // Name moves up less
-  const scrollYText = useTransform(scrollY, [0, 1400], [0, -40]);   // Text moves up even less
-  const scrollYGrid = useTransform(scrollY, [0, 1400], [0, 50]);    // Grid moves down (inverted)
+  // Card parallax - same speed on both axes
+  const scrollYCard = useTransform(scrollY, [0, 1400], [0, -100]);
+  const scrollXCard = useTransform(scrollY, [0, 1400], [0, -100]);
+  // Name parallax - same speed on both axes
+  const scrollYName = useTransform(scrollY, [0, 1400], [0, -60]);
+  const scrollXName = useTransform(scrollY, [0, 1400], [0, -60]);
+  // Text parallax - same speed on both axes
+  const scrollYText = useTransform(scrollY, [0, 1400], [0, -40]);
+  const scrollXText = useTransform(scrollY, [0, 1400], [0, -40]);
+  // Grid parallax - same speed on both axes (inverted)
+  const scrollYGrid = useTransform(scrollY, [0, 1400], [0, 50]);
+  const scrollXGrid = useTransform(scrollY, [0, 1400], [0, 50]);
   
   // Mouse-based Parallax Depth Layers
   const parallaxMouseX = useMotionValue(0);
@@ -158,7 +166,7 @@ export default function Hero() {
       className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden py-20 md:py-32 perspective-1000 bg-background"
     >
       {/* Technical Background Grid */}
-      <motion.div className="absolute inset-0 pointer-events-none opacity-20" style={{ y: scrollYGrid }}>
+      <motion.div className="absolute inset-0 pointer-events-none opacity-20" style={{ x: scrollXGrid, y: scrollYGrid }}>
          <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:40px_40px]" />
          {/* Crosshairs */}
          <div className="absolute top-1/4 left-1/4 w-4 h-4 border-l border-t border-foreground" />
@@ -227,7 +235,7 @@ export default function Hero() {
       </motion.div>
 
       <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
-        <motion.div style={{ x: parallaxXText, y: parallaxYText }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl ml-auto md:ml-0 md:mr-auto">
+        <motion.div style={{ x: parallaxXText, y: parallaxYText }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl ml-auto md:ml-0 md:mr-auto" data-testid="text-content-wrapper">
           
           {/* Top Technical Text - Fade in 1st */}
           <motion.div 
@@ -254,7 +262,8 @@ export default function Hero() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
               viewport={{ once: true }}
-              style={{ x: parallaxXName, y: scrollYName }}
+              style={{ x: parallaxXName, y: parallaxYName }}
+              data-testid="text-name-alexander"
             >
                <h1 className="text-[clamp(1.8rem,4vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
@@ -266,7 +275,8 @@ export default function Hero() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               viewport={{ once: true }}
-              style={{ x: parallaxXName, y: scrollYName }}
+              style={{ x: parallaxXName, y: parallaxYName }}
+              data-testid="text-name-stralendorff"
             >
                <h1 className="text-[clamp(1.8rem,4.2vw,4.2rem)] font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm break-words">
                  <TypewriterReveal text="STRALENDORFF" delay={1000} speed={50} />
