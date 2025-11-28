@@ -47,7 +47,7 @@ export default function Skills() {
               </div>
             </div>
             
-            <div className="h-6 bg-black/5 w-full relative overflow-hidden skew-x-[-12deg] border border-black/5 group-hover:border-primary/30 transition-colors duration-300">
+            <div className="h-4 bg-black/5 w-full relative overflow-hidden border border-black/5 group-hover:border-primary/30 transition-colors duration-300">
               {/* Background Grid in bar */}
               <div className="absolute inset-0 w-full h-full opacity-20" 
                 style={{ 
@@ -74,14 +74,25 @@ export default function Skills() {
         ))}
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute right-4 top-1/3 opacity-5 pointer-events-none hidden lg:block mix-blend-multiply">
-        <svg width="300" height="300" viewBox="0 0 100 100" className="stroke-black fill-none stroke-[0.5]">
-          <circle cx="50" cy="50" r="40" className="animate-[spin_20s_linear_infinite]" />
-          <circle cx="50" cy="50" r="30" className="animate-[spin_15s_linear_infinite_reverse]" />
-          <path d="M50 10 L50 90" />
-          <path d="M10 50 L90 50" />
-        </svg>
+      {/* Decorative Elements - Redesigned Background Shapes */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <motion.div 
+            className="absolute top-1/4 left-[-10%] w-[50vw] h-[50vw] border border-black/5 rounded-full opacity-20"
+            animate={{ 
+                scale: [1, 1.1, 1],
+                rotate: [0, 180, 360],
+            }}
+            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+        />
+         <motion.div 
+            className="absolute bottom-[-10%] right-[-5%] w-[40vw] h-[40vw] border border-primary/5 rounded-full opacity-10"
+            animate={{ 
+                scale: [1.1, 1, 1.1],
+                rotate: [360, 180, 0],
+            }}
+            transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+        />
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)] pointer-events-none" />
       </div>
     </section>
   );
