@@ -164,9 +164,7 @@ export default function Hero() {
       <motion.div 
         className="absolute right-1/4 md:right-[30%] lg:right-1/3 top-1/4 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none antialiased"
         style={{ 
-          perspective: 1000,
-          rotate: "28deg",
-          scale: 1.5
+          perspective: 1000
         }}
       >
         {/* Tilt Container */}
@@ -175,6 +173,8 @@ export default function Hero() {
             rotateX,
             rotateY: rotateY,
             transformStyle: "preserve-3d",
+            rotate: "28deg",
+            scale: 1.5
           }}
           className="relative w-[220px] sm:w-[280px] md:w-[380px] lg:w-[420px] aspect-[1.75/1]"
         >
