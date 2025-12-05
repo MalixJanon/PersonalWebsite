@@ -190,6 +190,9 @@ export default function Hero() {
               style={{ x: nameX, y: nameY }}
               data-testid="text-name-alexander"
             >
+               <h1 className="text-[clamp(1.8rem,4vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground opacity-20 absolute top-2 left-2 select-none blur-sm">
+                 <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
+               </h1>
                <h1 className="text-[clamp(1.8rem,4vw,4rem)] whitespace-nowrap font-display font-black leading-[0.85] tracking-tighter text-foreground">
                  <TypewriterReveal text="ALEXANDER VAN" delay={200} speed={50} />
                </h1>
@@ -225,15 +228,14 @@ export default function Hero() {
           >
             <div className="flex-1 border-l-2 border-primary pl-6 py-2 bg-white/30 backdrop-blur-sm">
               <p className="font-mono text-sm md:text-base leading-relaxed text-foreground/80 font-bold">
-                Forging immersive interfaces at the intersection of design and machine logic.
-                Specializing in high-fidelity industrial systems.
+                Multidisciplinary creative with a passion for crafting immersive digital experiences. Skilled in UI/UX & Graphic Design, Illustration, Music Production, and Game Development.
               </p>
             </div>
             
             <div className="flex-1 hidden md:block font-mono text-[10px] text-muted-foreground opacity-70">
               <div className="grid grid-cols-2 gap-4">
                  <div>
-                   <span className="block mb-1 font-bold text-primary">SPEED</span>
+                   <span className="block mb-1 font-bold text-primary">THROTTLE</span>
                    <div className="w-full h-1 bg-black/10"><div className="w-[80%] h-full bg-black" /></div>
                  </div>
                  <div>

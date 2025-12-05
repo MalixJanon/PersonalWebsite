@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const skills = [
-  { name: "ILLUSTRATION", level: 95, code: "UI.SYS", status: "OPTIMAL" },
-  { name: "GRAPHIC DESIGN", level: 88, code: "UX.FLOW", status: "STABLE" },
-  { name: "MUSIC PRODUCTION", level: 92, code: "REACT.JS", status: "ACTIVE" },
-  { name: "UI/UX", level: 75, code: "AUDIO.WAV", status: "SYNCED" },
-  { name: "GAME DEVELOPMENT", level: 60, code: "GODOT.ENG", status: "LOADING" },
+  { name: "UI/UX", level: 86, code: "UX.FLOW", status: "SYNCED" },
+  { name: "GRAPHIC DESIGN", level: 88, code: "DESIGN.PSD", status: "SYNCED" },
+  { name: "MUSIC PRODUCTION", level: 92, code: "STUDIO.FL", status: "OPTIMAL" },
+  { name: "ILLUSTRATION", level: 90, code: "ART.CSP", status: "OPTIMAL" },
+  { name: "GAME DEVELOPMENT", level: 63, code: "GODOT.ENG", status: "STABLE" },
 ];
 
 export default function Skills() {

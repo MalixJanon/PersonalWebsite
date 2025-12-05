@@ -28,12 +28,39 @@ export default function Contact() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    toast({
-      title: "TRANSMISSION_SENT",
-      description: "We will establish communication shortly.",
-    });
-    form.reset();
-  }
+    fetch("https://formspree.io/f/mvgeqvko", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept : "application/json",
+      },
+      body: new URLSearchParams({
+        name: values.name,
+        email: values.email,
+        message: values.message,
+      }).toString(),
+    })
+      .then((response) => {
+            if (response.ok) {
+              toast({
+                title: "TRANSMISSION_SENT",
+                description: "We will establish communication shortly.",
+              });
+              form.reset();
+            } else {
+              toast({
+                title: "ERROR",
+                description: "Transmission failed. Please try again.",
+              });
+            }
+          })
+          .catch(() => {
+            toast({
+              title: "ERROR",
+              description: "Network issue. Please try again later.",
+            });
+          });
+      }
 
   return (
     <section id="contact" className="py-20 md:py-32 min-h-[80vh] flex flex-col justify-center relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
@@ -72,7 +99,7 @@ export default function Contact() {
           className="space-y-8"
         >
           <p className="text-base md:text-lg text-muted-foreground font-mono leading-relaxed font-medium">
-            Ready to build the future? Whether it's a new product, a brand overhaul, or an experimental interface, let's discuss how we can collaborate.
+            Ready to build the future? Whether it's a brand overhaul, a new project, or an experimental interface, let's discuss how we can collaborate.
           </p>
           
           <div className="tech-border p-8 bg-white/60 backdrop-blur-sm shadow-sm">
@@ -88,7 +115,7 @@ export default function Contact() {
               </div>
               <div className="flex justify-between items-start border-b border-black/10 pb-2 hover:text-foreground transition-colors gap-4">
                 <span className="shrink-0 text-foreground/70">AVAILABILITY</span>
-                <span className="text-primary animate-pulse text-right">OPEN FOR FREELANCE WORK</span>
+                <span className="text-primary animate-pulse text-right">OPEN FOR WORK</span>
               </div>
             </div>
             
