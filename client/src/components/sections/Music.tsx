@@ -2,12 +2,12 @@ import { Play, Pause } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import cover1 from "@assets/generated_images/abstract_album_art_orange_geometric.png";
-import cover2 from "@assets/generated_images/abstract_album_art_cyan_glitch.png";
+import cover1 from "@assets/placeholder.png";
+import cover2 from "@assets/placeholder.png";
 
 const tracks = [
-  { id: 1, title: "NEON_DRIFT", duration: "3:45", bpm: 128, cover: cover1, waveform: [40, 60, 30, 80, 50, 90, 30, 40, 70, 50, 60, 40, 80, 90, 20, 40] },
-  { id: 2, title: "SYSTEM_FAILURE", duration: "2:12", bpm: 140, cover: cover2, waveform: [80, 90, 60, 40, 20, 50, 80, 90, 70, 60, 30, 20, 50, 80, 90, 70] },
+  { id: 1, title: "SALTED_CARAMEL", duration: "3:45", bpm: 128, cover: cover1, waveform: [40, 60, 30, 80, 50, 90, 30, 40, 70, 50, 60, 40, 80, 90, 20, 40] },
+  { id: 2, title: "LIGHTBRINGER", duration: "5:12", bpm: 140, cover: cover2, waveform: [80, 90, 60, 40, 20, 50, 80, 90, 70, 60, 30, 20, 50, 80, 90, 70] },
 ];
 
 export default function Music() {

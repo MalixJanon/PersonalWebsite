@@ -1,5 +1,5 @@
-import project1 from "@assets/generated_images/futuristic_ui_dashboard_mockup.png";
-import project2 from "@assets/generated_images/pixel_art_cyberpunk_city_game_concept.png";
+import project1 from "@assets/placeholder.png";
+import project2 from "@assets/placeholder.png";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 
