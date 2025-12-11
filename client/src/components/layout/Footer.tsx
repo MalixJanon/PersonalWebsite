@@ -43,14 +43,14 @@ export function Footer() {
         <div className="flex flex-wrap gap-8 md:gap-12 text-[10px] sm:text-xs font-mono text-muted-foreground w-full md:w-auto">
           <div className="flex flex-col gap-3 md:gap-4">
              <span className="text-primary tracking-widest mb-1 md:mb-2 font-bold">SOCIAL</span>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">GITHUB</a>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">LINKEDIN</a>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">TWITTER</a>
+             <a href="https://github.com/MalixJanon" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">GITHUB</a>
+             <a href="https://www.linkedin.com/in/alexander-van-stralendorff-3a3b21204/" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">LINKEDIN</a>
+             <a href="https://janonart.artstation.com/" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">ARTSTATION</a>
           </div>
           <div className="flex flex-col gap-3 md:gap-4">
              <span className="text-primary tracking-widest mb-1 md:mb-2 font-bold">LEGAL</span>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">PRIVACY</a>
-             <a href="#" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">TERMS</a>
+             <a href="https://janonart.artstation.com/resume" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">RESUME</a>
+             <a href="https://www.instagram.com/janonart/" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">INSTAGRAM</a>
           </div>
         </div>
       </div>

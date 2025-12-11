@@ -180,4 +180,7 @@
   .rotate-y-2 {
     transform: rotateY(2deg);
   }
+  html, body, * {
+  cursor: none !important;
+}
 }

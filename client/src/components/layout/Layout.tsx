@@ -79,6 +79,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen w-full bg-background text-foreground relative overflow-x-hidden font-sans selection:bg-primary selection:text-white cursor-none">
+      
       <CustomCursor />
 
       {/* Fixed HUD Elements */}

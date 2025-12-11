@@ -1,28 +1,39 @@
-import project1 from "@assets/placeholder.png";
-import project2 from "@assets/placeholder.png";
-import { ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
+import project1 from "@assets/Cahya SSS Logo Final-01-01.png";
+import project2 from "@assets/EDEN underground Logo-01.png";
+import { ArrowUpRight, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 const projects = [
   {
     id: 1,
-    title: "ORBITAL_HUD",
+    title: "CAHYA",
     category: "UI/UX DESIGN",
     image: project1,
-    description: "Next-gen spacecraft telemetry interface designed for high-stress environments. Features real-time data visualization and holographic projections.",
-    tags: ["React", "Three.js", "WebGL"]
+    description: "2D adventure game featuring a young hero on a quest to restore balance and find his missing brother. Designed UI/UX and developed in Godot.",
+    tags: ["Godot Engine", "Aseprite", "Fl Studio"]
   },
   {
     id: 2,
-    title: "NEON_PROTOCOL",
+    title: "EDEN_UNDERGROUND",
     category: "GAME DEV",
     image: project2,
-    description: "Cyberpunk RPG set in a decaying metropolis. Implemented custom lighting engine and procedural city generation.",
-    tags: ["Unity", "C#", "Pixel Art"]
+    description: "Cyberpunk RPG set in a underground metropolis. Implemented custom lighting engine and procedural city generation.",
+    tags: ["Godot Engine", "Clip Studio Paint", "Blender"]
   }
 ];
 
 export default function Projects() {
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+
+  const openModal = (projectId: number) => {
+    setSelectedImage(projectId);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
+
   return (
     <section id="work" className="py-20 md:py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
       <motion.div 
@@ -52,9 +63,10 @@ export default function Projects() {
           >
             {/* Image Container */}
             <motion.div 
-              className="w-full md:w-3/5 relative group-hover:z-10"
+              className="w-full md:w-3/5 relative group-hover:z-10 cursor-pointer"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.5 }}
+              onClick={() => openModal(project.id)}
             >
               <div className="absolute -inset-4 border-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 hidden sm:block" />
               
@@ -69,9 +81,16 @@ export default function Projects() {
                   className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" 
                 />
                 <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity mix-blend-multiply" />
+                
+                {/* Click hint overlay */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-all duration-300">
+                  <span className="text-white font-mono text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-primary px-4 py-2 transform -skew-x-6">
+                    <span className="transform skew-x-6 block">CLICK TO EXPAND</span>
+                  </span>
+                </div>
               </div>
               
-              {/* Decorative decorative elements */}
+              {/* Decorative elements */}
               <div className="absolute -bottom-4 -right-4 md:-bottom-8 md:-right-8 font-mono text-6xl md:text-9xl font-bold text-black/5 z-[-1] select-none">
                 0{project.id}
               </div>
@@ -121,6 +140,64 @@ export default function Projects() {
           </motion.div>
         ))}
       </div>
+
+      {/* Image Modal */}
+      <AnimatePresence>
+        {selectedImage !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            onClick={closeModal}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="relative max-w-6xl w-full max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={closeModal}
+                className="absolute -top-12 right-0 text-white hover:text-primary transition-colors group z-10"
+              >
+                <div className="flex items-center gap-2 font-mono text-sm">
+                  <span className="group-hover:translate-x-[-4px] transition-transform">CLOSE</span>
+                  <X className="w-6 h-6" />
+                </div>
+              </button>
+
+              {/* Tech corners on modal */}
+              <div className="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-primary" />
+              <div className="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2 border-primary" />
+              <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-2 border-l-2 border-primary" />
+              <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-primary" />
+
+              {/* Image */}
+              <div className="tech-border overflow-hidden bg-black shadow-2xl">
+                <img
+                  src={projects.find(p => p.id === selectedImage)?.image}
+                  alt={projects.find(p => p.id === selectedImage)?.title}
+                  className="w-full h-full object-contain max-h-[85vh]"
+                />
+              </div>
+
+              {/* Project title overlay */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                <div className="bg-primary px-4 py-2 inline-block transform -skew-x-6">
+                  <h3 className="text-2xl md:text-4xl font-display font-bold text-white transform skew-x-6">
+                    {projects.find(p => p.id === selectedImage)?.title}
+                  </h3>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

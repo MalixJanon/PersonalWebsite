@@ -121,13 +121,22 @@ export default function Contact() {
             
             {/* Social Icons */}
             <div className="flex gap-4 mt-8">
-              <a href="#" className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
+              <a href="https://www.linkedin.com/in/alexander-van-stralendorff-3a3b21204/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
                 <Linkedin className="w-5 h-5 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
               </a>
-              <a href="#" className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
+              <a href="https://www.instagram.com/janonart/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
                 <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
               </a>
-              <a href="#" className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
+              <a href="https://github.com/MalixJanon/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
                 <Github className="w-5 h-5 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
               </a>
             </div>
