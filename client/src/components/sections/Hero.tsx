@@ -1,13 +1,21 @@
-import { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring, animate } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { useDeviceCapabilities } from '@/hooks/use-device-capabilities';
 import { ArrowDown } from "lucide-react";
-import cardFront from "@assets/cardfront_1764303990780.png";
-import cardBack from "@assets/cardback_1764303990780.png";
+import cardFront from "@assets/cardfront_1764303990780.webp";
+import cardBack from "@assets/cardback_1764303990780.webp";
 import { TypewriterReveal } from "@/components/ui/typewriter-reveal";
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   
+  // Check for reduced motion preference
+  const prefersReducedMotion = useRef(
+    typeof window !== 'undefined' 
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+      : false
+  ).current;
+
   // Scroll-based parallax
   const { scrollY } = useScroll();
   // Normalized scroll progress for parallax (0 to 1 over 1400px)
@@ -18,8 +26,13 @@ export default function Hero() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
-  const parallaxSpringX = useSpring(x, { stiffness: 300, damping: 40 });
-  const parallaxSpringY = useSpring(y, { stiffness: 300, damping: 40 });
+  // Reduced spring stiffness for lower-end devices when animations are heavy
+  const springConfig = prefersReducedMotion 
+    ? { stiffness: 100, damping: 60 }
+    : { stiffness: 300, damping: 40 };
+  
+  const parallaxSpringX = useSpring(x, springConfig);
+  const parallaxSpringY = useSpring(y, springConfig);
 
   // Combined Transforms
   // Card: Mouse(±40px) + Scroll(100px)
@@ -44,29 +57,28 @@ export default function Hero() {
   const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
   const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
   
-  // Continuous rotation for the card
-  const spinY = useMotionValue(0);
-  
+  const deviceCapabilities = useDeviceCapabilities();
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Cache container rect to avoid calling getBoundingClientRect on every move
+  const rectRef = useRef<DOMRect | null>(null);
   useEffect(() => {
-    const animation = animate(spinY, 360, {
-      duration: 20,
-      ease: "linear",
-      repeat: Infinity,
-    });
-    return () => animation.stop();
-  }, [spinY]);
+    const onResize = () => { rectRef.current = containerRef.current?.getBoundingClientRect() ?? null; };
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rectRef.current) rectRef.current = containerRef.current?.getBoundingClientRect() ?? null;
+    const rect = rectRef.current;
     if (rect) {
       const width = rect.width;
       const height = rect.height;
       const mouseXPos = e.clientX - rect.left;
       const mouseYPos = e.clientY - rect.top;
-      
       const xPct = (mouseXPos / width) - 0.5;
       const yPct = (mouseYPos / height) - 0.5;
-      
       x.set(xPct);
       y.set(yPct);
     }
@@ -82,13 +94,25 @@ export default function Hero() {
     if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node) return;
+    const ob = new IntersectionObserver((entries) => {
+      setIsVisible(entries.some(e => e.isIntersecting));
+    }, { threshold: 0.1 });
+    ob.observe(node);
+    return () => ob.disconnect();
+  }, []);
+
+  const enableSpin = !prefersReducedMotion && !deviceCapabilities.isLowPowerDevice && isVisible;
+
   return (
     <section 
       id="hero" 
       ref={containerRef} 
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="min-h-[100dvh] flex flex-col justify-center relative overflow-hidden py-20 md:py-32 perspective-1000 bg-background"
+      className="min-h-[85vh] flex flex-col justify-center relative overflow-visible perspective-1000 bg-background"
     >
       {/* Technical Background Grid */}
       <motion.div className="absolute inset-0 pointer-events-none opacity-20" style={{ x: gridOffset, y: gridOffset }}>
@@ -105,6 +129,8 @@ export default function Hero() {
         className="absolute left-1/2 md:left-[55%] lg:left-[60%] top-2/5 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none antialiased"
         style={{ 
           perspective: 1000,
+          WebkitPerspective: 1000,
+          MozPerspective: 1000,
           x: cardX,
           y: cardY
         }}
@@ -115,17 +141,20 @@ export default function Hero() {
             rotateX,
             rotateY: rotateY,
             transformStyle: "preserve-3d",
+            WebkitTransformStyle: "preserve-3d",
+            MozTransformStyle: "preserve-3d",
             scale: 1.5
           }}
           className="relative w-[220px] sm:w-[280px] md:w-[380px] lg:w-[420px] aspect-[1.75/1] overflow-visible"
         >
           {/* Spinning Container */}
           <motion.div
-             className="w-full h-full relative overflow-visible"
+             className={enableSpin ? "w-full h-full relative overflow-visible animate-hero-spin" : "w-full h-full relative overflow-visible"}
              style={{ 
-               rotateY: spinY,
-               rotateZ: "28deg",
-               transformStyle: "preserve-3d"
+               rotateZ: "45deg",
+               transformStyle: "preserve-3d",
+               WebkitTransformStyle: "preserve-3d",
+               MozTransformStyle: "preserve-3d"
              }}
           >
               {/* --- FRONT FACE --- */}
@@ -134,6 +163,7 @@ export default function Hero() {
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
+                  MozBackfaceVisibility: "hidden",
                   transform: "translateZ(1px)",
                   borderRadius: "16px"
                 }}
@@ -147,6 +177,7 @@ export default function Hero() {
                 style={{ 
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
+                  MozBackfaceVisibility: "hidden",
                   transform: "rotateY(180deg) translateZ(1px)",
                   borderRadius: "16px"
                 }}
@@ -159,7 +190,7 @@ export default function Hero() {
         
       </motion.div>
 
-      <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none">
+      <div className="relative z-20 w-full px-4 sm:px-6 md:px-12 h-full flex flex-col justify-center pointer-events-none py-20 md:py-32">
         <motion.div style={{ x: textX, y: textY }} className="flex flex-col gap-8 pointer-events-auto max-w-2xl ml-auto md:ml-0 md:mr-auto" data-testid="text-content-wrapper">
           
           {/* Top Technical Text - Fade in 1st */}
@@ -255,7 +286,7 @@ export default function Hero() {
 
       {/* Scroll Indicator */}
       <motion.div 
-        className="absolute bottom-32 left-8 z-30"
+        className="absolute bottom-20 left-8 z-30"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >

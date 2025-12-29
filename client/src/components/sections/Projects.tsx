@@ -1,8 +1,9 @@
-import project1 from "@assets/Cahya SSS Logo Final-01-01.png";
-import project2 from "@assets/EDEN underground Logo-01.png";
+import project1 from "@assets/Cahya SSS Logo Final-01-01.webp";
+import project2 from "@assets/EDEN underground Logo-01.webp";
 import { ArrowUpRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import OptimizedImage from "@/components/ui/optimized-image";
 
 const projects = [
   {
@@ -75,10 +76,12 @@ export default function Projects() {
               <div className="absolute -bottom-2 -right-2 w-4 h-4 border-b-2 border-r-2 border-black/30 z-20 transition-all duration-500 group-hover:-bottom-4 group-hover:-right-4 group-hover:border-primary" />
 
               <div className="relative overflow-hidden tech-border aspect-video bg-card transform transition-transform duration-700 group-hover:rotate-y-2 group-hover:scale-[1.02] shadow-lg">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" 
+                <OptimizedImage
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity mix-blend-multiply" />
                 
@@ -179,10 +182,13 @@ export default function Projects() {
 
               {/* Image */}
               <div className="tech-border overflow-hidden bg-black shadow-2xl">
-                <img
-                  src={projects.find(p => p.id === selectedImage)?.image}
-                  alt={projects.find(p => p.id === selectedImage)?.title}
+                <OptimizedImage
+                  src={projects.find(p => p.id === selectedImage)?.image || ''}
+                  alt={projects.find(p => p.id === selectedImage)?.title || ''}
                   className="w-full h-full object-contain max-h-[85vh]"
+                  loading="eager"
+                  decoding="async"
+                  fadeInDuration={150}
                 />
               </div>
 

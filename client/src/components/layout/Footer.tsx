@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import janonLogo from "@assets/janonlogo_1764302796958.png";
+const janonLogo = new URL('../../../../attached_assets/janonlogo_1764302796958.webp', import.meta.url).href;
 
 export function Footer() {
   const { scrollYProgress } = useScroll();

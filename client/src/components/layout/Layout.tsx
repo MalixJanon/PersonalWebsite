@@ -1,10 +1,10 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { motion } from "framer-motion";
-import chromeLogo from "@assets/ChromeJIcon_1764303870326.png";
+import chromeLogo from "@assets/ChromeJIcon_1764303870326.webp";
 import CustomCursor from "@/components/ui/custom-cursor";
 import { Footer } from "@/components/layout/Footer";
 
@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { href: "#hero", label: "HOME" },
   { href: "#skills", label: "SKILLS" },
   { href: "#work", label: "PROJECTS" },
+  { href: "#portfolio", label: "PORTFOLIO" },
   { href: "#audio", label: "MUSIC" },
   { href: "#contact", label: "CONTACT" },
 ];
@@ -31,7 +32,7 @@ export default function Layout({ children }: LayoutProps) {
     
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const scrollPosition = scrollY + window.innerHeight / 3; // Trigger point
+      const scrollPosition = scrollY + window.innerHeight / 3; // Trigger point at 1/3 of viewport
 
       // Calculate dynamic coordinate directly
       const scrollPercentage = Math.min(1, scrollY / (document.body.scrollHeight - window.innerHeight));
@@ -43,21 +44,29 @@ export default function Layout({ children }: LayoutProps) {
         coordsRef.innerText = `${dynamicCoord}, -12.004`;
       }
 
-      // Check active section
-      // Optimized to check against static items
+      // Check active section - iterate through nav items and find the active one
+      let foundActive = false;
       for (const item of NAV_ITEMS) {
         const sectionId = item.href.substring(1);
         const element = document.getElementById(sectionId);
+        
         if (element) {
           const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          const sectionBottom = offsetTop + offsetHeight;
+          
+          // Check if the trigger point is within this section
+          if (scrollPosition >= offsetTop && scrollPosition < sectionBottom) {
             setActiveSection(item.href);
-            break; 
+            foundActive = true;
+            break;
           }
         }
       }
-      // Special case for top
-      if (window.scrollY < 100) setActiveSection("#hero");
+      
+      // If no section found (e.g., at the very top), set to hero
+      if (!foundActive && scrollY < 100) {
+        setActiveSection("#hero");
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -78,7 +87,7 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen w-full bg-background text-foreground relative overflow-x-hidden font-sans selection:bg-primary selection:text-white cursor-none">
+    <div className="w-screen overflow-hidden flex flex-col bg-background text-foreground relative font-sans selection:bg-primary selection:text-white cursor-none">
       
       <CustomCursor />
 
@@ -182,7 +191,7 @@ export default function Layout({ children }: LayoutProps) {
                         <span className="font-mono text-[10px] tracking-widest text-foreground font-bold">SYS.ONLINE</span>
                     </div>
                     <div className="font-mono text-[10px] text-muted-foreground">
-                        v3.0.0 // MOCKUP_MODE
+                        v3.0.0 // DEV_MODE
                     </div>
                 </div>
             </SheetContent>
@@ -239,7 +248,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </div>
 
-      <main className="pt-20 pb-20 relative z-10">
+      <main className="relative z-10 pt-16">
         {children}
       </main>
 

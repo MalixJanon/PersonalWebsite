@@ -2,26 +2,27 @@ import React, { useEffect, useRef, useState, useCallback, memo } from "react";
 import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import cover1 from "@assets/Cahya SSS Logo Final-01-01.png";
-import cover2 from "@assets/Quadrata Logo WonB Sq@2x.png";
+import { useDeviceCapabilities } from '@/hooks/use-device-capabilities';
+import cover1 from "@assets/Cahya SSS Logo Final-01-01.webp";
+import cover2 from "@assets/Quadrata Logo WonB Sq@2x.webp";
 
 const tracks = [
   {
     id: 1,
     title: "SALTED_CARAMEL",
     duration: "3:26",
-    bpm: 128,
+    bpm: "CHILL",
     cover: cover1,
     audioUrl: "/audio/SALTED_CARAMEL.wav",
     waveform: new Array(32).fill(10),
   },
   {
     id: 2,
-    title: "STORMFRONT",
-    duration: "2:40",
-    bpm: 140,
+    title: "ARKSID",
+    duration: "1:16",
+    bpm: "ACTION",
     cover: cover2,
-    audioUrl: "/audio/STORMFRONT.wav",
+    audioUrl: "/audio/ARKSID.mp3",
     waveform: new Array(32).fill(10),
   },
 ];
@@ -38,10 +39,13 @@ export default function Music() {
   const analyserRef = useRef<AnalyserNode | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const containerRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const deviceCapabilities = useDeviceCapabilities();
   const progressBarRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const barElementsRef = useRef<Map<number, HTMLDivElement[]>>(new Map());
   const lastUpdateTimeRef = useRef<number>(0);
-  const UPDATE_INTERVAL = 50; // Update every 50ms instead of every frame (~20fps)
+  const BASE_UPDATE_INTERVAL = 50; // Update every 50ms instead of every frame (~20fps)
 
   useEffect(() => {
     return () => {
@@ -80,7 +84,17 @@ export default function Music() {
     const bars = 32;
     const step = Math.floor(bufferLength / bars);
 
+    // Adjust interval based on device capabilities
+    const UPDATE_INTERVAL = deviceCapabilities.isLowPowerDevice ? 200 : BASE_UPDATE_INTERVAL;
+
     const updateFrequencies = (timestamp: number) => {
+      // If the section is not visible or device is low-power, keep frequencies zeroed
+      if (!isVisible || deviceCapabilities.isLowPowerDevice) {
+        setFrequencyData(Array(bars).fill(0));
+        animationFrameRef.current = requestAnimationFrame(updateFrequencies);
+        return;
+      }
+
       // Throttle updates to reduce CPU usage
       if (timestamp - lastUpdateTimeRef.current < UPDATE_INTERVAL) {
         animationFrameRef.current = requestAnimationFrame(updateFrequencies);
@@ -90,7 +104,7 @@ export default function Music() {
 
       analyser.getByteFrequencyData(dataArray);
       
-      const frequencies = [];
+      const frequencies: number[] = [];
       for (let i = 0; i < bars; i++) {
         const start = i * step;
         const end = start + step;
@@ -233,8 +247,18 @@ export default function Music() {
     }
   }, [isDragging]);
 
+  useEffect(() => {
+    const node = containerRef.current || document.getElementById('audio');
+    if (!node) return;
+    const observer = new IntersectionObserver((entries) => {
+      setIsVisible(entries.some((e) => e.isIntersecting));
+    }, { threshold: 0.1 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="audio" className="py-20 md:py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
+    <section ref={(el) => (containerRef.current = el)} id="audio" className="py-20 md:py-32 min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-background">
       <motion.div 
         className="flex items-end justify-between mb-12 md:mb-16 border-b-2 border-black/10 pb-4 sticky top-16 md:top-20 z-20 bg-background/90 backdrop-blur-sm py-4"
         initial={{ opacity: 0, y: -20 }}
@@ -294,7 +318,7 @@ export default function Music() {
                     <div className="flex justify-between items-start mb-1 gap-2">
                       <h3 className="font-display text-xl sm:text-2xl font-bold group-hover:text-primary transition-colors line-clamp-1 text-foreground">{track.title}</h3>
                       <span className="font-mono text-[10px] sm:text-xs text-muted-foreground border border-black/10 px-2 py-0.5 bg-black/5 shrink-0 font-bold">
-                        {track.bpm} BPM
+                        {track.bpm} 
                       </span>
                     </div>
                     <p className="text-primary font-mono text-[10px] sm:text-xs tracking-widest font-bold">ORIGINAL MIX</p>

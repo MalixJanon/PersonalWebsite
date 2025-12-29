@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Send, Linkedin, Instagram, Github } from "lucide-react";
+import { Send, Linkedin, Instagram, Github, Gamepad2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const formSchema = z.object({
@@ -138,6 +138,12 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
                 <Github className="w-5 h-5 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
+              </a>
+              <a href="https://MalixJanon.itch.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
+                <Gamepad2 className="w-5 h-5 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
               </a>
             </div>
           </div>
