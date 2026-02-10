@@ -20,9 +20,6 @@ export default function Home() {
         <Skills />
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
-        <Projects />
-      </Suspense>
-      <Suspense fallback={<SectionFallback />}>
         <Portfolio />
       </Suspense>
       <Suspense fallback={<SectionFallback />}>

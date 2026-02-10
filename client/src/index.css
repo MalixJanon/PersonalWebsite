@@ -72,7 +72,7 @@
   }
 }
 
-/* LIGHT MODE INDUSTRIAL THEME (Epsilon Style) */
+/* LIGHT MODE THEME */
 :root {
   /* Base Colors - Light Grey/Blue Technical */
   --background: 210 20% 92%; /* Light Grey-Blue #E6E8EB */
@@ -113,19 +113,22 @@
   
   --radius: 0px; /* Sharp edges */
   
-  cursor: crosshair;
 }
 
 @layer base {
   html, body {
+    height: 100%;
     overflow-x: hidden;
+  }
+  html {
+    overflow-y: hidden;
   }
   * {
     @apply border-border;
-    cursor: none;
   }
   body {
     @apply bg-background text-foreground font-sans antialiased selection:bg-primary selection:text-primary-foreground;
+    overflow-y: auto;
     background-image: 
       linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
@@ -184,8 +187,68 @@
   .rotate-y-2 {
     transform: rotateY(2deg);
   }
-  html, body, * {
+  body.has-fine-pointer,
+  body.has-fine-pointer * {
     cursor: none !important;
+  }
+
+  .icon-label {
+    position: relative;
+    width: 5rem;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .icon-label-scroll::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.5rem;
+    height: 100%;
+    background: linear-gradient(to left, hsl(var(--background)), transparent);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .icon-label-scroll::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5rem;
+    height: 100%;
+    background: linear-gradient(to right, hsl(var(--background)), transparent);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .icon-label-track {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    gap: 1.5rem;
+    padding-right: 1.5rem;
+    width: max-content;
+  }
+
+  .icon-label-text {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+  }
+
+  .icon-label-track-scroll {
+    animation: icon-marquee 5s linear infinite;
+  }
+
+  @keyframes icon-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
   }
 
   /* Hero card spin (only enabled when allowed) */
@@ -210,4 +273,8 @@
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
   }
+}
+
+body.portfolio-modal-open .portfolio-menu-toggle {
+  display: none;
 }

@@ -96,13 +96,13 @@ export default function Contact() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="space-y-8"
+          className="space-y-8 h-full flex flex-col"
         >
           <p className="text-base md:text-lg text-muted-foreground font-mono leading-relaxed font-medium">
             Ready to build the future? Whether it's a brand overhaul, a new project, or an experimental interface, let's discuss how we can collaborate.
           </p>
           
-          <div className="tech-border p-8 bg-white/60 backdrop-blur-sm shadow-sm">
+          <div className="tech-border p-8 bg-white/60 backdrop-blur-sm shadow-sm mt-auto">
             <h3 className="font-display text-xl mb-4 text-primary font-bold">CONTACT_INFO</h3>
             <div className="space-y-4 font-mono text-sm text-muted-foreground font-bold">
               <div className="flex justify-between items-start border-b border-black/10 pb-2 hover:text-foreground transition-colors gap-4">
@@ -120,30 +120,40 @@ export default function Contact() {
             </div>
             
             {/* Social Icons */}
-            <div className="flex gap-4 mt-8">
+            <div className="flex items-center gap-4 mt-8">
               <a href="https://www.linkedin.com/in/alexander-van-stralendorff-3a3b21204/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
-                <Linkedin className="w-5 h-5 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
+                className="h-9 w-9 inline-flex items-center justify-center border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
+                <Linkedin className="w-4 h-4 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
               </a>
               <a href="https://www.instagram.com/janonart/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
-                <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
+                className="h-9 w-9 inline-flex items-center justify-center border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
+                <Instagram className="w-4 h-4 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
               </a>
               <a href="https://github.com/MalixJanon/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
-                <Github className="w-5 h-5 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
+                className="h-9 w-9 inline-flex items-center justify-center border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
+                <Github className="w-4 h-4 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
               </a>
               <a href="https://MalixJanon.itch.io/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
-                <Gamepad2 className="w-5 h-5 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
+                className="h-9 w-9 inline-flex items-center justify-center border border-black/10 hover:border-primary hover:text-primary transition-all duration-300 group bg-white/50">
+                <Gamepad2 className="w-4 h-4 group-hover:scale-110 transition-transform text-foreground group-hover:text-primary" />
+              </a>
+
+              <a
+                href="/CV_AvS26.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-auto inline-flex items-center justify-center min-h-9 bg-primary hover:bg-primary/90 text-white font-mono tracking-widest rounded-none group relative overflow-hidden font-bold text-xs uppercase px-4 border border-primary-border"
+              >
+                <div className="absolute inset-0 bg-black/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+                <span className="relative">_RESUME</span>
               </a>
             </div>
           </div>

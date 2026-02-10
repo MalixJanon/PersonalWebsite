@@ -1,5 +1,17 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { customIcons } from "@/customIcons.ts";
+import {
+  siAmazonwebservices,
+  siBlender,
+  siFigma,
+  siGit,
+  siGodotengine,
+  siJira,
+  siMiro,
+  siNotion,
+} from "simple-icons/icons";
+
 
 const skills = [
   { name: "UI/UX", level: 86, code: "UX.FLOW", status: "SYNCED" },
@@ -7,6 +19,31 @@ const skills = [
   { name: "MUSIC PRODUCTION", level: 92, code: "STUDIO.FL", status: "OPTIMAL" },
   { name: "ILLUSTRATION", level: 90, code: "ART.CSP", status: "OPTIMAL" },
   { name: "GAME DEVELOPMENT", level: 63, code: "GODOT.ENG", status: "STABLE" },
+];
+
+type ProgramIcon = {
+  name: string;
+  path: string;
+  viewBox: string;
+};
+
+const SIMPLE_ICONS_VIEWBOX = "0 0 24 24";
+const CUSTOM_ICONS_VIEWBOX = "0 0 50 50";
+
+const programIcons: ProgramIcon[] = [
+  { name: "Figma", path: siFigma.path, viewBox: SIMPLE_ICONS_VIEWBOX },
+  { name: "Adobe", path: customIcons.adobe.path, viewBox: CUSTOM_ICONS_VIEWBOX },
+  { name: "Miro", path: siMiro.path, viewBox: SIMPLE_ICONS_VIEWBOX },
+  { name: "Notion", path: siNotion.path, viewBox: SIMPLE_ICONS_VIEWBOX },
+  { name: "Jira", path: siJira.path, viewBox: SIMPLE_ICONS_VIEWBOX },
+  { name: "Visual Studio", path: customIcons.visualStudio.path, viewBox: CUSTOM_ICONS_VIEWBOX },
+  { name: "AWS", path: siAmazonwebservices.path, viewBox: SIMPLE_ICONS_VIEWBOX },
+  { name: "Git", path: siGit.path, viewBox: SIMPLE_ICONS_VIEWBOX },
+  { name: "Godot", path: siGodotengine.path, viewBox: SIMPLE_ICONS_VIEWBOX },
+  { name: "Clip Studio", path: customIcons.clipStudio.path, viewBox: CUSTOM_ICONS_VIEWBOX },
+  { name: "Microsoft Office", path: customIcons.microsoftOffice.path, viewBox: CUSTOM_ICONS_VIEWBOX },
+  { name: "Power BI", path: customIcons.powerBi.path, viewBox: CUSTOM_ICONS_VIEWBOX },
+  { name: "Blender", path: siBlender.path, viewBox: SIMPLE_ICONS_VIEWBOX },
 ];
 
 export default function Skills() {
@@ -73,6 +110,52 @@ export default function Skills() {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-12 max-w-5xl mx-auto w-full">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-0.5 bg-primary" />
+            <h3 className="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground">
+              Tools
+            </h3>
+          </div>
+          <div className="flex flex-wrap justify-center gap-1">
+            {programIcons.map((program) => {
+              const shouldScroll = program.name.length > 10;
+              return (
+              <div
+                key={program.name}
+                className="flex w-18 flex-col items-center gap-2 text-muted-foreground transition-colors duration-200 hover:text-primary"
+                title={program.name}
+              >
+                <svg
+                  role="img"
+                  aria-label={program.name}
+                  viewBox={program.viewBox}
+                  className="h-8 w-8"
+                  fill="currentColor"
+                >
+                  <path d={program.path} />
+                </svg>
+                <div
+                  className={cn(
+                    "icon-label text-[10px] font-mono tracking-wider text-center",
+                    shouldScroll && "icon-label-scroll"
+                  )}
+                >
+                  {shouldScroll ? (
+                    <div className="icon-label-track icon-label-track-scroll">
+                      <span className="icon-label-text">{program.name}</span>
+                      <span className="icon-label-text">{program.name}</span>
+                    </div>
+                  ) : (
+                    <span className="icon-label-text">{program.name}</span>
+                  )}
+                </div>
+              </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 

@@ -112,7 +112,7 @@ export default function Hero() {
       ref={containerRef} 
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="min-h-[85vh] flex flex-col justify-center relative overflow-visible perspective-1000 bg-background"
+      className="min-h-[85vh] flex flex-col justify-center relative overflow-visible perspective-1000 bg-background pt-24 sm:pt-28"
     >
       {/* Technical Background Grid */}
       <motion.div className="absolute inset-0 pointer-events-none opacity-20" style={{ x: gridOffset, y: gridOffset }}>
@@ -126,7 +126,7 @@ export default function Hero() {
 
       {/* 3D Business Card Asset - Completely Rebuilt */}
       <motion.div 
-        className="absolute left-1/2 md:left-[55%] lg:left-[60%] top-2/5 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none antialiased"
+        className="absolute left-1/2 md:left-[55%] lg:left-[60%] top-1/2 -translate-y-1/2 z-10 flex items-center justify-center perspective-1000 pointer-events-none antialiased"
         style={{ 
           perspective: 1000,
           WebkitPerspective: 1000,
@@ -143,7 +143,8 @@ export default function Hero() {
             transformStyle: "preserve-3d",
             WebkitTransformStyle: "preserve-3d",
             MozTransformStyle: "preserve-3d",
-            scale: 1.5
+            scale: 1.5,
+            z: -120
           }}
           className="relative w-[220px] sm:w-[280px] md:w-[380px] lg:w-[420px] aspect-[1.75/1] overflow-visible"
         >
@@ -151,12 +152,20 @@ export default function Hero() {
           <motion.div
              className={enableSpin ? "w-full h-full relative overflow-visible animate-hero-spin" : "w-full h-full relative overflow-visible"}
              style={{ 
-               rotateZ: "45deg",
                transformStyle: "preserve-3d",
                WebkitTransformStyle: "preserve-3d",
                MozTransformStyle: "preserve-3d"
              }}
           >
+              <div
+                className="w-full h-full relative overflow-visible"
+                style={{
+                  rotate: "45deg",
+                  transformStyle: "preserve-3d",
+                  WebkitTransformStyle: "preserve-3d",
+                  MozTransformStyle: "preserve-3d"
+                }}
+              >
               {/* --- FRONT FACE --- */}
               <div 
                 className="absolute inset-0 w-full h-full backface-hidden"
@@ -164,7 +173,7 @@ export default function Hero() {
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   MozBackfaceVisibility: "hidden",
-                  transform: "translateZ(1px)",
+                  transform: "translateZ(2px) scale(0.995)",
                   borderRadius: "16px"
                 }}
               >
@@ -178,13 +187,13 @@ export default function Hero() {
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                   MozBackfaceVisibility: "hidden",
-                  transform: "rotateY(180deg) translateZ(1px)",
+                  transform: "rotateY(180deg) translateZ(2px) scale(0.995)",
                   borderRadius: "16px"
                 }}
               >
                  <img src={cardBack} alt="Business Card Back" className="w-full h-full object-cover rounded-[16px]" />
               </div>
-
+              </div>
           </motion.div>
         </motion.div>
         
@@ -286,7 +295,7 @@ export default function Hero() {
 
       {/* Scroll Indicator */}
       <motion.div 
-        className="absolute bottom-20 left-8 z-30"
+        className="absolute bottom-10 left-8 z-30"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >

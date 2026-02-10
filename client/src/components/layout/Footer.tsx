@@ -47,11 +47,6 @@ export function Footer() {
              <a href="https://www.linkedin.com/in/alexander-van-stralendorff-3a3b21204/" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">LINKEDIN</a>
              <a href="https://janonart.artstation.com/" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">ARTSTATION</a>
           </div>
-          <div className="flex flex-col gap-3 md:gap-4">
-             <span className="text-primary tracking-widest mb-1 md:mb-2 font-bold">LEGAL</span>
-             <a href="https://janonart.artstation.com/resume" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">RESUME</a>
-             <a href="https://www.instagram.com/janonart/" className="hover:text-foreground transition-colors hover:translate-x-1 transform duration-300">INSTAGRAM</a>
-          </div>
         </div>
       </div>
     </motion.footer>

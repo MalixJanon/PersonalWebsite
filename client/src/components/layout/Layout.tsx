@@ -5,7 +5,6 @@ import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { motion } from "framer-motion";
 import chromeLogo from "@assets/ChromeJIcon_1764303870326.webp";
-import CustomCursor from "@/components/ui/custom-cursor";
 import { Footer } from "@/components/layout/Footer";
 
 interface LayoutProps {
@@ -15,11 +14,14 @@ interface LayoutProps {
 const NAV_ITEMS = [
   { href: "#hero", label: "HOME" },
   { href: "#skills", label: "SKILLS" },
-  { href: "#work", label: "PROJECTS" },
   { href: "#portfolio", label: "PORTFOLIO" },
   { href: "#audio", label: "MUSIC" },
   { href: "#contact", label: "CONTACT" },
 ];
+
+const NAV_ITEMS_NO_PROJECTS = NAV_ITEMS.filter(
+  (item) => item.href !== "#work" && item.label !== "PROJECTS"
+);
 
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
@@ -29,13 +31,27 @@ export default function Layout({ children }: LayoutProps) {
 
   useEffect(() => {
     const coordsRef = document.getElementById('coords-display');
+    const scrollElement = (document.scrollingElement || document.documentElement) as HTMLElement;
+    const scrollTargets: Array<Window | HTMLElement> = [window, scrollElement, document.body];
+    const uniqueTargets = Array.from(new Set(scrollTargets));
     
     const handleScroll = () => {
-      const scrollY = window.scrollY;
+      const scrollTop = Math.max(
+        scrollElement.scrollTop,
+        document.documentElement.scrollTop,
+        document.body.scrollTop
+      );
+      const scrollHeight = Math.max(
+        scrollElement.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      );
+      const scrollY = scrollTop;
       const scrollPosition = scrollY + window.innerHeight / 3; // Trigger point at 1/3 of viewport
 
       // Calculate dynamic coordinate directly
-      const scrollPercentage = Math.min(1, scrollY / (document.body.scrollHeight - window.innerHeight));
+      const scrollRange = Math.max(1, scrollHeight - window.innerHeight);
+      const scrollPercentage = Math.min(1, scrollY / scrollRange);
       const baseCoord = 45.912;
       const dynamicCoord = (baseCoord + (scrollPercentage * 10)).toFixed(3);
       
@@ -46,7 +62,7 @@ export default function Layout({ children }: LayoutProps) {
 
       // Check active section - iterate through nav items and find the active one
       let foundActive = false;
-      for (const item of NAV_ITEMS) {
+      for (const item of NAV_ITEMS_NO_PROJECTS) {
         const sectionId = item.href.substring(1);
         const element = document.getElementById(sectionId);
         
@@ -69,9 +85,15 @@ export default function Layout({ children }: LayoutProps) {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    uniqueTargets.forEach((target) => {
+      target.addEventListener("scroll", handleScroll, { passive: true } as AddEventListenerOptions);
+    });
     handleScroll(); // Initial check
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      uniqueTargets.forEach((target) => {
+        target.removeEventListener("scroll", handleScroll);
+      });
+    };
   }, []);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -87,10 +109,8 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="w-screen overflow-hidden flex flex-col bg-background text-foreground relative font-sans selection:bg-primary selection:text-white cursor-none">
+    <div className="w-screen overflow-x-hidden overflow-y-visible flex flex-col bg-background text-foreground relative font-sans selection:bg-primary selection:text-white cursor-none">
       
-      <CustomCursor />
-
       {/* Fixed HUD Elements */}
       <header className="fixed top-0 left-0 w-full z-[30] px-4 sm:px-6 py-3 sm:py-4 grid grid-cols-3 items-center bg-background/20 backdrop-blur-md border-b border-white/5 shadow-sm">
         
@@ -133,8 +153,8 @@ export default function Layout({ children }: LayoutProps) {
         />
       )}
 
-      {/* Hamburger Menu - Moved outside Header to escape stacking context */}
-      <div className="fixed top-3 right-4 sm:top-4 sm:right-6 z-[100]">
+      {/* Hamburger Menu */}
+      <div className="fixed top-3 right-4 sm:top-4 sm:right-6 z-[100] portfolio-menu-toggle">
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
                 <motion.button 
@@ -163,7 +183,7 @@ export default function Layout({ children }: LayoutProps) {
                 </SheetHeader>
                 
                 <nav className="flex flex-col gap-6">
-                    {NAV_ITEMS.map((item) => (
+                    {NAV_ITEMS_NO_PROJECTS.map((item) => (
                         <a 
                             key={item.label} 
                             href={item.href}
@@ -221,7 +241,7 @@ export default function Layout({ children }: LayoutProps) {
            </div>
         </div>
 
-        {/* Navigation Dots */}
+        {/* Navigation Dots Section */}
         <div className="flex flex-col gap-4 items-end relative">
           {NAV_ITEMS.map((item) => (
             <a
@@ -242,7 +262,7 @@ export default function Layout({ children }: LayoutProps) {
               )} />
             </a>
           ))}
-          
+
           {/* Connecting Line */}
           <div className="absolute right-[3px] top-0 bottom-0 w-[1px] bg-black/5 -z-10" />
         </div>
