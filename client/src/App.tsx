@@ -20,6 +20,10 @@ function Routes() {
 
 function App() {
   const hasFinePointer = useHasFinePointer();
+  const routerBase =
+    typeof window !== "undefined"
+      ? new URL(import.meta.env.BASE_URL, window.location.href).pathname.replace(/\/$/, "") || "/"
+      : "/";
 
   useEffect(() => {
     document.body.classList.toggle("has-fine-pointer", hasFinePointer);
@@ -30,7 +34,7 @@ function App() {
       <TooltipProvider>
         {hasFinePointer && <CustomCursor />}
         <Toaster />
-        <Router base="/">
+        <Router base={routerBase}>
           <Routes />
         </Router>
       </TooltipProvider>

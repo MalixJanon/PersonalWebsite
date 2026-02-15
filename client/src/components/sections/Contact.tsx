@@ -147,7 +147,7 @@ export default function Contact() {
               </a>
 
               <a
-                href="/CV_AvS26.pdf"
+                href={`${import.meta.env.BASE_URL}CV_AvS26.pdf`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-auto inline-flex items-center justify-center min-h-9 bg-primary hover:bg-primary/90 text-white font-mono tracking-widest rounded-none group relative overflow-hidden font-bold text-xs uppercase px-4 border border-primary-border"

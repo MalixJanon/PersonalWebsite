@@ -5,7 +5,7 @@ import path from "path";
 
 
 export default defineConfig({
-  base: '/',
+  base: './',
   plugins: [
     react(),
     tailwindcss(),
@@ -40,34 +40,10 @@ export default defineConfig({
     // Code splitting for better caching and parallel downloads
     rollupOptions: {
       output: {
+        // Keep all node_modules in a single vendor chunk to avoid circular chunk deps.
         manualChunks: (id) => {
-          // Vendor chunks for better caching
           if (id.includes('node_modules')) {
-            if (id.includes('react')) {
-              return 'vendor-react';
-            }
-            if (id.includes('framer-motion')) {
-              return 'vendor-animation';
-            }
-            if (id.includes('@radix-ui')) {
-              return 'vendor-ui';
-            }
-            if (id.includes('react-hook-form')) {
-              return 'vendor-forms';
-            }
-            if (id.includes('@tanstack/react-query')) {
-              return 'vendor-query';
-            }
-            if (id.includes('lucide-react') || id.includes('cmdk') || id.includes('class-variance-authority')) {
-              return 'vendor-misc';
-            }
-            return 'vendor-other';
-          }
-          // Lazy-loaded sections into separate chunks
-          if (id.includes('sections/Skills') || id.includes('sections/Projects') || 
-              id.includes('sections/Music') || id.includes('sections/Contact')) {
-            const match = id.match(/sections\/(\w+)/);
-            if (match) return `chunk-${match[1].toLowerCase()}`;
+            return 'vendor';
           }
         },
       },

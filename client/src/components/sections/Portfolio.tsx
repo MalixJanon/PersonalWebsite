@@ -3,32 +3,69 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+import janonartWeb from "@assets/janonartweb.webp";
+import janonartDash from "@assets/janonartdash.webp";
+
+import quantumThumb from "@assets/quantumshiftthumbnail.webp";
+import quantumPink from "@assets/quantumshiftPink.webp";
+import quantumBlue from "@assets/quantumshiftBlue.webp";
+
+import metroThumb from "@assets/metrobeatdownthumbnail.webp";
+import metroMain from "@assets/metrobeatdownGame.webp";
+import metroMenu from "@assets/metrobeatdownmmenu.webp";
+import metroSet from "@assets/metrobeatdownSettings.webp";
+import metroTrophy from "@assets/trophy.webp";
+
 import placeholderImg from "@assets/placeholder.webp";
+
 import sydKnights from "@assets/Syd Knights Finished.webp";
+import sydKnightsLineart from "@assets/SydKnightsLines.webp";
+import sydKnightsSketch from "@assets/SydKnightsSketch.webp";
+
+import sydKnightsv2 from "@assets/SydKnightsv2WIPline.webp";
+import sydKnightsV2Sketch from "@assets/SydKnightsV2Sketch.webp";
+
+import littlefrogidle from "@assets/LittleFrogKnightIdle.gif";
+import littlefrogrun from "@assets/LittleFrogKnightRun.gif";
+
+import lunar from "@assets/LunarWIP.webp";
+
+import portrait from "@assets/Darius.webp";
+import portrait2 from "@assets/Portrait1.webp";
+
 import businessCards from "@assets/businesscardlayout.webp";
+
 import signatureKG from "@assets/KeighleyGroupEmailSignature.webp";
 import signatureBackend from "@assets/emailsignature.webp";
 import kgLogo from "@assets/KeighleyGroupLogoBl.webp";
+
 import linkTOTK from "@assets/LinkTOTKFinished.webp";
+import linkLines from "@assets/LinkLines.webp";
+
 import mortalRune from "@assets/MortalRune.webp";
+
 import cahyaLogo from "@assets/Cahya SSS Logo Final-01-01.webp";
 import cahyaCahyaFront from "@assets/alexander-van-stralendorff-cahya-layout-x-front.webp";
 import cahyaCahya2 from "@assets/alexander-van-stralendorff-cahya-layout-x-1.webp";
+import cahyaCahyaSprite from "@assets/CahyaCahyaSprite.webp";
 import cahyaFaussFront from "@assets/alexander-van-stralendorff-fauss-layout-x-front.webp";
 import cahyaFauss2 from "@assets/alexander-van-stralendorff-fauss-layout-x-1-2.webp";
 import cahyaGhashiFront from "@assets/alexander-van-stralendorff-ghashi-layout-x-front.webp";
 import cahyaGhashi2 from "@assets/alexander-van-stralendorff-ghashi-layout-x-1-2.webp";
 import cahyaSanjinFront from "@assets/alexander-van-stralendorff-sanjin-layout-x-front.webp";
 import cahyaSanjin2 from "@assets/alexander-van-stralendorff-sanjin-layout-x-1-2.webp";
+
 import edenLogo from "@assets/EDEN underground Logo-01.webp";
+
 import obelyskLogoBoW from "@assets/OBELYSK Logo BoW.webp";
 import obelyskLogoWoB from "@assets/OBELYSK Logo WoB.webp";
+
 import quadrataLogoWoB from "@assets/Quadrata Logo WonB Sq@2x.webp";
 import quadrataLogoBoW from "@assets/Quadrata Logo BonW Sq@2x.webp";
 import quadrataLogoWoR from "@assets/Quadrata Logo WonR Sq@2x.webp";
 
-import { Description } from "@radix-ui/react-toast";
-import { link } from "fs";
+ 
 
 
 // Modular project data structure
@@ -47,47 +84,47 @@ interface Project {
   thumbnailUrl: string;
 }
 
-// Sample projects - easily expandable
+// Projects Section
 const PROJECTS: Project[] = [
+  // DONE
   {
     id: "project-1",
     title: "janonart.com",
     description: "My personal portfolio website developed in Visual Studio Code. This project demonstrates dynamic animations with responsive design with a clean, modern visual identity inspired by Mirror's Edge.",
     toolsUsed: ["React", "TypeScript", "Framer Motion", "Tailwind CSS", "Visual Studio Code"],
-    thumbnailUrl: placeholderImg,
+    thumbnailUrl: janonartWeb,
     images: [
-      { id: "img-1-1", url: placeholderImg, caption: "Landing Page" },
-      { id: "img-1-2", url: placeholderImg, caption: "Dashboard View" },
+      { id: "img-1-1", url: janonartWeb, caption: "Landing Page" },
+      { id: "img-1-2", url: janonartDash, caption: "Dashboard View" },
     ],
   },
+  // DONE
   {
     id: "project-2",
     title: "Quantum Shift",
     description: "My submission for the 2022 48 hour Texas Game Jam hosted by the University of Texas with the theme, 'negative space'. The player controls a ship and has to defeat enemies while 'shifting' between foreground and background. All art, sound effects, music, and programming were done by myself.",
     toolsUsed: ["Godot Engine", "Aseprite", "Fl Studio", "Git", "GDscript"],
-    thumbnailUrl: placeholderImg,
+    thumbnailUrl: quantumThumb,
     images: [
-      { id: "img-2-1", url: placeholderImg, caption: "Main Level" },
-      { id: "img-2-2", url: placeholderImg, caption: "Shift Mechanic" },
-      { id: "img-2-3", url: placeholderImg, caption: "Boss Battle" },
-      { id: "img-2-4", url: placeholderImg, caption: "Under the Hood" },
+      { id: "img-2-1", url: quantumPink, caption: "Main Level" },
+      { id: "img-2-2", url: quantumBlue, caption: "Shift Mechanic" },
     ],
   },
+  // DONE
   {
     id: "project-3",
     title: "Metro BEATdown",
     description: "Chillenium 2023 game jam submission for the theme, 'We Share a Heart'. While our team's main programmer didn't finish in time, I was able to stitch together a showcase of all the assets and animations I created. To my surprise, we placed 1st in visuals—my first trophy!",
     toolsUsed: ["Godot Engine", "Aseprite", "Fl Studio", "Git", "GDscript"],
-    thumbnailUrl: placeholderImg,
+    thumbnailUrl: metroThumb,
     images: [
-      { id: "img-3-1", url: placeholderImg, caption: "Main Level" },
-      { id: "img-3-2", url: placeholderImg, caption: "Menu Screen" },
-      { id: "img-3-3", url: placeholderImg, caption: "Options Menu" },
-      { id: "img-3-4", url: placeholderImg, caption: "Our Trophy" },
+      { id: "img-3-1", url: metroMain, caption: "Main Level" },
+      { id: "img-3-2", url: metroMenu, caption: "Menu Screen" },
+      { id: "img-3-3", url: metroSet, caption: "Options Menu" },
+      { id: "img-3-4", url: metroTrophy, caption: "Our Trophy" },
     ],
   },
-
-  // Needs Lineart Screenshot
+  // DONE
   {
     id: "project-4",
     title: "Syd Knights",
@@ -96,22 +133,23 @@ const PROJECTS: Project[] = [
     thumbnailUrl: sydKnights,
     images: [
       { id: "img-4-1", url: sydKnights, caption: "Syd Knights Finished" },
-      { id: "img-4-2", url: placeholderImg, caption: "Lineart" },
+      { id: "img-4-2", url: sydKnightsLineart, caption: "Lineart" },
+      { id: "img-4-3", url: sydKnightsSketch, caption: "Original Sketch" },
     ],
   },
-  // Need Lineart Screenshot and WIP Lineart Screenshot
+  // DONE
   {
     id: "project-5",
     title: "Syd Knights v2",
     description: "A new take on the original, this version shifts the dynamic and gives Syd a more challenging and confident impression. I am currently still working on this piece. My vision for the finished version is very ambitious and I can't wait for you to see it!",
     toolsUsed: ["Clip Studio Paint"],
-    thumbnailUrl: placeholderImg,
+    thumbnailUrl: sydKnightsv2,
     images: [
-      { id: "img-5-1", url: placeholderImg, caption: "Underlying Sketch w/ Some WIP Lineart" },
-      { id: "img-5-2", url: placeholderImg, caption: "Original Sketch"},
+      { id: "img-5-1", url: sydKnightsv2, caption: "Underlying Sketch w/ Some WIP Lineart" },
+      { id: "img-5-2", url: sydKnightsV2Sketch, caption: "Original Sketch"},
     ],
   },
-  // Done
+  // DONE
   {
     id: "project-6",
     title: "Personal Business Cards",
@@ -145,7 +183,7 @@ const PROJECTS: Project[] = [
       { id: "img-8-2", url: signatureBackend, caption: "Under the Hood"},
     ],
   },
-  // Needs Sketch
+  // DONE
   {
     id: "project-9",
     title: "Link from Tears of the Kingdom",
@@ -154,7 +192,7 @@ const PROJECTS: Project[] = [
     thumbnailUrl: linkTOTK,
     images: [
       { id: "image-9-1", url: linkTOTK, caption: "Finished Piece"},
-      { id: "image-9-1", url: placeholderImg, caption: "Original Sketch"},
+      { id: "image-9-1", url: linkLines, caption: "Lineart"},
     ],
   },
   // DONE
@@ -178,6 +216,7 @@ const PROJECTS: Project[] = [
     images: [
       { id: "image-11-1", url: cahyaCahyaFront, caption: "Cahya — Main Page"},
       { id: "image-11-2", url: cahyaCahya2, caption: "Cahya — Face"},
+      { id: "image-11-3", url: cahyaCahyaSprite, caption: "Cahya — Sprite"},
     ],
   },
   // DONE
@@ -228,7 +267,7 @@ const PROJECTS: Project[] = [
     ],
   },
   // DONE
-    {
+  {
     id: "project-16",
     title: "OBELYSK Game Concept Logo",
     description: "A logo created for a Medieval Horror game concept.",
@@ -261,6 +300,38 @@ const PROJECTS: Project[] = [
     thumbnailUrl: mortalRune,
     images: [
       { id: "project-18-1", url: mortalRune, caption: "Mortal Rune — Finished Piece"},
+    ],
+  },
+  {
+    id: "project-19",
+    title: "Lunar",
+    description: "A digital painting I created of a couple of my Original Characters.",
+    toolsUsed: ["Clip Studio Paint", "Photoshop"],
+    thumbnailUrl: lunar,
+    images: [
+      { id: "project-19-1", url: lunar, caption: "Lunar — Finished Piece"},
+    ],
+  },
+  {
+    id: "project-20",
+    title: "Assorted Portraits",
+    description: "A few different portraits I illustrated at different times.",
+    toolsUsed: ["Clip Studio Paint"],
+    thumbnailUrl: portrait,
+    images: [
+      { id: "project-20-1", url: portrait, caption: "Portrait of an OC."},
+      { id: "project-20-2", url: portrait2, caption: "Portrait of a Friend."},
+    ],
+  },
+  {
+    id: "project-21",
+    title: "Little Frog Knight Sprite",
+    description: "A sprite sheet of a little frog knight character that I created and animated.",
+    toolsUsed: ["Aseprite"],
+    thumbnailUrl: littlefrogidle,
+    images: [
+      { id: "project-21-1", url: littlefrogidle, caption: "Idle Animation"},
+      { id: "project-21-2", url: littlefrogrun, caption: "Run Animation"},
     ],
   },
 ];
